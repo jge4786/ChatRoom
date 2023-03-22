@@ -21,8 +21,12 @@ class ViewController: UIViewController {
         addKeyboardObserver()
         recognizeHidingKeyboardGesture()
         
+        self.inputTextView.delegate = self
+        
         addImageButton.setTitle("", for: .normal)
         sendMessageButton.setTitle("", for: .normal)
+        
+            inputTextView.sizeToFit()
     }
 }
 
@@ -56,11 +60,11 @@ extension ViewController {
         case UIResponder.keyboardWillShowNotification:
             contentWrapperView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
             contentTableView.contentInset.top = keyboardHeight
-            contentTableView.contentInset.bottom = inputTextView.frame.height
+//            contentTableView.contentInset.bottom = inputTextView.frame.height
         case UIResponder.keyboardWillHideNotification:
-            contentTableView.transform = .identity
+            contentWrapperView.transform = .identity
             contentTableView.contentInset.top = 0
-            contentTableView.contentInset.bottom = 0
+//            contentTableView.contentInset.bottom = 0
         default:
             break
         }
@@ -102,6 +106,11 @@ extension UIViewController {
 }
 
 extension UIViewController: UITextViewDelegate {
+    
+    
     public func textViewDidChange(_ textView: UITextView) {
+//        if textView. {
+//            print("dddd")
+//        }
     }
 }
