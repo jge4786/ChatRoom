@@ -2,18 +2,17 @@
 //  ChatTableViewCell.swift
 //  ChatRoom
 //
-//  Created by 여보야 on 2023/03/22.
+//  Created by 여보야 on 2023/03/23.
 //
 
 import UIKit
 
 class ChatTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -21,5 +20,5 @@ class ChatTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

@@ -16,12 +16,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var goBackButton: UIButton!
     
+    @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var inputTextViewWrapper: UIView!
     @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
     @IBOutlet weak var inputStackView: UIStackView!
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!
-    @IBOutlet weak var sendMessageButton: UIButton!
     
     var textInputReturnCount = 0
     
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         
         inputTextViewHeight.constant = getTextViewHeight()
         
-        initHeaderButtonsText()
+        initHeaderButtonsSetting()
         initTextView()
     }
 }
@@ -48,17 +48,23 @@ class ViewController: UIViewController {
 // 입력창
 extension ViewController {
     func initTextView() {
-        inputTextViewWrapper.layer.cornerRadius = inputTextViewWrapper.frame.height / 5
-        
+        inputTextViewWrapper.layer.cornerRadius = 15
+        inputTextViewWrapper.layer.borderWidth = 1
+        inputTextViewWrapper.layer.borderColor = Color.DarkerGray
     }
 }
 
 // 헤더
 extension ViewController {
-    func initHeaderButtonsText() {
+    func initHeaderButtonsSetting() {
         searchButton.setTitle("", for: .normal)
+        searchButton.tintColor = UIColor(cgColor: Color.White)
+        
         menuButton.setTitle("", for: .normal)
+        menuButton.tintColor = UIColor(cgColor: Color.White)
+        
         goBackButton.setTitle(String(Constants.users.count), for: .normal)
+        goBackButton.tintColor = UIColor(cgColor: Color.White)
     }
 }
 
@@ -115,10 +121,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "bubble", for: indexPath) as? ChatTableViewCell else {
             return UITableViewCell()
         }
-        
-        cell.titleLabel.text = Constants.users[indexPath.row].name
-        cell.contentLabel.text = Constants.users[indexPath.row].name+"asdf"
-        
+
         return cell
     }
 }
@@ -139,17 +142,22 @@ extension UIViewController {
 
 extension ViewController: UITextViewDelegate {
     func getTextViewHeight() -> Double {
-        return inputTextView.getTextViewSize().height + textInputDefaultInset
+        return inputTextView.getTextViewSize().height
     }
 
     public func setTextViewHeight() {
-        guard inputTextView.numberOfLines() < 5 else { return }
+        guard inputTextView.numberOfLines() <= 5 else { return }
         
         inputTextViewHeight.constant = getTextViewHeight()
     }
     
+    func setSendMessageButtonImage(isEmpty: Bool) {
+        sendMessageButton.setImage(UIImage(systemName: isEmpty ? "moon" : "paperplane"), for: .normal)
+    }
+    
     public func textViewDidChange(_ textView: UITextView) {
         setTextViewHeight()
+        setSendMessageButtonImage(isEmpty: textView.text.isEmpty)
     }
 }
 
