@@ -37,12 +37,12 @@ class ViewController: UIViewController {
             }else {
                 guard let newChat: Chat = newValue.last else { return }
                 storage.appendChatData(data: newChat)
-//                calculateSection(data: newChat)
+                calculateSection(data: newChat)
             }
         }
         didSet {
             contentTableView.reloadData()
-//            scrollToBottom()
+            scrollToBottom()
             
             
 //            var it = 0, it_ = 0
@@ -136,6 +136,8 @@ class ViewController: UIViewController {
         appendChat(data: Chat(owner: me, sentDateTime: sendTime, text: text!, unreadCount: storage.getUserList().count - 1))
         
         inputTextView.text = ""
+        inputTextViewHeight.constant = getTextViewHeight()
+        
         sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
     

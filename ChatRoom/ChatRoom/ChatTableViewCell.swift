@@ -14,7 +14,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: 5).0
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: 6).0
         }
     }
     
