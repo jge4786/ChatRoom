@@ -1,10 +1,11 @@
 import UIKit
 
 struct Constants {
+    static var deviceSize = CGSize(width: 0, height: 0)
     static let users: [User] = [
         User("하나"),
         User("둘"),
-//        User("셋"),
+        User("셋"),
 //        User("넷"),
 //        User("다섯"),
 //        User("여섯"),
@@ -58,6 +59,11 @@ struct Constants {
 //        User("5335353535353535"),
 //        User("54545454545445"),
     ]
+    static let chatData: [Chat] = [
+        Chat(owner: users[0], sentDateTime: "2023-01-01 04:11", text: "테스트 텍스트", unreadCount: 1),
+        Chat(owner: users[1], sentDateTime: "2023-04-01 06:30", text: "텍스트\n테스트\nTest\n테스스스스\n테세세세텟테세\n\n\n\n\n\nㅇㅁㄴㅇㄹ", unreadCount: 3),
+        Chat(owner: users[2], sentDateTime: "2023-01-01 15:05", text: "테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 "),
+    ]
 }
 
 struct Color {
@@ -67,7 +73,7 @@ struct Color {
     static var White: CGColor { return CGColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) }
     ///읽지 않은 사용자의 수
     static var DarkYellow: CGColor { return CGColor(red: 254/255, green: 234/255, blue: 51/255, alpha: 1.0)}
-    ///날짜 라벨 배경색
+    ///날짜 라벨 배경색, 이름 텍스트 색
     static var DarkGray: CGColor { return CGColor(red: 156/255, green: 175/255, blue: 191/255, alpha: 1.0)}
     ///카카오톡 기본 배경색
     static var LightBlue: CGColor { return CGColor(red: 155/255, green: 187/255, blue: 212/255, alpha: 1.0)}

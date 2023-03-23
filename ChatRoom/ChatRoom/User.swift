@@ -13,4 +13,8 @@ class User {
         self.name = name
         profile = nil
     }
+    
+    func toString() -> String {
+        return "[name: " + name + ", profile: " + "dd" + "]"
+    }
 }

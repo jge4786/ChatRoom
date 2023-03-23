@@ -26,9 +26,11 @@ class ViewController: UIViewController {
     var textInputReturnCount = 0
     
     let textInputDefaultInset = 6.0
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Constants.deviceSize = CGSize(width: view.frame.width, height: view.frame.height)
         
         addKeyboardObserver()
         recognizeHidingKeyboardGesture()
@@ -42,6 +44,8 @@ class ViewController: UIViewController {
         
         initHeaderButtonsSetting()
         initTextView()
+        
+        ChatTableViewCell.register(tableView: contentTableView)
     }
 }
 
@@ -98,11 +102,9 @@ extension ViewController {
         case UIResponder.keyboardWillShowNotification:
             contentWrapperView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
             contentTableView.contentInset.top = keyboardHeight
-//            contentTableView.contentInset.bottom = inputTextView.frame.height
         case UIResponder.keyboardWillHideNotification:
             contentWrapperView.transform = .identity
             contentTableView.contentInset.top = 0
-//            contentTableView.contentInset.bottom = 0
         default:
             break
         }
@@ -118,16 +120,16 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "bubble", for: indexPath) as? ChatTableViewCell else {
+        guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
             return UITableViewCell()
         }
 
+        cell.setData(Constants.chatData[indexPath.row])
         return cell
     }
 }
 
 extension UIViewController {
-        
     func recognizeHidingKeyboardGesture() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer (
             target: self, action: #selector(UIViewController.dissmissKeyboard)
@@ -168,6 +170,14 @@ extension UITextView {
         let estimatedSize = self.sizeThatFits(size)
         
         return estimatedSize
+    }
+    
+    func getTextViewHeight(limit: Int = 0) -> (Double, Bool) {
+        guard self.numberOfLines() > 0 && self.numberOfLines() <= limit else {
+            return (Double(self.font!.lineHeight) * Double(limit), false)
+        }
+        
+        return (self.getTextViewSize().height, true)
     }
         
     func numberOfLines() -> Int {
