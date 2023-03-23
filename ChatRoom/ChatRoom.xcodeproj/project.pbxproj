@@ -20,6 +20,7 @@
 		F0F104DC29CBEDD600957476 /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */; };
 		F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */; };
 		F0F104E029CC053300957476 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104DF29CC053300957476 /* Chat.swift */; };
+		F0F104E229CC20EB00957476 /* ChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104E129CC20EB00957476 /* ChatData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
 		F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellBase.swift; sourceTree = "<group>"; };
 		F0F104DF29CC053300957476 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		F0F104E129CC20EB00957476 /* ChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			children = (
 				F0F104D129CAD1DD00957476 /* User.swift */,
 				F0F104CF29CAD15E00957476 /* StaticVariables.swift */,
+				F0F104E129CC20EB00957476 /* ChatData.swift */,
 				F0F104DF29CC053300957476 /* Chat.swift */,
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
@@ -168,6 +171,7 @@
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
+				F0F104E229CC20EB00957476 /* ChatData.swift in Sources */,
 				F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

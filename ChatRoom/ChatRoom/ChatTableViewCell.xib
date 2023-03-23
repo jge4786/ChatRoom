@@ -48,9 +48,10 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                                 <connections>
-                                                    <action selector="onTouchInChatBubble:" destination="KGk-i7-Jjw" eventType="touchDown" id="h1W-k3-dwa"/>
-                                                    <action selector="onTouchOutChatBubble:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1yb-8L-Xh0"/>
-                                                    <action selector="onTouchOutChatBubble:" destination="KGk-i7-Jjw" eventType="touchDragExit" id="QqO-xM-55Z"/>
+                                                    <action selector="onTouchCanceled:" destination="KGk-i7-Jjw" eventType="touchCancel" id="nG7-gV-G6U"/>
+                                                    <action selector="onTouchCanceled:" destination="KGk-i7-Jjw" eventType="touchDragExit" id="yxM-Or-mSb"/>
+                                                    <action selector="onTouchInChatBubble:" destination="KGk-i7-Jjw" eventType="touchDown" id="Rgv-eu-wMm"/>
+                                                    <action selector="onTouchOutChatBubble:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1Ck-4X-ekm"/>
                                                 </connections>
                                             </button>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLK-ig-lxm">
@@ -83,7 +84,6 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.15708932279999999" green="0.14887070660000001" blue="0.16469269989999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="y6b-m5-h4k" secondAttribute="trailing" id="1Cf-zv-ylX"/>
                                     <constraint firstItem="dqV-8o-duz" firstAttribute="top" secondItem="y6b-m5-h4k" secondAttribute="bottom" id="7QH-SV-MAj"/>
@@ -110,7 +110,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.15686274509803921" green="0.14901960784313725" blue="0.16470588235294117" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstItem="Nwk-dX-3R3" firstAttribute="leading" secondItem="K0c-La-Vsb" secondAttribute="leading" constant="3" id="K91-uU-PUo"/>
                                     <constraint firstItem="pFB-On-Geg" firstAttribute="leading" secondItem="K0c-La-Vsb" secondAttribute="leading" constant="3" id="SEt-1x-BRo"/>
@@ -145,7 +144,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <color key="backgroundColor" red="0.15708932279999999" green="0.14887070660000001" blue="0.16469269989999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="chatBubbleButton" destination="mHD-1y-Nlw" id="cyL-12-wTI"/>
                 <outlet property="chatBubbleHeight" destination="pS9-6I-NaN" id="kXF-7V-Z3j"/>

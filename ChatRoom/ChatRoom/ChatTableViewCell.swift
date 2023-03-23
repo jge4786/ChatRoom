@@ -10,7 +10,6 @@ import UIKit
 class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     var data: Chat = Chat() {
         didSet {
-            print(data.toString())
             nameLabel.text = data.owner.name
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
@@ -29,21 +28,26 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     @IBOutlet weak var sentTimeLabel: UILabel!
     
     @IBOutlet weak var chatBubbleTextView: UITextView!
-    @IBAction func onPressChatBubble(_ sender: Any) {
-        UIView.animate(withDuration: 0.2, delay: 0) {
-            self.opacityFilterView.layer.opacity = 0.5
-        }
-    }
     
     @IBAction func onTouchInChatBubble(_ sender: Any) {
-        UIView.animate(withDuration: 0.1, delay: 0, options: .allowUserInteraction) {
-            self.opacityFilterView.layer.opacity = 0.3
-        }
+        print("touchIn")
+        manageButtonHighlightAnim(isShow: true)
     }
     
+    //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
+        print("touchOut")
+        manageButtonHighlightAnim(isShow: false)
+    }
+    
+    @IBAction func onTouchCanceled(_ sender: Any) {
+        print("canceled")
+        manageButtonHighlightAnim(isShow: false)
+    }
+    
+    func manageButtonHighlightAnim(isShow: Bool) {
         UIView.animate(withDuration: 0.1, delay: 0, options: .allowUserInteraction) {
-            self.opacityFilterView.layer.opacity = 0.0
+            self.opacityFilterView.layer.opacity = isShow ? 0.3 : 0.0
         }
     }
         
