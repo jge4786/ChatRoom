@@ -13,9 +13,11 @@
 		F08CC66A29CA75BE00EE8961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66829CA75BE00EE8961 /* Main.storyboard */; };
 		F08CC66C29CA75BF00EE8961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66B29CA75BF00EE8961 /* Assets.xcassets */; };
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
-		F0F104D029CAD15E00957476 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* Constants.swift */; };
+		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
 		F0F104D229CAD1DD00957476 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D129CAD1DD00957476 /* User.swift */; };
 		F0F104D429CAD48400957476 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D329CAD48400957476 /* ChatTableViewCell.swift */; };
+		F0F104D629CB121000957476 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D529CB121000957476 /* ChatBubble.swift */; };
+		F0F104D829CBC9AC00957476 /* EmptyTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +29,11 @@
 		F08CC66B29CA75BF00EE8961 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F08CC66E29CA75BF00EE8961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F0F104CF29CAD15E00957476 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
 		F0F104D129CAD1DD00957476 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F0F104D329CAD48400957476 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		F0F104D529CB121000957476 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTextButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,11 +67,13 @@
 			isa = PBXGroup;
 			children = (
 				F0F104D129CAD1DD00957476 /* User.swift */,
-				F0F104CF29CAD15E00957476 /* Constants.swift */,
+				F0F104CF29CAD15E00957476 /* StaticVariables.swift */,
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
 				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
 				F08CC66829CA75BE00EE8961 /* Main.storyboard */,
+				F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */,
+				F0F104D529CB121000957476 /* ChatBubble.swift */,
 				F08CC66B29CA75BF00EE8961 /* Assets.xcassets */,
 				F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */,
 				F08CC67029CA75BF00EE8961 /* Info.plist */,
@@ -147,12 +153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0F104D829CBC9AC00957476 /* EmptyTextButton.swift in Sources */,
 				F08CC66729CA75BE00EE8961 /* ViewController.swift in Sources */,
 				F08CC66329CA75BE00EE8961 /* AppDelegate.swift in Sources */,
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104D429CAD48400957476 /* ChatTableViewCell.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
-				F0F104D029CAD15E00957476 /* Constants.swift in Sources */,
+				F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */,
+				F0F104D629CB121000957476 /* ChatBubble.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
