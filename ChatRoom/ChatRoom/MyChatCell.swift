@@ -1,37 +1,31 @@
 //
-//  ChatTableViewCell.swift
+//  MyChatCell.swift
 //  ChatRoom
 //
-//  Created by 여보야 on 2023/03/23.
+//  Created by 여보야 on 2023/03/24.
 //
 
 import UIKit
 
-class ChatTableViewCell: UITableViewCell, TableViewCellBase {
+class MyChatCell: UITableViewCell, TableViewCellBase {
     var data: Chat = Chat() {
         didSet {
-            nameLabel.text = data.owner.name
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-//            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
-            
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewSize(gap: profileButtonWidth.constant).height
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
         }
     }
     
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
     @IBOutlet weak var chatBubbleView: UIView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var chatBubbleButton: UIButton!
     @IBOutlet weak var unreadCountLabel: UILabel!
     @IBOutlet weak var sentTimeLabel: UILabel!
     
     @IBOutlet weak var chatBubbleTextView: UITextView!
     
-    @IBOutlet weak var profileButtonWidth: NSLayoutConstraint!
     @IBAction func onTouchInChatBubble(_ sender: Any) {
         print("touchIn")
         manageButtonHighlightAnim(isShow: true)
@@ -39,7 +33,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
-        print("touchOut", chatBubbleTextView.text)
+        print("touchOut")
         manageButtonHighlightAnim(isShow: false)
     }
     
@@ -60,16 +54,13 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         // Initialization code
         chatBubbleButton.setTitle("", for: .normal)
         chatBubbleView.layer.cornerRadius = 10
-        chatBubbleView.backgroundColor = UIColor(cgColor: Color.White)
+        chatBubbleView.backgroundColor = UIColor(cgColor: Color.Yellow)
 //        chatBubbleButton.tintColor = UIColor(cgColor: Color.Black)
         
-        profileButton.setTitle("", for: .normal)
-        
-        nameLabel.text = data.owner.name
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
         
-        chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * 0.75
+        chatBubbleMaxWidth.constant = Constants.deviceSize.width * 0.75
     }
     
     private func getUnreadCountText(cnt: Int) -> String {
@@ -81,10 +72,10 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     func setData(_ chat: Chat) {
         self.data = chat
     }
+    
 }

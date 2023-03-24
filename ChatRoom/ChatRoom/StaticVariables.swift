@@ -2,6 +2,7 @@ import UIKit
 
 struct Constants {
     static var deviceSize = CGSize(width: 0, height: 0)
+    static var chatHeightLimit = 30
 }
 
 struct Color {

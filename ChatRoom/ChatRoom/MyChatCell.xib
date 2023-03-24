@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyChatCell" rowHeight="199" id="KGk-i7-Jjw" customClass="MyChatCell" customModule="ChatRoom" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="279" height="199"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="279" height="199"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="74g-Mk-fXa">
+                        <rect key="frame" x="179" y="8" width="100" height="183"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jmi-vN-LHs" userLabel="Info Wrapper">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="183"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PXX-gW-3ZM" userLabel="Unread Count Label">
+                                        <rect key="frame" x="0.0" y="156.33333333333334" width="47" height="13.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <color key="textColor" red="0.65490196079999996" green="0.64313725489999995" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpn-Yg-1aU" userLabel="Send Time Label">
+                                        <rect key="frame" x="0.0" y="169.66666666666666" width="47" height="13.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <color key="textColor" red="0.65490196079999996" green="0.64313725489999995" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="fpn-Yg-1aU" secondAttribute="bottom" id="4bA-YG-xkk"/>
+                                    <constraint firstItem="fpn-Yg-1aU" firstAttribute="leading" secondItem="jmi-vN-LHs" secondAttribute="leading" id="97l-tz-xlM"/>
+                                    <constraint firstAttribute="trailing" secondItem="fpn-Yg-1aU" secondAttribute="trailing" constant="3" id="CRm-8c-bdW"/>
+                                    <constraint firstItem="fpn-Yg-1aU" firstAttribute="top" secondItem="PXX-gW-3ZM" secondAttribute="bottom" id="hjg-bB-e5t"/>
+                                    <constraint firstItem="PXX-gW-3ZM" firstAttribute="leading" secondItem="jmi-vN-LHs" secondAttribute="leading" id="vd8-9r-FPG"/>
+                                    <constraint firstAttribute="trailing" secondItem="PXX-gW-3ZM" secondAttribute="trailing" constant="3" id="wM3-os-zUQ"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfK-i2-YXW" userLabel="Bubble Wrapper">
+                                <rect key="frame" x="50" y="0.0" width="50" height="183"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9k3-yO-FTC">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="173"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3S-aQ-bP9" userLabel="Chat Bubble View">
+                                        <rect key="frame" x="0.0" y="173" width="50" height="10"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Y7-Ru-8dG" userLabel="Chat Bubble Button">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
+                                                <color key="tintColor" red="0.37947410349999999" green="0.34615725279999998" blue="0.3321693838" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="onTouchCanceled:" destination="KGk-i7-Jjw" eventType="touchCancel" id="OrZ-p5-5as"/>
+                                                    <action selector="onTouchCanceled:" destination="KGk-i7-Jjw" eventType="touchDragExit" id="WKK-mI-7n6"/>
+                                                    <action selector="onTouchInChatBubble:" destination="KGk-i7-Jjw" eventType="touchDown" id="xRb-hI-dRY"/>
+                                                    <action selector="onTouchOutChatBubble:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dEJ-WT-l9p"/>
+                                                </connections>
+                                            </button>
+                                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxC-Ds-QN7">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="10" id="n8l-fj-QyY"/>
+                                                </constraints>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o8K-T9-lAW" userLabel="Opacity Filter View">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="oxC-Ds-QN7" secondAttribute="trailing" id="7Ud-mY-KfT"/>
+                                            <constraint firstAttribute="bottom" secondItem="o8K-T9-lAW" secondAttribute="bottom" id="8Ma-IC-BsN"/>
+                                            <constraint firstItem="oxC-Ds-QN7" firstAttribute="top" secondItem="Y3S-aQ-bP9" secondAttribute="top" id="EIc-wR-s6j"/>
+                                            <constraint firstAttribute="trailing" secondItem="o8K-T9-lAW" secondAttribute="trailing" id="F5c-fY-RC3"/>
+                                            <constraint firstItem="o8K-T9-lAW" firstAttribute="leading" secondItem="Y3S-aQ-bP9" secondAttribute="leading" id="Hpl-4C-ERt"/>
+                                            <constraint firstAttribute="trailing" secondItem="8Y7-Ru-8dG" secondAttribute="trailing" id="P1S-Di-llG"/>
+                                            <constraint firstItem="8Y7-Ru-8dG" firstAttribute="top" secondItem="Y3S-aQ-bP9" secondAttribute="top" id="a3o-uK-0lr"/>
+                                            <constraint firstItem="8Y7-Ru-8dG" firstAttribute="leading" secondItem="Y3S-aQ-bP9" secondAttribute="leading" id="pbA-hz-R4v"/>
+                                            <constraint firstItem="o8K-T9-lAW" firstAttribute="top" secondItem="Y3S-aQ-bP9" secondAttribute="top" id="sho-lm-JFK"/>
+                                            <constraint firstAttribute="bottom" secondItem="oxC-Ds-QN7" secondAttribute="bottom" id="xHJ-3s-UPh"/>
+                                            <constraint firstItem="oxC-Ds-QN7" firstAttribute="leading" secondItem="Y3S-aQ-bP9" secondAttribute="leading" id="zCa-NY-rQR"/>
+                                            <constraint firstAttribute="bottom" secondItem="8Y7-Ru-8dG" secondAttribute="bottom" id="zwt-aA-MTZ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="9k3-yO-FTC" firstAttribute="top" secondItem="dfK-i2-YXW" secondAttribute="top" id="2BP-hj-Nr7"/>
+                                    <constraint firstAttribute="trailing" secondItem="9k3-yO-FTC" secondAttribute="trailing" id="GgB-Uj-6C7"/>
+                                    <constraint firstItem="9k3-yO-FTC" firstAttribute="leading" secondItem="dfK-i2-YXW" secondAttribute="leading" id="SpZ-8l-qkm"/>
+                                    <constraint firstAttribute="trailing" secondItem="Y3S-aQ-bP9" secondAttribute="trailing" id="ddr-MY-GV6"/>
+                                    <constraint firstItem="Y3S-aQ-bP9" firstAttribute="leading" secondItem="dfK-i2-YXW" secondAttribute="leading" id="hWg-xn-vYX"/>
+                                    <constraint firstAttribute="bottom" secondItem="Y3S-aQ-bP9" secondAttribute="bottom" id="j3C-4g-7P3"/>
+                                    <constraint firstItem="Y3S-aQ-bP9" firstAttribute="top" secondItem="9k3-yO-FTC" secondAttribute="bottom" id="mjh-DQ-0c4"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="jmi-vN-LHs" secondAttribute="bottom" id="A9S-TL-SZi"/>
+                            <constraint firstAttribute="trailing" secondItem="dfK-i2-YXW" secondAttribute="trailing" id="RMa-38-Atk"/>
+                            <constraint firstItem="jmi-vN-LHs" firstAttribute="top" secondItem="74g-Mk-fXa" secondAttribute="top" id="UXf-IQ-iKU"/>
+                            <constraint firstItem="dfK-i2-YXW" firstAttribute="leading" secondItem="jmi-vN-LHs" secondAttribute="trailing" id="UiF-OU-LSM"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="WMD-77-pdY"/>
+                            <constraint firstItem="jmi-vN-LHs" firstAttribute="leading" secondItem="74g-Mk-fXa" secondAttribute="leading" id="YhO-Rx-GLn"/>
+                            <constraint firstAttribute="bottom" secondItem="dfK-i2-YXW" secondAttribute="bottom" id="lcB-8N-rur"/>
+                            <constraint firstItem="dfK-i2-YXW" firstAttribute="top" secondItem="74g-Mk-fXa" secondAttribute="top" id="nrc-Z4-4dH"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="u7M-np-jar"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="74g-Mk-fXa" secondAttribute="trailing" id="8ZG-fD-uGH"/>
+                    <constraint firstItem="74g-Mk-fXa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Lth-21-MLz"/>
+                    <constraint firstAttribute="bottom" secondItem="74g-Mk-fXa" secondAttribute="bottom" constant="8" id="jB7-go-qXy"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="chatBubbleButton" destination="8Y7-Ru-8dG" id="H50-h3-gGD"/>
+                <outlet property="chatBubbleHeight" destination="n8l-fj-QyY" id="1Ic-07-4Sf"/>
+                <outlet property="chatBubbleMaxWidth" destination="WMD-77-pdY" id="30g-mn-wo6"/>
+                <outlet property="chatBubbleTextView" destination="oxC-Ds-QN7" id="das-KC-jeZ"/>
+                <outlet property="chatBubbleView" destination="Y3S-aQ-bP9" id="59c-sz-cTZ"/>
+                <outlet property="opacityFilterView" destination="o8K-T9-lAW" id="XyA-9Y-uAz"/>
+                <outlet property="sentTimeLabel" destination="fpn-Yg-1aU" id="gld-Et-6yP"/>
+                <outlet property="unreadCountLabel" destination="PXX-gW-3ZM" id="QTK-MX-PuF"/>
+            </connections>
+            <point key="canvasLocation" x="-35.877862595419849" y="-11.619718309859156"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

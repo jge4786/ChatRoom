@@ -110,6 +110,7 @@ class ViewController: UIViewController {
         
         //테이블 뷰 셀 등록
         ChatTableViewCell.register(tableView: contentTableView)
+        MyChatCell.register(tableView: contentTableView)
         
         
         //디버그용
@@ -202,9 +203,11 @@ extension ViewController {
         case UIResponder.keyboardWillShowNotification:
             contentWrapperView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
             contentTableView.contentInset.top = keyboardHeight
+            contentTableView.scrollIndicatorInsets.top = keyboardHeight
         case UIResponder.keyboardWillHideNotification:
             contentWrapperView.transform = .identity
             contentTableView.contentInset.top = 0
+            contentTableView.scrollIndicatorInsets.top = 0
         default:
             break
         }
@@ -228,12 +231,24 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
-            return UITableViewCell()
+        
+        if indexPath.row % 2 == 1 {
+            guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.setData(chatData[indexPath.row])
+            
+            return cell
+        }else{
+            guard case let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
+                return UITableViewCell()
+            }
+            
+            cell.setData(chatData[indexPath.row])
+            return cell
         }
 
-        cell.setData(chatData[indexPath.row])
-        return cell
     }
 }
 
@@ -272,10 +287,11 @@ extension ViewController: UITextViewDelegate {
 }
 
 extension UITextView {
-    func getTextViewSize() -> CGSize {
-        let size = CGSize(width: self.frame.width, height: .infinity)
+    func getTextViewSize(gap: CGFloat = 0 ) -> CGSize {
+        let size = CGSize(width: (Constants.deviceSize.width - gap) * 0.75, height: .infinity)
         
         let estimatedSize = self.sizeThatFits(size)
+        
         
         return estimatedSize
     }

@@ -7,16 +7,14 @@
 
 import UIKit
 
-class ChatTableViewCell: UITableViewCell, TableViewCellBase {
+class MyChatCell2: UITableViewCell, TableViewCellBase {
     var data: Chat = Chat() {
         didSet {
             nameLabel.text = data.owner.name
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-//            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
-            
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewSize(gap: profileButtonWidth.constant).height
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
         }
     }
     
@@ -31,7 +29,6 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     @IBOutlet weak var chatBubbleTextView: UITextView!
     
-    @IBOutlet weak var profileButtonWidth: NSLayoutConstraint!
     @IBAction func onTouchInChatBubble(_ sender: Any) {
         print("touchIn")
         manageButtonHighlightAnim(isShow: true)
@@ -39,7 +36,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
-        print("touchOut", chatBubbleTextView.text)
+        print("touchOut")
         manageButtonHighlightAnim(isShow: false)
     }
     
@@ -69,7 +66,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
         
-        chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * 0.75
+        chatBubbleMaxWidth.constant = Constants.deviceSize.width * 0.75
     }
     
     private func getUnreadCountText(cnt: Int) -> String {
