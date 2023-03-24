@@ -13,7 +13,8 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-
+            
+            
             chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         }
     }

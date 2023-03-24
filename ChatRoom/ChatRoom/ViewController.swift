@@ -24,11 +24,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!
     
+    var textViewLine = 1 {
+        didSet {
+            if oldValue == textViewLine {
+                print("같")
+            }else{
+                print("다")
+            }
+        }
+    }
+    
     var textInputReturnCount = 0
     
     let textInputDefaultInset = 6.0
     
     var chatSectionData: [[Chat]] = []
+    
+    var isInitialLoad = true
     
     var chatData: [Chat] = [] {
         willSet {
@@ -36,6 +48,7 @@ class ViewController: UIViewController {
                 print("줄었음")
             }else {
                 guard let newChat: Chat = newValue.last else { return }
+                guard !isInitialLoad else { isInitialLoad = false; return; }
                 storage.appendChatData(data: newChat)
                 calculateSection(data: newChat)
             }
@@ -65,8 +78,6 @@ class ViewController: UIViewController {
     private func calculateSection(data: [Chat]) {
         var lastMessageDate = chatSectionData.last?.last?.sentDate ?? "1800-01-01"
         
-        print("chatData", chatData.count)
-        
         data.map() {
             print(lastMessageDate, $0.sentDate)
             if $0.sentDate != lastMessageDate {
@@ -85,12 +96,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        storage.loadData()
         
         //데이터 초기화
         chatData = storage.getChatData(offset: 0, limit: 0)
         
         //디바이스 크기 저장
-        Constants.deviceSize = CGSize(width: view.frame.width, height: view.frame.height)
+//        Constants.deviceSize = CGSize(width: view.frame.width, height: view.frame.height)
         
         //키보드 관련 등록
         addKeyboardObserver()
@@ -116,6 +128,10 @@ class ViewController: UIViewController {
         //디버그용
 //        appendChat(data: Chat(owner: User("넷"), sentDateTime: "2021-04-10 23:00", text: "wowowow"
 //                             ))
+    }
+    
+    deinit{
+//        storage.flushChatData()
     }
     
     
@@ -219,6 +235,7 @@ extension ViewController {
 //테이블 뷰 초기화
 extension ViewController:  UITableViewDataSource, UITableViewDelegate{
     func scrollToBottom() {
+        guard self.chatData.count > 0 else { return }
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
             
@@ -271,7 +288,10 @@ extension ViewController: UITextViewDelegate {
     }
 
     public func setTextViewHeight() {
-        guard inputTextView.numberOfLines() <= 5 else { return }
+        let lines = inputTextView.numberOfLines()
+        guard lines <= 5 else { return }
+        
+        textViewLine = lines
         
         inputTextViewHeight.constant = getTextViewHeight()
     }

@@ -5,7 +5,9 @@
 //  Created by 여보야 on 2023/03/23.
 //
 
-class Chat {
+import Foundation
+
+struct Chat: Codable {
     let owner: User
     let sentDateTime: String
     var unreadCount: Int

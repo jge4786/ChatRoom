@@ -1,8 +1,8 @@
 import UIKit
 
-class User {
+struct User: Codable {
     let name: String
-    let profile: UIImage?
+    let profile: String?
     
     init() {
         name = "홍길동"
