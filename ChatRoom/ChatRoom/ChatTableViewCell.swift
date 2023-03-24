@@ -14,9 +14,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-//            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
-            
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewSize(gap: profileButtonWidth.constant).height
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: profileButtonWidth.constant + infoView.frame.width).0
         }
     }
     
@@ -54,6 +52,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         }
     }
         
+    @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -69,7 +68,9 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
         
-        chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * 0.75
+//        print(infoView.frame.width)
+        
+        chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * Constants.chatMaxWidthMultiplier
     }
     
     private func getUnreadCountText(cnt: Int) -> String {

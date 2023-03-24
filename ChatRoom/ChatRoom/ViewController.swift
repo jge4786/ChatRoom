@@ -222,7 +222,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
             
-            self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
     
@@ -288,7 +288,7 @@ extension ViewController: UITextViewDelegate {
 
 extension UITextView {
     func getTextViewSize(gap: CGFloat = 0 ) -> CGSize {
-        let size = CGSize(width: (Constants.deviceSize.width - gap) * 0.75, height: .infinity)
+        let size = CGSize(width: (Constants.deviceSize.width - gap) * Constants.chatMaxWidthMultiplier, height: .infinity)
         
         let estimatedSize = self.sizeThatFits(size)
         
@@ -296,16 +296,16 @@ extension UITextView {
         return estimatedSize
     }
     
-    func getTextViewHeight(limit: Int = 0) -> (Double, Bool) {
-        guard self.numberOfLines() > 0 && self.numberOfLines() <= limit else {
-            return (Double(self.font!.lineHeight) * Double(limit), false)
+    func getTextViewHeight(limit: Int = 0, gap: CGFloat = 0) -> (Double, Bool) {
+        guard self.numberOfLines(gap: gap) > 0 && self.numberOfLines(gap: gap) <= limit + 1 else {
+            return (Double(self.font!.lineHeight) * Double(limit + 1), false)
         }
         
-        return (self.getTextViewSize().height, true)
+        return (self.getTextViewSize(gap: gap).height, true)
     }
         
-    func numberOfLines() -> Int {
-        let size = getTextViewSize()
+    func numberOfLines(gap: CGFloat = 0) -> Int {
+        let size = getTextViewSize(gap: gap)
         
         return Int(size.height / self.font!.lineHeight)
     }

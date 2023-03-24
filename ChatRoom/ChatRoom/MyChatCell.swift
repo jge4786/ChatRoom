@@ -13,9 +13,11 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
             sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit).0
+
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         }
     }
+    @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
@@ -60,7 +62,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
         
-        chatBubbleMaxWidth.constant = Constants.deviceSize.width * 0.75
+        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
     }
     
     private func getUnreadCountText(cnt: Int) -> String {

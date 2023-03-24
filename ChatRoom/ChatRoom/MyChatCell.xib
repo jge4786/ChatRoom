@@ -140,6 +140,7 @@
                 <outlet property="chatBubbleMaxWidth" destination="WMD-77-pdY" id="30g-mn-wo6"/>
                 <outlet property="chatBubbleTextView" destination="oxC-Ds-QN7" id="das-KC-jeZ"/>
                 <outlet property="chatBubbleView" destination="Y3S-aQ-bP9" id="59c-sz-cTZ"/>
+                <outlet property="infoView" destination="jmi-vN-LHs" id="ydk-an-6yG"/>
                 <outlet property="opacityFilterView" destination="o8K-T9-lAW" id="XyA-9Y-uAz"/>
                 <outlet property="sentTimeLabel" destination="fpn-Yg-1aU" id="gld-Et-6yP"/>
                 <outlet property="unreadCountLabel" destination="PXX-gW-3ZM" id="QTK-MX-PuF"/>
