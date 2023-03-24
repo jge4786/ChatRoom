@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let me = User("나")
+    let me = 5
     
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
@@ -30,6 +30,7 @@ class ViewController: UIViewController {
                 print("같")
             }else{
                 print("다")
+                
             }
         }
     }
@@ -150,7 +151,7 @@ class ViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let sendTime = formatter.string(from: Date())
         
-        appendChat(data: Chat(owner: me, sentDateTime: sendTime, text: text!, unreadCount: storage.getUserList().count - 1))
+        appendChat(data: Chat(owner: storage.getUser(uid: me), sentDateTime: sendTime, text: text!, unreadCount: storage.getUserList().count - 1))
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -248,8 +249,9 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let uid = chatData[indexPath.row].owner.uid
         
-        if indexPath.row % 2 == 1 {
+        if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }

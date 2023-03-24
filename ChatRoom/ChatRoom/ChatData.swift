@@ -2,11 +2,12 @@ import Foundation
 
 class ChatData {
     private var users: [User] = [
-        User("하나"),
-        User("둘"),
-        User("셋"),
-        User("넷"),
-        User("다섯"),
+        User("하나", 0),
+        User("둘", 1),
+        User("셋", 2),
+        User("넷", 3),
+        User("다섯", 4),
+        User("나", 5)
     ]
     
 //    @UserDefaultWrapper(key: "chatData", defaultValue: nil)
@@ -38,6 +39,10 @@ class ChatData {
         if limit == 0 { return users }
         
         return Array(users[offset..<(offset+limit)])
+    }
+    
+    public func getUser(uid: Int) -> User {
+        return users[uid]
     }
     
     public func flushChatData() {
