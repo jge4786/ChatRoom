@@ -10,7 +10,6 @@ import UIKit
 class EmptyTextButton: UIButton {
     init() {
         super.init(frame: .zero)
-        print("dasdf")
         self.setTitle("", for: .normal)
     }
     

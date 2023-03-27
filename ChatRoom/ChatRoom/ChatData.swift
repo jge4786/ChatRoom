@@ -54,7 +54,6 @@ class ChatData {
     public func saveData() {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatData), forKey: "chatData")
         
-        print(chatData)
 //        UserDefaults.standard.set(chatData, forKey: "chatData")
     }
     
@@ -75,34 +74,3 @@ class ChatData {
     }
 }
 
-
-@propertyWrapper
-struct UserDefaultWrapper<T: Codable> {
-    private let key: String
-    private let defaultValue: T?
-    
-    init(key: String, defaultValue: T?) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
-        
-    var wrappedValue: T? {
-        get{
-            if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
-                let decoder = JSONDecoder()
-                if let loadedObject = try? decoder.decode(T.self, from: savedData) {
-                    print(loadedObject)
-                    return loadedObject
-                }
-            }
-            return defaultValue
-        }
-        set {
-            let encoder = JSONEncoder()
-            print("dd?")
-            if let encoded = try? encoder.encode(newValue) {
-                UserDefaults.standard.setValue(encoded, forKey: key)
-            }
-        }
-    }
-}

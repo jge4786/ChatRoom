@@ -18,12 +18,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!
     
+    @IBOutlet weak var tmpWrapperView: UIView!
     var textViewLine = 1 {
         didSet {
             if oldValue == textViewLine {
-                print("같")
+//                print("lineTest: 같")
             }else{
-                print("다")
+                guard let lineHeight = inputTextView.font?.lineHeight else { return }
+                
+                let direction: Double = Double(textViewLine - oldValue)
+                let translationValue = lineHeight * direction
+                
+                contentTableView.contentOffset.y = contentTableView.contentOffset.y + translationValue
             }
         }
     }
@@ -31,6 +37,7 @@ class ViewController: UIViewController {
     var textInputReturnCount = 0
     
     let textInputDefaultInset = 6.0
+    var safeAreaBottomInset: CGFloat = 0.0
     
     var chatSectionData: [[Chat]] = []
     
@@ -39,7 +46,7 @@ class ViewController: UIViewController {
     var chatData: [Chat] = [] {
         willSet {
             if chatData.count > newValue.count {
-                print("줄었음")
+//                print("줄었음")
             }else {
                 guard let newChat: Chat = newValue.last else { return }
                 guard !isInitialLoad else { isInitialLoad = false; return; }
@@ -61,7 +68,6 @@ class ViewController: UIViewController {
         var lastMessageDate = chatSectionData.last?.last?.sentDate ?? "1800-01-01"
         
         data.map() {
-            print(lastMessageDate, $0.sentDate)
             if $0.sentDate != lastMessageDate {
                 chatSectionData.append([])
                 lastMessageDate = $0.sentDate
@@ -104,6 +110,7 @@ class ViewController: UIViewController {
         MyChatCell.register(tableView: contentTableView)
         
         
+        safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         //디버그용
     }
     
@@ -140,6 +147,8 @@ class ViewController: UIViewController {
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
+        
+        textViewLine = 1
         
         sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
@@ -195,18 +204,23 @@ extension ViewController {
         guard let durationValue = userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] else { return }
         
         guard let keyboardHeight = (endValue as? CGRect)?.size.height else { return }
-                
+        
+        var translationValue = keyboardHeight - safeAreaBottomInset
+        
         let duration = (durationValue as AnyObject).doubleValue
         
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:
-            contentWrapperView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
-            contentTableView.contentInset.top = keyboardHeight
-            contentTableView.scrollIndicatorInsets.top = keyboardHeight
+            contentWrapperView.transform = CGAffineTransform(translationX: 0, y: -translationValue)
+            contentTableView.contentInset.top = translationValue
+            contentTableView.verticalScrollIndicatorInsets = UIEdgeInsets(
+                top: translationValue,
+                left: 0, bottom: 0, right: 0
+            )
         case UIResponder.keyboardWillHideNotification:
             contentWrapperView.transform = .identity
             contentTableView.contentInset.top = 0
-            contentTableView.scrollIndicatorInsets.top = 0
+            contentTableView.verticalScrollIndicatorInsets = .zero
         default:
             break
         }
