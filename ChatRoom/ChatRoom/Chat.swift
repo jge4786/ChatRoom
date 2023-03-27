@@ -12,6 +12,7 @@ struct Chat: Codable {
     let sentDateTime: String
     var unreadCount: Int
     let text: String
+    let image: String
     
     var sentDate: String {
         get {
@@ -30,13 +31,16 @@ struct Chat: Codable {
         self.sentDateTime = "1900-01-01 00:01"
         self.unreadCount = 0
         self.text = ""
+        self.image = ""
     }
     
-    init(owner: User, sentDateTime: String, text: String = "", unreadCount: Int = 0) {
+    init(owner: User, sentDateTime: String, text: String = "", unreadCount: Int = 0, image: String = "") {
         self.owner = owner
         self.sentDateTime = sentDateTime
         self.unreadCount = unreadCount
         self.text = text
+        self.image = image
+        
     }
     
     func toString() -> String {

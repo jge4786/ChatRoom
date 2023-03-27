@@ -127,7 +127,7 @@
                                                 </connections>
                                             </tableView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="wKH-Uq-0c4">
-                                                <rect key="frame" x="0.0" y="535" width="393" height="100"/>
+                                                <rect key="frame" x="5" y="535" width="388" height="100"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="55N-1r-m8d">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -137,7 +137,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="idR-0E-7as" userLabel="Floating Button Stack View">
-                                                        <rect key="frame" x="383" y="0.0" width="10" height="100"/>
+                                                        <rect key="frame" x="378" y="0.0" width="10" height="100"/>
                                                         <subviews>
                                                             <view hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="0sf-89-KBx" userLabel="Letter Count Wrapper">
                                                                 <rect key="frame" x="0.0" y="0.0" width="10" height="100"/>
@@ -192,12 +192,15 @@
                                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                                        <connections>
+                                                            <action selector="onPressAddImageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lTw-9F-JYB"/>
+                                                        </connections>
                                                     </button>
                                                     <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="cXf-rU-Iri" userLabel="Input View Wrapper">
                                                         <rect key="frame" x="47" y="4" width="336" height="56"/>
                                                         <subviews>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
-                                                                <rect key="frame" x="10" y="3" width="266.66666666666669" height="50"/>
+                                                                <rect key="frame" x="10" y="3" width="270.33333333333331" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>
                                                                 </constraints>
@@ -207,9 +210,13 @@
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             </textView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V">
-                                                                <rect key="frame" x="276.66666666666669" y="21.666666666666632" width="49.333333333333314" height="34.333333333333343"/>
+                                                                <rect key="frame" x="280.33333333333331" y="0.0" width="45.666666666666686" height="56"/>
+                                                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" image="moon" catalog="system"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="#">
+                                                                    <fontDescription key="titleFontDescription" type="system" weight="thin" pointSize="35"/>
+                                                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </buttonConfiguration>
                                                                 <connections>
                                                                     <action selector="onPressSendMessageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CZ2-Uc-kbF"/>
                                                                 </connections>
@@ -246,7 +253,7 @@
                                             <constraint firstItem="eTs-42-XNV" firstAttribute="top" secondItem="XKZ-5P-1r6" secondAttribute="top" id="WGQ-hC-M5j"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="wKH-Uq-0c4" secondAttribute="bottom" id="Wbg-qr-RYq"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="eTs-42-XNV" secondAttribute="bottom" id="Yyk-yJ-add"/>
-                                            <constraint firstItem="wKH-Uq-0c4" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="bnO-TI-jUF"/>
+                                            <constraint firstItem="wKH-Uq-0c4" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" constant="5" id="bnO-TI-jUF"/>
                                             <constraint firstAttribute="trailing" secondItem="eTs-42-XNV" secondAttribute="trailing" id="cIf-NI-7qc"/>
                                             <constraint firstAttribute="bottom" secondItem="zb5-JG-iCz" secondAttribute="bottom" id="eGv-7k-ubD"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="fL1-w8-kCd"/>
@@ -291,6 +298,7 @@
                         <outlet property="letterCountLabel" destination="0ta-UV-4vx" id="AZc-XO-6Al"/>
                         <outlet property="letterCountWrapperView" destination="0sf-89-KBx" id="g7H-Kf-dfK"/>
                         <outlet property="menuButton" destination="ObY-jH-ODp" id="kg3-jX-fg9"/>
+                        <outlet property="previewImageView" destination="55N-1r-m8d" id="pbp-ME-NaA"/>
                         <outlet property="scrollToBottomButton" destination="b5R-Z7-gVf" id="s2b-aU-T3v"/>
                         <outlet property="searchButton" destination="CRq-Df-68t" id="mkB-zP-V0M"/>
                         <outlet property="sendMessageButton" destination="bqB-Fu-53V" id="b4T-pi-NJS"/>
@@ -306,7 +314,6 @@
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="123"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
-        <image name="moon" catalog="system" width="128" height="123"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

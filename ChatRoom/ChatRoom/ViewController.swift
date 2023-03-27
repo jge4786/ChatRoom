@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!        // 이미지 첨부 버튼
     
+    @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var letterCountWrapperView: UIView!
     @IBOutlet weak var letterCountLabel: UILabel!
     @IBOutlet weak var letterCountButton: UIButton!     // 글자 수 계산 (라벨 대용)
@@ -40,6 +41,9 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func onPressAddImageButton(_ sender: Any) {
+        present(imageController, animated: true)
+    }
     var textInputReturnCount = 0
     
     let textInputDefaultInset = 6.0
@@ -48,6 +52,8 @@ class ViewController: UIViewController {
     var chatSectionData: [[Chat]] = []
     
     var isInitialLoad = true
+    
+    let imageController = UIImagePickerController()
     
     var chatData: [Chat] = [] {
         willSet {
@@ -114,7 +120,6 @@ class ViewController: UIViewController {
         
         //버튼 텍스트 제거
         addImageButton.setTitle("", for: .normal)
-        sendMessageButton.setTitle("", for: .normal)
         scrollToBottomButton.setTitle("", for: .normal)
         
         scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
@@ -130,6 +135,11 @@ class ViewController: UIViewController {
         ChatTableViewCell.register(tableView: contentTableView)
         MyChatCell.register(tableView: contentTableView)
         
+        
+        //이미지 컨트롤러 등록
+        imageController.sourceType = .photoLibrary
+        imageController.delegate = self
+        imageController.allowsEditing = true
         
         scrollToBottom()
         
@@ -161,6 +171,16 @@ class ViewController: UIViewController {
     @IBAction func onPressSendMessageButton(_ sender: Any) {
         if isMessageEmpty() { return }
         
+        
+//
+//        let attachment = NSTextAttachment()
+//        attachment.image = previewImageView.image
+//        let imageString = NSAttributedString(attachment: attachment)
+//
+//        print(imageString is Codable)
+        
+//        inputTextView.textStorage.
+        
         let text = inputTextView.text
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -178,7 +198,10 @@ class ViewController: UIViewController {
         
         scrollToBottom()
         
-        sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
+        sendMessageButton.setImage(nil, for: .normal)
+        sendMessageButton.setTitle("#", for: .normal)
+        sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+//        sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
     @IBAction func onPressScrollToBottom(_ sender: Any) {
         scrollToBottom()
@@ -326,7 +349,19 @@ extension ViewController: UITextViewDelegate {
     }
     
     func setSendMessageButtonImage(isEmpty: Bool) {
-        sendMessageButton.setImage(UIImage(systemName: isEmpty ? "moon" : "paperplane"), for: .normal)
+        if isEmpty {
+            print("ssss")
+            sendMessageButton.setImage(nil, for: .normal)
+            sendMessageButton.setTitle("#", for: .normal)
+            sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+        } else {
+            print("dddd")
+            sendMessageButton.setTitle("", for: .normal)
+            sendMessageButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
+            sendMessageButton.tintColor = UIColor(cgColor: Color.Yellow)
+        }
+        
+//        sendMessageButton.setImage(UIImage(systemName: isEmpty ? "moon" : "arrow.up.circle.fill"), for: .normal)
     }
     
     public func textViewDidChange(_ textView: UITextView) {
@@ -392,4 +427,25 @@ extension ViewController: UIScrollViewDelegate {
         }
     }
     
+}
+
+// 갤러리 접근
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage else{
+            
+            return
+        }
+        previewImageView.image = image
+                
+        
+        let attachment = NSTextAttachment()
+        attachment.image = image
+        let imageString = NSAttributedString(attachment: attachment)
+        
+        print("1",imageString)
+        print("2",imageString.string)
+        
+        picker.dismiss(animated: true)
+    }
 }
