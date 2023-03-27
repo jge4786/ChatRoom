@@ -6,17 +6,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
-    @IBOutlet weak var searchButton: EmptyTextButton!
-    @IBOutlet weak var menuButton: UIButton!
-    @IBOutlet weak var goBackButton: UIButton!
+    @IBOutlet weak var searchButton: EmptyTextButton!   // 대화 검색 버튼
+    @IBOutlet weak var menuButton: UIButton!            // 서랍 열기 버튼
+    @IBOutlet weak var goBackButton: UIButton!          // 대화창 나가기 버튼 (뒤로가기)
     
     @IBOutlet weak var footerWrapperView: UIView!
-    @IBOutlet weak var sendMessageButton: UIButton!
+    @IBOutlet weak var sendMessageButton: UIButton!     // 메세지 전송 버튼
     @IBOutlet weak var inputTextViewWrapper: UIView!
     @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
     @IBOutlet weak var inputStackView: UIStackView!
     @IBOutlet weak var contentWrapperView: UIView!
-    @IBOutlet weak var addImageButton: UIButton!
+    @IBOutlet weak var addImageButton: UIButton!        // 이미지 첨부 버튼
+    
+    @IBOutlet weak var letterCountWrapperView: UIView!
+    @IBOutlet weak var letterCountLabel: UILabel!
+    @IBOutlet weak var letterCountButton: UIButton!     // 글자 수 계산 (라벨 대용)
+    @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
     @IBOutlet weak var tmpWrapperView: UIView!
     var textViewLine = 1 {
@@ -94,13 +99,18 @@ class ViewController: UIViewController {
         recognizeHidingKeyboardGesture()
         
         self.inputTextView.delegate = self
+        self.contentTableView.delegate = self
         
         //버튼 텍스트 제거
         addImageButton.setTitle("", for: .normal)
         sendMessageButton.setTitle("", for: .normal)
+        scrollToBottomButton.setTitle("", for: .normal)
+        
+        scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
         
         //UI 초기화
         inputTextViewHeight.constant = getTextViewHeight()
+        letterCountWrapperView.layer.cornerRadius = 8
         
         initHeaderButtonsSetting()
         initTextView()
@@ -108,6 +118,7 @@ class ViewController: UIViewController {
         //테이블 뷰 셀 등록
         ChatTableViewCell.register(tableView: contentTableView)
         MyChatCell.register(tableView: contentTableView)
+        
         
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
@@ -150,7 +161,12 @@ class ViewController: UIViewController {
         
         textViewLine = 1
         
+        letterCountWrapperView.isHidden = true
+        
         sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
+    }
+    @IBAction func onPressScrollToBottom(_ sender: Any) {
+        scrollToBottom()
     }
 }
 
@@ -201,13 +217,10 @@ extension ViewController {
     @objc func keyBoardWillShowAndHide(notification: NSNotification) {
         let userInfo = notification.userInfo
         guard let endValue = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] else { return }
-        guard let durationValue = userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] else { return }
         
         guard let keyboardHeight = (endValue as? CGRect)?.size.height else { return }
         
-        var translationValue = keyboardHeight - safeAreaBottomInset
-        
-        let duration = (durationValue as AnyObject).doubleValue
+        let translationValue = keyboardHeight - safeAreaBottomInset
         
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:
@@ -231,6 +244,8 @@ extension ViewController {
 
 //테이블 뷰 초기화
 extension ViewController:  UITableViewDataSource, UITableViewDelegate{
+    
+    
     func scrollToBottom() {
         guard self.chatData.count > 0 else { return }
         DispatchQueue.main.async {
@@ -300,7 +315,18 @@ extension ViewController: UITextViewDelegate {
     
     public func textViewDidChange(_ textView: UITextView) {
         setTextViewHeight()
-        setSendMessageButtonImage(isEmpty: textView.text.trimmingCharacters(in: .whitespaces).isEmpty)
+        
+        setSendMessageButtonImage(isEmpty: textView.text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty)
+        
+        if !textView.text.isEmpty {
+            letterCountWrapperView.isHidden = false
+            letterCountLabel.text = "\(textView.text.count) / 1000"
+//            letterCountButton.isHidden = false
+//            letterCountButton.setTitle("\(trimmedText.count)/1000", for: .normal)
+        }else {
+            letterCountWrapperView.isHidden = true
+//            letterCountButton.isHidden = true
+        }
     }
 }
 
@@ -326,5 +352,31 @@ extension UITextView {
         let size = getTextViewSize(gap: gap)
         
         return Int(size.height / self.font!.lineHeight)
+    }
+}
+
+extension ViewController: UIScrollViewDelegate {
+    
+    // 스크롤 버튼 표시 관리
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let velocity = scrollView.panGestureRecognizer.velocity(in: scrollView).y
+        
+        let offsetValue = scrollView.contentSize.height - (scrollView.bounds.size.height + scrollView.contentOffset.y)
+        
+//        print(scrollView.contentSize.height, scrollView.bounds.size.height, scrollView.contentOffset.y)
+        
+//        print(velocity, offsetValue, scrollToBottomButton.isHidden)
+        
+        if velocity >= 0 && offsetValue > Constants.deviceSize.height && scrollToBottomButton.isHidden {
+//            NSLayoutConstraint.activate([
+//                scrollToBottomButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)
+//            ])
+            scrollToBottomButton.isHidden = false
+        }else if velocity <= 0 && offsetValue < 10 && !scrollToBottomButton.isHidden {
+//            NSLayoutConstraint.deactivate([
+//                scrollToBottomButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+//            ])
+            scrollToBottomButton.isHidden = true
+        }
     }
 }

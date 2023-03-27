@@ -38,7 +38,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
-        print("touchOut", chatBubbleTextView.text)
+        print("touchOut", chatBubbleTextView.text ?? "")
         manageButtonHighlightAnim(isShow: false)
     }
     
