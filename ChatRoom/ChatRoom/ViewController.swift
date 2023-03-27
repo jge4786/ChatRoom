@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/22.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -17,6 +10,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var goBackButton: UIButton!
     
+    @IBOutlet weak var footerWrapperView: UIView!
     @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var inputTextViewWrapper: UIView!
     @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
@@ -30,7 +24,6 @@ class ViewController: UIViewController {
                 print("같")
             }else{
                 print("다")
-                
             }
         }
     }
@@ -57,18 +50,6 @@ class ViewController: UIViewController {
         didSet {
             contentTableView.reloadData()
             scrollToBottom()
-            
-            
-//            var it = 0, it_ = 0
-//            for dt in chatSectionData {
-//                for dt_ in dt {
-//                    print(it, it_, dt_.toString())
-//                    it_ += 1
-//                }
-//                it += 1
-//            }
-            
-            print("----------------------------------")
         }
     }
     
@@ -101,10 +82,7 @@ class ViewController: UIViewController {
         
         //데이터 초기화
         chatData = storage.getChatData(offset: 0, limit: 0)
-        
-        //디바이스 크기 저장
-//        Constants.deviceSize = CGSize(width: view.frame.width, height: view.frame.height)
-        
+                
         //키보드 관련 등록
         addKeyboardObserver()
         recognizeHidingKeyboardGesture()
@@ -127,14 +105,21 @@ class ViewController: UIViewController {
         
         
         //디버그용
-//        appendChat(data: Chat(owner: User("넷"), sentDateTime: "2021-04-10 23:00", text: "wowowow"
-//                             ))
     }
     
     deinit{
 //        storage.flushChatData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //하단 버튼의 위치를 고정하기 위한 높이 조절
+        NSLayoutConstraint.activate([
+            addImageButton.heightAnchor.constraint(equalToConstant: footerWrapperView.frame.height),
+            sendMessageButton.heightAnchor.constraint(equalToConstant: inputTextViewWrapper.frame.height)
+        ])
+    }
     
     // 빈 메세지 확인
     func isMessageEmpty() -> Bool {
@@ -158,9 +143,6 @@ class ViewController: UIViewController {
         
         sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
-    
-    
-
 }
 
 // 입력창

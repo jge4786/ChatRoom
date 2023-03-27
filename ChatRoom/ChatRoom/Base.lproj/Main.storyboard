@@ -137,63 +137,50 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="393" height="64"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q77-st-5Ac">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="64"/>
+                                                                <rect key="frame" x="0.0" y="29.666666666666632" width="47" height="34.333333333333343"/>
                                                                 <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
                                                             </button>
                                                             <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="cXf-rU-Iri" userLabel="Input View Wrapper">
-                                                                <rect key="frame" x="0.0" y="4" width="383" height="56"/>
+                                                                <rect key="frame" x="47" y="4" width="336" height="56"/>
                                                                 <subviews>
-                                                                    <stackView opaque="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="FcA-Yu-oes">
-                                                                        <rect key="frame" x="10" y="3" width="363" height="50"/>
-                                                                        <subviews>
-                                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="313.66666666666669" height="50"/>
-                                                                                <constraints>
-                                                                                    <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>
-                                                                                </constraints>
-                                                                                <inset key="scrollIndicatorInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
-                                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                                            </textView>
-                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V">
-                                                                                <rect key="frame" x="313.66666666666669" y="0.0" width="49.333333333333314" height="50"/>
-                                                                                <state key="normal" title="Button"/>
-                                                                                <buttonConfiguration key="configuration" style="plain" image="moon" catalog="system"/>
-                                                                                <connections>
-                                                                                    <action selector="onPressSendMessageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CZ2-Uc-kbF"/>
-                                                                                </connections>
-                                                                            </button>
-                                                                        </subviews>
+                                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
+                                                                        <rect key="frame" x="10" y="3" width="266.66666666666669" height="50"/>
                                                                         <constraints>
-                                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="top" secondItem="FcA-Yu-oes" secondAttribute="top" id="6nh-Ew-T0W"/>
-                                                                            <constraint firstItem="Run-3L-itq" firstAttribute="leading" secondItem="FcA-Yu-oes" secondAttribute="leading" id="E7A-iz-OWx"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="bqB-Fu-53V" secondAttribute="bottom" id="FUx-Qc-Eg9"/>
-                                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="Run-3L-itq" secondAttribute="trailing" id="dzn-Qn-a2k"/>
-                                                                            <constraint firstAttribute="bottom" secondItem="Run-3L-itq" secondAttribute="bottom" id="mkS-7N-aJw"/>
-                                                                            <constraint firstItem="Run-3L-itq" firstAttribute="top" secondItem="FcA-Yu-oes" secondAttribute="top" id="pHt-rV-5EE"/>
-                                                                            <constraint firstAttribute="trailing" secondItem="bqB-Fu-53V" secondAttribute="trailing" id="trs-yc-68N"/>
+                                                                            <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>
                                                                         </constraints>
-                                                                    </stackView>
+                                                                        <inset key="scrollIndicatorInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                    </textView>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V">
+                                                                        <rect key="frame" x="276.66666666666669" y="21.666666666666632" width="49.333333333333314" height="34.333333333333343"/>
+                                                                        <state key="normal" title="Button"/>
+                                                                        <buttonConfiguration key="configuration" style="plain" image="moon" catalog="system"/>
+                                                                        <connections>
+                                                                            <action selector="onPressSendMessageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CZ2-Uc-kbF"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                                 <color key="backgroundColor" red="0.22846332189999999" green="0.2187432647" blue="0.23817053439999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
-                                                                    <constraint firstItem="FcA-Yu-oes" firstAttribute="top" secondItem="cXf-rU-Iri" secondAttribute="top" constant="3" id="8qU-YE-02D"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="FcA-Yu-oes" secondAttribute="trailing" constant="10" id="CVo-Eu-sUy"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="FcA-Yu-oes" secondAttribute="bottom" constant="3" id="EDp-MR-52n"/>
-                                                                    <constraint firstItem="FcA-Yu-oes" firstAttribute="leading" secondItem="cXf-rU-Iri" secondAttribute="leading" constant="10" id="No2-cy-Z0w"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="bqB-Fu-53V" secondAttribute="trailing" constant="10" id="RaM-Fn-GSr"/>
+                                                                    <constraint firstItem="Run-3L-itq" firstAttribute="top" secondItem="cXf-rU-Iri" secondAttribute="top" constant="3" id="Tia-YO-fW8"/>
+                                                                    <constraint firstItem="Run-3L-itq" firstAttribute="leading" secondItem="cXf-rU-Iri" secondAttribute="leading" constant="10" id="ut2-EQ-COH"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="bqB-Fu-53V" secondAttribute="bottom" id="wfD-at-fsp"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="Run-3L-itq" secondAttribute="bottom" constant="3" id="z1i-OV-AcH"/>
+                                                                    <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="Run-3L-itq" secondAttribute="trailing" id="zS3-7c-ibR"/>
                                                                 </constraints>
                                                             </view>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstItem="Q77-st-5Ac" firstAttribute="leading" secondItem="zb5-JG-iCz" secondAttribute="leading" id="7bT-wz-uNz"/>
-                                                            <constraint firstItem="Q77-st-5Ac" firstAttribute="top" secondItem="zb5-JG-iCz" secondAttribute="top" id="L4M-t6-JcF"/>
-                                                            <constraint firstAttribute="bottom" secondItem="Q77-st-5Ac" secondAttribute="bottom" id="N6E-28-2Gp"/>
                                                             <constraint firstItem="cXf-rU-Iri" firstAttribute="top" secondItem="zb5-JG-iCz" secondAttribute="top" constant="4" id="Nln-EA-YMe"/>
                                                             <constraint firstAttribute="bottom" secondItem="cXf-rU-Iri" secondAttribute="bottom" constant="4" id="UeD-nH-3lf"/>
-                                                            <constraint firstItem="cXf-rU-Iri" firstAttribute="leading" secondItem="Q77-st-5Ac" secondAttribute="trailing" id="uFh-tE-hEL"/>
+                                                            <constraint firstItem="Q77-st-5Ac" firstAttribute="leading" secondItem="zb5-JG-iCz" secondAttribute="leading" id="fuf-YT-k6O"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Q77-st-5Ac" secondAttribute="bottom" id="gwP-dV-uTY"/>
+                                                            <constraint firstItem="cXf-rU-Iri" firstAttribute="leading" secondItem="Q77-st-5Ac" secondAttribute="trailing" id="tf7-hu-Ffb"/>
                                                             <constraint firstAttribute="trailing" secondItem="cXf-rU-Iri" secondAttribute="trailing" constant="10" id="uHA-p5-Yvb"/>
                                                         </constraints>
                                                     </view>
@@ -204,6 +191,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="zb5-JG-iCz" secondAttribute="trailing" id="QPH-4d-Hr6"/>
                                                     <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="biV-IJ-bxV" secondAttribute="bottom" id="orY-nJ-dsc"/>
                                                     <constraint firstAttribute="bottom" secondItem="zb5-JG-iCz" secondAttribute="bottom" id="rUh-QZ-Cin"/>
+                                                    <constraint firstItem="biV-IJ-bxV" firstAttribute="top" secondItem="ilh-Gy-xVk" secondAttribute="top" id="xHK-TV-acb"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
@@ -242,6 +230,7 @@
                         <outlet property="addImageButton" destination="Q77-st-5Ac" id="VOD-LQ-Rqe"/>
                         <outlet property="contentTableView" destination="eTs-42-XNV" id="0bl-gN-jfB"/>
                         <outlet property="contentWrapperView" destination="XKZ-5P-1r6" id="6hO-cT-xSO"/>
+                        <outlet property="footerWrapperView" destination="zb5-JG-iCz" id="e47-vO-IY2"/>
                         <outlet property="goBackButton" destination="yK9-VL-ahg" id="5c3-s5-JDj"/>
                         <outlet property="inputTextView" destination="Run-3L-itq" id="jBS-qn-t9s"/>
                         <outlet property="inputTextViewHeight" destination="Z3Y-PR-gfn" id="iXg-ia-sYI"/>

@@ -59,8 +59,6 @@ class ChatData {
     }
     
     public func loadData() {
-        let tmp1 = Chat(), tmp2 = User()
-        
         guard let data = UserDefaults.standard.value(forKey: "chatData") as? Data else { return }
         
         guard let loadedData = try? PropertyListDecoder().decode([Chat].self, from: data) else { return  }
