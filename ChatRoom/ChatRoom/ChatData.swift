@@ -2,12 +2,12 @@ import Foundation
 
 class ChatData {
     private var users: [User] = [
-        User("하나", 0),
-        User("둘", 1),
-        User("셋", 2),
-        User("넷", 3),
-        User("다섯", 4),
-        User("나", 5)
+        User("하나", 0, profile: Constants.defaultImages[0]),
+        User("둘", 1, profile: Constants.defaultImages[1]),
+        User("셋", 2, profile: Constants.defaultImages[2]),
+        User("넷", 3, profile: Constants.defaultImages[3]),
+        User("다섯", 4, profile: Constants.defaultImages[4]),
+        User("나", 5, profile: Constants.defaultImages[4])
     ]
     
 //    @UserDefaultWrapper(key: "chatData", defaultValue: nil)

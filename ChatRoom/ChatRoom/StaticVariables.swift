@@ -12,6 +12,22 @@ struct Constants {
     static let chatMaxWidthMultiplier = 0.75
     
     static let rightChatRightPadding = 10
+    
+    static let defaultImages = [
+        "DefaultImage1",
+        "DefaultImage2",
+        "DefaultImage3",
+        "DefaultImage4",
+        "DefaultImage5",
+//        UIImage(named: "defaultImage1"),
+//        UIImage(named: "defaultImage2"),
+//        UIImage(named: "defaultImage3"),
+//        UIImage(named: "defaultImage4"),
+//        UIImage(named: "defaultImage5"),
+    ]
+    
+    // 입력 가능한 최대 메세지 길이
+    static let inputLimit = 50
 }
 
 struct Color {

@@ -19,18 +19,31 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bjm-cc-fH8">
-                        <rect key="frame" x="0.0" y="8" width="250" height="266"/>
+                        <rect key="frame" x="0.0" y="8" width="240" height="266"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4K-QE-afN" userLabel="Profile Button">
-                                <rect key="frame" x="0.0" y="0.0" width="60" height="266"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KGe-Q7-lj2" userLabel="Profile Wrapper View">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="266"/>
+                                <subviews>
+                                    <button autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4K-QE-afN" userLabel="Profile Button">
+                                        <rect key="frame" x="5" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="r8d-Wh-Yvv"/>
+                                            <constraint firstAttribute="width" constant="40" id="teN-4a-ide"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" cornerStyle="fixed"/>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="teN-4a-ide"/>
+                                    <constraint firstItem="v4K-QE-afN" firstAttribute="leading" secondItem="KGe-Q7-lj2" secondAttribute="leading" constant="5" id="frL-dR-Nka"/>
+                                    <constraint firstAttribute="trailing" secondItem="v4K-QE-afN" secondAttribute="trailing" constant="5" id="g8r-ph-wdZ"/>
+                                    <constraint firstItem="v4K-QE-afN" firstAttribute="top" secondItem="KGe-Q7-lj2" secondAttribute="top" id="mTX-dk-q3R"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.down.on.square" catalog="system" title="Button"/>
-                            </button>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1oy-tc-NWp" userLabel="Bubble Wrapper">
-                                <rect key="frame" x="60" y="0.0" width="140" height="266"/>
+                                <rect key="frame" x="50" y="0.0" width="140" height="266"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6b-m5-h4k" userLabel="Name Label">
                                         <rect key="frame" x="0.0" y="0.0" width="140" height="253"/>
@@ -95,7 +108,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0c-La-Vsb" userLabel="Info Wrapper">
-                                <rect key="frame" x="200" y="0.0" width="50" height="266"/>
+                                <rect key="frame" x="190" y="0.0" width="50" height="266"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFB-On-Geg" userLabel="Unread Count Label">
                                         <rect key="frame" x="3" y="242" width="47" height="12"/>
@@ -121,15 +134,11 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="v4K-QE-afN" firstAttribute="top" secondItem="bjm-cc-fH8" secondAttribute="top" id="1HH-6N-AW9"/>
                             <constraint firstItem="1oy-tc-NWp" firstAttribute="top" secondItem="bjm-cc-fH8" secondAttribute="top" id="1lF-nc-hVG"/>
                             <constraint firstAttribute="trailing" secondItem="K0c-La-Vsb" secondAttribute="trailing" id="KIE-f6-BPf"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="KQ2-vV-0mz"/>
                             <constraint firstAttribute="bottom" secondItem="1oy-tc-NWp" secondAttribute="bottom" id="OJQ-Z6-TV3"/>
-                            <constraint firstItem="1oy-tc-NWp" firstAttribute="leading" secondItem="v4K-QE-afN" secondAttribute="trailing" id="OK5-7n-vU0"/>
                             <constraint firstItem="K0c-La-Vsb" firstAttribute="leading" secondItem="1oy-tc-NWp" secondAttribute="trailing" id="Xi5-Kh-x1v"/>
-                            <constraint firstAttribute="bottom" secondItem="v4K-QE-afN" secondAttribute="bottom" id="bYs-0C-p4o"/>
-                            <constraint firstItem="v4K-QE-afN" firstAttribute="leading" secondItem="bjm-cc-fH8" secondAttribute="leading" id="g5c-3g-35Q"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="mrN-qQ-Hhl"/>
                             <constraint firstAttribute="bottom" secondItem="K0c-La-Vsb" secondAttribute="bottom" id="ucV-ra-tRP"/>
                             <constraint firstItem="K0c-La-Vsb" firstAttribute="top" secondItem="bjm-cc-fH8" secondAttribute="top" id="yV1-IA-Qid"/>
@@ -155,6 +164,7 @@
                 <outlet property="opacityFilterView" destination="WL5-nq-fIa" id="uZo-Bi-yl6"/>
                 <outlet property="profileButton" destination="v4K-QE-afN" id="YU4-8Q-Dk8"/>
                 <outlet property="profileButtonWidth" destination="teN-4a-ide" id="zb0-4i-XgH"/>
+                <outlet property="profileButtonWrapperView" destination="KGe-Q7-lj2" id="xIC-EL-Alv"/>
                 <outlet property="sentTimeLabel" destination="Nwk-dX-3R3" id="0gb-pX-UgE"/>
                 <outlet property="unreadCountLabel" destination="pFB-On-Geg" id="2hR-2t-baz"/>
             </connections>
@@ -162,7 +172,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="square.and.arrow.down.on.square" catalog="system" width="122" height="128"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

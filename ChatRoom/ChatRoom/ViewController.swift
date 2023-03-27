@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var letterCountButton: UIButton!     // 글자 수 계산 (라벨 대용)
     @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
+    @IBOutlet weak var dataLoadingScreen: UIView!
     @IBOutlet weak var tmpWrapperView: UIView!
     var textViewLine = 1 {
         didSet {
@@ -61,7 +62,6 @@ class ViewController: UIViewController {
         }
         didSet {
             contentTableView.reloadData()
-            scrollToBottom()
         }
     }
     
@@ -85,9 +85,20 @@ class ViewController: UIViewController {
     }
     
     let storage = ChatData()
+    
+    func fadeDataLoadingScreen() {
+        UIView.animate(withDuration: 0.13, delay: 0.4, options: .curveEaseIn) {
+            self.dataLoadingScreen.layer.opacity = 0
+        } completion: { finished in
+            self.dataLoadingScreen.isHidden = true
+        }
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dataLoadingScreen.layer.zPosition = 100
+        fadeDataLoadingScreen()
         
         storage.loadData()
         
@@ -110,7 +121,7 @@ class ViewController: UIViewController {
         
         //UI 초기화
         inputTextViewHeight.constant = getTextViewHeight()
-        letterCountWrapperView.layer.cornerRadius = 8
+        letterCountLabel.layer.cornerRadius = 8
         
         initHeaderButtonsSetting()
         initTextView()
@@ -120,6 +131,7 @@ class ViewController: UIViewController {
         MyChatCell.register(tableView: contentTableView)
         
         
+        scrollToBottom()
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         //디버그용
@@ -161,7 +173,10 @@ class ViewController: UIViewController {
         
         textViewLine = 1
         
+        letterCountWrapperView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 5.0, right: 10.0)
         letterCountWrapperView.isHidden = true
+        
+        scrollToBottom()
         
         sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
@@ -253,6 +268,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
             
             self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
+        scrollToBottomButton.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -314,18 +330,24 @@ extension ViewController: UITextViewDelegate {
     }
     
     public func textViewDidChange(_ textView: UITextView) {
+        guard textView.text.count <= Constants.inputLimit else {
+            var tmp: String = textView.text
+            tmp.popLast()
+            
+            textView.text = tmp
+            
+            return
+        }
+        
         setTextViewHeight()
         
         setSendMessageButtonImage(isEmpty: textView.text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty)
         
         if !textView.text.isEmpty {
             letterCountWrapperView.isHidden = false
-            letterCountLabel.text = "\(textView.text.count) / 1000"
-//            letterCountButton.isHidden = false
-//            letterCountButton.setTitle("\(trimmedText.count)/1000", for: .normal)
+            letterCountLabel.text = "\(textView.text.count) / \(Constants.inputLimit)"
         }else {
             letterCountWrapperView.isHidden = true
-//            letterCountButton.isHidden = true
         }
     }
 }
@@ -363,20 +385,11 @@ extension ViewController: UIScrollViewDelegate {
         
         let offsetValue = scrollView.contentSize.height - (scrollView.bounds.size.height + scrollView.contentOffset.y)
         
-//        print(scrollView.contentSize.height, scrollView.bounds.size.height, scrollView.contentOffset.y)
-        
-//        print(velocity, offsetValue, scrollToBottomButton.isHidden)
-        
         if velocity >= 0 && offsetValue > Constants.deviceSize.height && scrollToBottomButton.isHidden {
-//            NSLayoutConstraint.activate([
-//                scrollToBottomButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 30)
-//            ])
             scrollToBottomButton.isHidden = false
-        }else if velocity <= 0 && offsetValue < 10 && !scrollToBottomButton.isHidden {
-//            NSLayoutConstraint.deactivate([
-//                scrollToBottomButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
-//            ])
+        }else if velocity <= 0 && offsetValue < 10 && scrollView.isDecelerating && !scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = true
         }
     }
+    
 }

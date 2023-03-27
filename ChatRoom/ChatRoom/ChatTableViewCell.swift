@@ -16,9 +16,15 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             chatBubbleTextView.text = data.text
             
             chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: profileButtonWidth.constant + infoView.frame.width).0
+            
+            // 이미지 나오지 않는 문제 관련 링크
+            ///https://www.dev2qa.com/how-to-fix-image-not-showing-error-for-swift-button
+            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.uid])?.withRenderingMode(.alwaysOriginal), for: .normal)
+            
         }
     }
     
+    @IBOutlet weak var profileButtonWrapperView: UIView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
     @IBOutlet weak var chatBubbleView: UIView!
@@ -72,6 +78,11 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
 //        print(infoView.frame.width)
         
         chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * Constants.chatMaxWidthMultiplier
+        
+        
+        profileButton.layoutIfNeeded()
+        profileButton.layer.cornerRadius = profileButton.frame.height / 2.65
+        profileButton.layoutIfNeeded()
     }
     
     private func getUnreadCountText(cnt: Int) -> String {

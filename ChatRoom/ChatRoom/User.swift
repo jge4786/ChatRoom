@@ -11,9 +11,9 @@ struct User: Codable {
         uid = 0
     }
     
-    init(_ name: String, _ uid: Int) {
+    init(_ name: String, _ uid: Int, profile: String? = nil) {
         self.name = name
-        profile = nil
+        self.profile = profile
         self.uid = uid
     }
     
