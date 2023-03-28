@@ -47,6 +47,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func onPressEmojiButton(_ sender: Any) {
+        for mode in UITextInputMode.activeInputModes {
+            if mode.primaryLanguage == "emoji" {
+                inputTextView
+            }
+        }
+    }
     @IBAction func onPressAddImageButton(_ sender: Any) {
         present(imageController, animated: true)
     }

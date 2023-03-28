@@ -9,8 +9,6 @@ import UIKit
 
 class MyChatCell: UITableViewCell, TableViewCellBase {
     
-    
-    
     var data: Chat = Chat() {
         didSet {
             chatBubbleTextView.text = data.text
@@ -18,8 +16,11 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             if var appendedImage = UIImage(data: data.image) {
                 let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
                 
-                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
 //                appendedImage = appendedImage.downSampling(scale: 0.3)
+//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                
+//                thumbnailImageView.image = appendedImage
+//                chatBubbleTextView.isHidden = true
                 
                 let attachment = NSTextAttachment()
                 attachment.image = appendedImage
@@ -29,7 +30,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
                 //로딩이 덜 돼서 else가 실행되어 생기는 문제?
                 unreadCountLabel.text = ""
                 sentTimeLabel.text = ""
-                
+
                 chatBubbleTextView.textStorage.insert(imageString, at: 0)
             }else {
                 unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
@@ -42,6 +43,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     
     @IBOutlet weak var infoView: UIView!
     
+//    @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
     @IBOutlet weak var chatBubbleView: UIView!

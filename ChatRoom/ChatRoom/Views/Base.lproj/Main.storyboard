@@ -221,6 +221,9 @@
                                                                 <buttonConfiguration key="configuration" style="plain" image="smiley" catalog="system">
                                                                     <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </buttonConfiguration>
+                                                                <connections>
+                                                                    <action selector="onPressEmojiButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aQB-2m-2lZ"/>
+                                                                </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V" customClass="ExtendedButton" customModule="ChatRoom" customModuleProvider="target">
                                                                 <rect key="frame" x="280.33333333333331" y="0.0" width="45.666666666666686" height="56"/>
