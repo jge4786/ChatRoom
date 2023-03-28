@@ -1,20 +1,18 @@
-import UIKit
-
 struct User: Codable {
     let name: String
     let profile: String?
-    let uid: Int
+    let userId: Int
     
     init() {
         name = "홍길동"
         profile = nil
-        uid = 0
+        userId = 0
     }
     
-    init(_ name: String, _ uid: Int, profile: String? = nil) {
+    init(_ name: String, _ userId: Int, profile: String? = nil) {
         self.name = name
         self.profile = profile
-        self.uid = uid
+        self.userId = userId
     }
     
     func toString() -> String {

@@ -56,7 +56,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RoJ-iS-xOW">
                                                 <rect key="frame" x="249.33333333333329" y="0.0" width="123.66666666666666" height="60"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRq-Df-68t" userLabel="Search Button" customClass="EmptyTextButton" customModule="ChatRoom" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRq-Df-68t" userLabel="Search Button">
                                                         <rect key="frame" x="0.0" y="0.0" width="61" height="60"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain">
@@ -187,11 +187,16 @@
                                             <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zb5-JG-iCz" userLabel="Footer Wrapper">
                                                 <rect key="frame" x="0.0" y="635" width="393" height="64"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q77-st-5Ac">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q77-st-5Ac" customClass="ExtendedButton" customModule="ChatRoom" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="29.666666666666632" width="47" height="34.333333333333343"/>
                                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="verticalHitSlop">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="onPressAddImageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lTw-9F-JYB"/>
                                                         </connections>
@@ -200,7 +205,7 @@
                                                         <rect key="frame" x="47" y="4" width="336" height="56"/>
                                                         <subviews>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
-                                                                <rect key="frame" x="10" y="3" width="270.33333333333331" height="50"/>
+                                                                <rect key="frame" x="10" y="3" width="210.66666666666666" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>
                                                                 </constraints>
@@ -209,14 +214,30 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             </textView>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="twE-A1-mhk" userLabel="Emoji Button">
+                                                                <rect key="frame" x="220.66666666666669" y="0.0" width="49.666666666666686" height="56"/>
+                                                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" image="smiley" catalog="system">
+                                                                    <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </buttonConfiguration>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V" customClass="ExtendedButton" customModule="ChatRoom" customModuleProvider="target">
                                                                 <rect key="frame" x="280.33333333333331" y="0.0" width="45.666666666666686" height="56"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <state key="normal" title="Button"/>
                                                                 <buttonConfiguration key="configuration" style="plain" title="#">
                                                                     <fontDescription key="titleFontDescription" type="system" weight="thin" pointSize="35"/>
-                                                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </buttonConfiguration>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="verticalHitSlop">
+                                                                        <real key="value" value="10"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="horizontalHitSlop">
+                                                                        <real key="value" value="10"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
                                                                 <connections>
                                                                     <action selector="onPressSendMessageButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CZ2-Uc-kbF"/>
                                                                 </connections>
@@ -224,12 +245,15 @@
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.22846332189999999" green="0.2187432647" blue="0.23817053439999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="twE-A1-mhk" secondAttribute="bottom" id="FiU-ZR-e2A"/>
                                                             <constraint firstAttribute="trailing" secondItem="bqB-Fu-53V" secondAttribute="trailing" constant="10" id="RaM-Fn-GSr"/>
                                                             <constraint firstItem="Run-3L-itq" firstAttribute="top" secondItem="cXf-rU-Iri" secondAttribute="top" constant="3" id="Tia-YO-fW8"/>
+                                                            <constraint firstItem="twE-A1-mhk" firstAttribute="top" secondItem="bqB-Fu-53V" secondAttribute="top" id="fVe-SB-OBX"/>
+                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="twE-A1-mhk" secondAttribute="trailing" constant="10" id="jtA-TQ-1vG"/>
                                                             <constraint firstItem="Run-3L-itq" firstAttribute="leading" secondItem="cXf-rU-Iri" secondAttribute="leading" constant="10" id="ut2-EQ-COH"/>
                                                             <constraint firstAttribute="bottom" secondItem="bqB-Fu-53V" secondAttribute="bottom" id="wfD-at-fsp"/>
                                                             <constraint firstAttribute="bottom" secondItem="Run-3L-itq" secondAttribute="bottom" constant="3" id="z1i-OV-AcH"/>
-                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="Run-3L-itq" secondAttribute="trailing" id="zS3-7c-ibR"/>
+                                                            <constraint firstItem="twE-A1-mhk" firstAttribute="leading" secondItem="Run-3L-itq" secondAttribute="trailing" id="zS3-7c-ibR"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
@@ -290,6 +314,7 @@
                         <outlet property="contentTableView" destination="eTs-42-XNV" id="0bl-gN-jfB"/>
                         <outlet property="contentWrapperView" destination="XKZ-5P-1r6" id="6hO-cT-xSO"/>
                         <outlet property="dataLoadingScreen" destination="1YN-k1-Pd3" id="og5-Dk-zp0"/>
+                        <outlet property="emojiButton" destination="twE-A1-mhk" id="hzS-TG-WBH"/>
                         <outlet property="footerWrapperView" destination="zb5-JG-iCz" id="e47-vO-IY2"/>
                         <outlet property="goBackButton" destination="yK9-VL-ahg" id="5c3-s5-JDj"/>
                         <outlet property="inputTextView" destination="Run-3L-itq" id="jBS-qn-t9s"/>
@@ -298,7 +323,6 @@
                         <outlet property="letterCountLabel" destination="0ta-UV-4vx" id="AZc-XO-6Al"/>
                         <outlet property="letterCountWrapperView" destination="0sf-89-KBx" id="g7H-Kf-dfK"/>
                         <outlet property="menuButton" destination="ObY-jH-ODp" id="kg3-jX-fg9"/>
-                        <outlet property="previewImageView" destination="55N-1r-m8d" id="pbp-ME-NaA"/>
                         <outlet property="scrollToBottomButton" destination="b5R-Z7-gVf" id="s2b-aU-T3v"/>
                         <outlet property="searchButton" destination="CRq-Df-68t" id="mkB-zP-V0M"/>
                         <outlet property="sendMessageButton" destination="bqB-Fu-53V" id="b4T-pi-NJS"/>
@@ -315,6 +339,7 @@
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="smiley" catalog="system" width="128" height="123"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

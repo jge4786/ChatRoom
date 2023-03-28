@@ -15,9 +15,9 @@ class ChatData {
     
     init() {
         chatData = [
-            Chat(owner: users[0], sentDateTime: "2023-01-01 04:11", text: "테스트 텍스트", unreadCount: 1),
-            Chat(owner: users[2], sentDateTime: "2023-01-01 15:05", text: "테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 "),
-            Chat(owner: users[1], sentDateTime: "2023-04-01 06:30", text: "텍스트\n테스트\nTest\n테스스스스\n테세세세텟테세\n\n\n\n\n\nㅇㅁㄴㅇㄹ", unreadCount: 3),
+//            Chat(owner: users[0], sentDateTime: "2023-01-01 04:11", text: "테스트 텍스트", unreadCount: 1),
+//            Chat(owner: users[2], sentDateTime: "2023-01-01 15:05", text: "테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 테스트 텍스트 "),
+//            Chat(owner: users[1], sentDateTime: "2023-04-01 06:30", text: "텍스트\n테스트\nTest\n테스스스스\n테세세세텟테세\n\n\n\n\n\nㅇㅁㄴㅇㄹ", unreadCount: 3),
         ]
     }
     

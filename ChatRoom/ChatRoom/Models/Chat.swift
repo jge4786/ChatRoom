@@ -1,18 +1,13 @@
-//
-//  Chat.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/23.
-//
-
 import Foundation
 
 struct Chat: Codable {
+    let roomId: Int
+    var chatId: Int
     let owner: User
     let sentDateTime: String
     var unreadCount: Int
     let text: String
-    let image: String
+    let image: Data
     
     var sentDate: String {
         get {
@@ -27,20 +22,23 @@ struct Chat: Codable {
     }
     
     init() {
+        self.roomId = 0
+        self.chatId = 0
         self.owner = User()
         self.sentDateTime = "1900-01-01 00:01"
         self.unreadCount = 0
         self.text = ""
-        self.image = ""
+        self.image = Data()
     }
     
-    init(owner: User, sentDateTime: String, text: String = "", unreadCount: Int = 0, image: String = "") {
+    init(roomId: Int, chatId: Int, owner: User, sentDateTime: String, text: String = "", unreadCount: Int = 0, image: Data = Data()) {
         self.owner = owner
         self.sentDateTime = sentDateTime
         self.unreadCount = unreadCount
         self.text = text
         self.image = image
-        
+        self.roomId = roomId
+        self.chatId = chatId
     }
     
     func toString() -> String {

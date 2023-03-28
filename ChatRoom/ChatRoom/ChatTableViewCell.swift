@@ -19,7 +19,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             
             // 이미지 나오지 않는 문제 관련 링크
             ///https://www.dev2qa.com/how-to-fix-image-not-showing-error-for-swift-button
-            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.uid])?.withRenderingMode(.alwaysOriginal), for: .normal)
+            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
             
         }
     }

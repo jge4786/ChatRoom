@@ -16,6 +16,10 @@
 		F05F4B5A29D17A260067C292 /* gwail.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B5229D17A260067C292 /* gwail.jpg */; };
 		F05F4B5B29D17A260067C292 /* kiwi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B5329D17A260067C292 /* kiwi.jpg */; };
 		F05F4B5C29D17A260067C292 /* painapple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B5429D17A260067C292 /* painapple.jpg */; };
+		F05F4B5E29D2651A0067C292 /* ExtendedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B5D29D2651A0067C292 /* ExtendedButton.swift */; };
+		F05F4B6629D275660067C292 /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B6529D275660067C292 /* DataStorage.swift */; };
+		F05F4B6829D2779B0067C292 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B6729D2779B0067C292 /* ChatRoom.swift */; };
+		F05F4B6A29D2A2F20067C292 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B6929D2A2F20067C292 /* ChatViewModel.swift */; };
 		F08CC66329CA75BE00EE8961 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08CC66229CA75BE00EE8961 /* AppDelegate.swift */; };
 		F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */; };
 		F08CC66729CA75BE00EE8961 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08CC66629CA75BE00EE8961 /* ViewController.swift */; };
@@ -24,12 +28,10 @@
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
 		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
 		F0F104D229CAD1DD00957476 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D129CAD1DD00957476 /* User.swift */; };
-		F0F104D829CBC9AC00957476 /* EmptyTextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */; };
 		F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */; };
 		F0F104DC29CBEDD600957476 /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */; };
 		F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */; };
 		F0F104E029CC053300957476 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104DF29CC053300957476 /* Chat.swift */; };
-		F0F104E229CC20EB00957476 /* ChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104E129CC20EB00957476 /* ChatData.swift */; };
 		F0F104F629CD5F8200957476 /* MyChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104F429CD5F8200957476 /* MyChatCell.swift */; };
 		F0F104F729CD5F8200957476 /* MyChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0F104F529CD5F8200957476 /* MyChatCell.xib */; };
 /* End PBXBuildFile section */
@@ -44,6 +46,10 @@
 		F05F4B5229D17A260067C292 /* gwail.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gwail.jpg; sourceTree = "<group>"; };
 		F05F4B5329D17A260067C292 /* kiwi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kiwi.jpg; sourceTree = "<group>"; };
 		F05F4B5429D17A260067C292 /* painapple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = painapple.jpg; sourceTree = "<group>"; };
+		F05F4B5D29D2651A0067C292 /* ExtendedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedButton.swift; sourceTree = "<group>"; };
+		F05F4B6529D275660067C292 /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
+		F05F4B6729D2779B0067C292 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
+		F05F4B6929D2A2F20067C292 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		F08CC65F29CA75BE00EE8961 /* ChatRoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatRoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F08CC66229CA75BE00EE8961 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,12 +60,10 @@
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
 		F0F104D129CAD1DD00957476 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTextButton.swift; sourceTree = "<group>"; };
 		F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
 		F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellBase.swift; sourceTree = "<group>"; };
 		F0F104DF29CC053300957476 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
-		F0F104E129CC20EB00957476 /* ChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatData.swift; sourceTree = "<group>"; };
 		F0F104F429CD5F8200957476 /* MyChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatCell.swift; sourceTree = "<group>"; };
 		F0F104F529CD5F8200957476 /* MyChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyChatCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -90,6 +94,54 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		F05F4B6029D274200067C292 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0F104D129CAD1DD00957476 /* User.swift */,
+				F0F104DF29CC053300957476 /* Chat.swift */,
+				F05F4B6729D2779B0067C292 /* ChatRoom.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F05F4B6129D2742B0067C292 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F05F4B6929D2A2F20067C292 /* ChatViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F05F4B6229D2743B0067C292 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F05F4B6529D275660067C292 /* DataStorage.swift */,
+				F0F104CF29CAD15E00957476 /* StaticVariables.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F05F4B6329D274450067C292 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F05F4B6429D2746C0067C292 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */,
+				F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */,
+				F05F4B5D29D2651A0067C292 /* ExtendedButton.swift */,
+				F08CC66829CA75BE00EE8961 /* Main.storyboard */,
+				F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */,
+				F0F104F529CD5F8200957476 /* MyChatCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		F08CC65629CA75BD00EE8961 = {
 			isa = PBXGroup;
 			children = (
@@ -109,25 +161,19 @@
 		F08CC66129CA75BE00EE8961 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
-				F0F104D129CAD1DD00957476 /* User.swift */,
-				F0F104CF29CAD15E00957476 /* StaticVariables.swift */,
-				F0F104E129CC20EB00957476 /* ChatData.swift */,
-				F0F104DF29CC053300957476 /* Chat.swift */,
+				F05F4B6429D2746C0067C292 /* Views */,
+				F05F4B6329D274450067C292 /* Controllers */,
+				F05F4B6229D2743B0067C292 /* Services */,
+				F05F4B6129D2742B0067C292 /* ViewModels */,
+				F05F4B6029D274200067C292 /* Models */,
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
-				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
-				F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */,
-				F08CC66829CA75BE00EE8961 /* Main.storyboard */,
 				F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */,
-				F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */,
-				F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */,
-				F0F104D729CBC9AC00957476 /* EmptyTextButton.swift */,
 				F08CC66B29CA75BF00EE8961 /* Assets.xcassets */,
 				F05F4B4C29D179D80067C292 /* Resources */,
 				F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */,
 				F08CC67029CA75BF00EE8961 /* Info.plist */,
 				F0F104F429CD5F8200957476 /* MyChatCell.swift */,
-				F0F104F529CD5F8200957476 /* MyChatCell.xib */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -216,14 +262,16 @@
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
 				F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */,
 				F0F104F629CD5F8200957476 /* MyChatCell.swift in Sources */,
-				F0F104D829CBC9AC00957476 /* EmptyTextButton.swift in Sources */,
+				F05F4B6829D2779B0067C292 /* ChatRoom.swift in Sources */,
 				F08CC66729CA75BE00EE8961 /* ViewController.swift in Sources */,
+				F05F4B6629D275660067C292 /* DataStorage.swift in Sources */,
 				F08CC66329CA75BE00EE8961 /* AppDelegate.swift in Sources */,
 				F0F104E029CC053300957476 /* Chat.swift in Sources */,
+				F05F4B5E29D2651A0067C292 /* ExtendedButton.swift in Sources */,
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
-				F0F104E229CC20EB00957476 /* ChatData.swift in Sources */,
+				F05F4B6A29D2A2F20067C292 /* ChatViewModel.swift in Sources */,
 				F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

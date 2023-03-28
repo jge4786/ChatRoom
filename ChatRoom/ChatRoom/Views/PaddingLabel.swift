@@ -1,9 +1,4 @@
-//
-//  PaddingLabel.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/27.
-//
+///padding이 적용된 라벨
 
 import UIKit
 

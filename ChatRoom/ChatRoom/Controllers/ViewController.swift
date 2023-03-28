@@ -1,12 +1,18 @@
 import UIKit
 
 class ViewController: UIViewController {
+    let storage = DataStorage.instance
+    
     let me = 5
+    let roomId = 0
+    
+    var userData: User = User()
+    var roomData: ChatRoom = ChatRoom()
     
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
-    @IBOutlet weak var searchButton: EmptyTextButton!   // 대화 검색 버튼
+    @IBOutlet weak var searchButton: UIButton!   // 대화 검색 버튼
     @IBOutlet weak var menuButton: UIButton!            // 서랍 열기 버튼
     @IBOutlet weak var goBackButton: UIButton!          // 대화창 나가기 버튼 (뒤로가기)
     
@@ -18,10 +24,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!        // 이미지 첨부 버튼
     
+    @IBOutlet weak var emojiButton: UIButton!
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var letterCountWrapperView: UIView!
     @IBOutlet weak var letterCountLabel: UILabel!
-    @IBOutlet weak var letterCountButton: UIButton!     // 글자 수 계산 (라벨 대용)
     @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
     @IBOutlet weak var dataLoadingScreen: UIView!
@@ -49,27 +55,11 @@ class ViewController: UIViewController {
     let textInputDefaultInset = 6.0
     var safeAreaBottomInset: CGFloat = 0.0
     
-    var chatSectionData: [[Chat]] = []
-    
-    var isInitialLoad = true
-    
+        
     let imageController = UIImagePickerController()
     
-    var chatData: [Chat] = [] {
-        willSet {
-            if chatData.count > newValue.count {
-//                print("줄었음")
-            }else {
-                guard let newChat: Chat = newValue.last else { return }
-                guard !isInitialLoad else { isInitialLoad = false; return; }
-                storage.appendChatData(data: newChat)
-                calculateSection(data: newChat)
-            }
-        }
-        didSet {
-            contentTableView.reloadData()
-        }
-    }
+    var isInitialLoad = true
+    var chatSectionData: [[Chat]] = []
     
     private func calculateSection(data: Chat) {
         calculateSection(data: [data])
@@ -86,12 +76,23 @@ class ViewController: UIViewController {
 
             chatSectionData[chatSectionData.count - 1].append($0)
         }
-        
-       
     }
     
-    let storage = ChatData()
-    
+    var chatData: [Chat] = [] {
+        willSet {
+            if chatData.count > newValue.count {
+//                print("줄었음")
+            }else {
+                guard let newChat: Chat = newValue.last else { return }
+                guard !isInitialLoad else { isInitialLoad = false; return; }
+                calculateSection(data: newChat)
+            }
+        }
+        didSet {
+            contentTableView.reloadData()
+        }
+    }
+        
     func fadeDataLoadingScreen() {
         UIView.animate(withDuration: 0.13, delay: 0.4, options: .curveEaseIn) {
             self.dataLoadingScreen.layer.opacity = 0
@@ -102,14 +103,23 @@ class ViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         dataLoadingScreen.layer.zPosition = 100
         fadeDataLoadingScreen()
         
         storage.loadData()
+        guard let crData = storage.getChatRoom(roomId: roomId) else {
+            fatalError("채팅방 정보 불러오기 실패")
+        }
+        roomData = crData
+        
+        guard let uData = storage.getUser(userId: me) else {
+            fatalError("유저 정보 불러오기 실패")
+        }
+        userData = uData
         
         //데이터 초기화
-        chatData = storage.getChatData(offset: 0, limit: 0)
+        chatData = storage.getChatData(roomId: roomId)
                 
         //키보드 관련 등록
         addKeyboardObserver()
@@ -121,6 +131,8 @@ class ViewController: UIViewController {
         //버튼 텍스트 제거
         addImageButton.setTitle("", for: .normal)
         scrollToBottomButton.setTitle("", for: .normal)
+        emojiButton.setTitle("", for: .normal)
+        searchButton.setTitle("", for: .normal)
         
         scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
         
@@ -164,29 +176,19 @@ class ViewController: UIViewController {
     // 빈 메세지 확인
     func isMessageEmpty() -> Bool {
         guard let text = inputTextView.text else{ return true }
-        return text.trimmingCharacters(in: .whitespaces).isEmpty
+        return text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty
     }
     
     // 전송 버튼 눌림
     @IBAction func onPressSendMessageButton(_ sender: Any) {
         if isMessageEmpty() { return }
-        
-        
-//
-//        let attachment = NSTextAttachment()
-//        attachment.image = previewImageView.image
-//        let imageString = NSAttributedString(attachment: attachment)
-//
-//        print(imageString is Codable)
-        
-//        inputTextView.textStorage.
-        
+
         let text = inputTextView.text
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let sendTime = formatter.string(from: Date())
         
-        appendChat(data: Chat(owner: storage.getUser(uid: me), sentDateTime: sendTime, text: text!, unreadCount: storage.getUserList().count - 1))
+        chatData.append( storage.appendChatData(roomId: roomId, owner: userData, text: text!) )
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -201,7 +203,6 @@ class ViewController: UIViewController {
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)
         sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
-//        sendMessageButton.setImage(UIImage(systemName: "moon"), for: .normal)
     }
     @IBAction func onPressScrollToBottom(_ sender: Any) {
         scrollToBottom()
@@ -230,7 +231,7 @@ extension ViewController {
         menuButton.setTitle("", for: .normal)
         menuButton.tintColor = UIColor(cgColor: Color.White)
         
-        goBackButton.setTitle(String(storage.getUserList(offset: 0, limit: 0).count), for: .normal)
+        goBackButton.setTitle(String(storage.getUserList(roomId: roomId).count), for: .normal)
         goBackButton.tintColor = UIColor(cgColor: Color.White)
     }
 }
@@ -299,7 +300,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let uid = chatData[indexPath.row].owner.uid
+        let uid = chatData[indexPath.row].owner.userId
         
         if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
@@ -350,26 +351,20 @@ extension ViewController: UITextViewDelegate {
     
     func setSendMessageButtonImage(isEmpty: Bool) {
         if isEmpty {
-            print("ssss")
             sendMessageButton.setImage(nil, for: .normal)
             sendMessageButton.setTitle("#", for: .normal)
             sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
         } else {
-            print("dddd")
             sendMessageButton.setTitle("", for: .normal)
             sendMessageButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
             sendMessageButton.tintColor = UIColor(cgColor: Color.Yellow)
         }
-        
-//        sendMessageButton.setImage(UIImage(systemName: isEmpty ? "moon" : "arrow.up.circle.fill"), for: .normal)
     }
     
     public func textViewDidChange(_ textView: UITextView) {
+        // 글자 수 제한
         guard textView.text.count <= Constants.inputLimit else {
-            var tmp: String = textView.text
-            tmp.popLast()
-            
-            textView.text = tmp
+            textView.text = String(textView.text.prefix(Constants.inputLimit))
             
             return
         }
@@ -436,16 +431,45 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             
             return
         }
-        previewImageView.image = image
-                
         
-        let attachment = NSTextAttachment()
-        attachment.image = image
-        let imageString = NSAttributedString(attachment: attachment)
+        guard let imageData = image.jpegData(compressionQuality: 0.3 ) else {
+            return
+        }
         
-        print("1",imageString)
-        print("2",imageString.string)
+        chatData.append( storage.appendChatData(roomId: roomId, owner: userData, image: imageData))
+        
+        scrollToBottom()
         
         picker.dismiss(animated: true)
+    }
+}
+
+extension UIImage {
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
+    
+    
+    func downSampling(scale: CGFloat) -> UIImage {
+        let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
+        let data = self.pngData()! as CFData
+        
+        let imageSource = CGImageSourceCreateWithData(data, nil)!
+        
+        let maxPixel = max(self.size.width, self.size.height) * scale
+        let downSampleOptions = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixel
+        ] as CFDictionary
+        
+        let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
+
+        let newImage = UIImage(cgImage: downSampledImage)
+        
+        return newImage
     }
 }

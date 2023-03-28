@@ -8,16 +8,38 @@
 import UIKit
 
 class MyChatCell: UITableViewCell, TableViewCellBase {
+    
+    
+    
     var data: Chat = Chat() {
         didSet {
-            unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
-            sentTimeLabel.text = data.sentTime
             chatBubbleTextView.text = data.text
             
+            if var appendedImage = UIImage(data: data.image) {
+                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
+                
+                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+//                appendedImage = appendedImage.downSampling(scale: 0.3)
+                
+                let attachment = NSTextAttachment()
+                attachment.image = appendedImage
+                let imageString = NSAttributedString(attachment: attachment)
+
+                //빈 문자열로 초기화하지 않으면 이미지에 텍스트가 들어감
+                //로딩이 덜 돼서 else가 실행되어 생기는 문제?
+                unreadCountLabel.text = ""
+                sentTimeLabel.text = ""
+                
+                chatBubbleTextView.textStorage.insert(imageString, at: 0)
+            }else {
+                unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
+                sentTimeLabel.text = data.sentTime
+            }
             
             chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         }
     }
+    
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var opacityFilterView: UIView!
@@ -61,7 +83,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
 //        chatBubbleButton.tintColor = UIColor(cgColor: Color.Black)
         
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
-        sentTimeLabel.text = "00:00"
+        sentTimeLabel.text = ""
         
         chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
     }
