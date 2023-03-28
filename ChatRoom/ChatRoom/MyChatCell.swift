@@ -17,7 +17,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
                 let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
                 
 //                appendedImage = appendedImage.downSampling(scale: 0.3)
-//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
                 
 //                thumbnailImageView.image = appendedImage
 //                chatBubbleTextView.isHidden = true
