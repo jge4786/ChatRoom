@@ -43,7 +43,8 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     
     @IBOutlet weak var infoView: UIView!
     
-//    @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var thumbnailImageView: UIImageView!
+    //    @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
     @IBOutlet weak var chatBubbleView: UIView!

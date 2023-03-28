@@ -8,7 +8,7 @@ class DataStorage {
     private let chatRoomDataKey = "chatRoomList"
     
     private var userList: [User] = []
-    private var chatList: [Int : [Chat]] = [:] // [ roomId : [Chat] ]
+    private var chatList: [Chat] = []
     private var chatRoomList: [ChatRoom] = []
     
     private var cursor = -1
@@ -37,8 +37,7 @@ class DataStorage {
             User("나", 5, profile: "defaultImage5"),
         ]
         
-        chatList = [
-            0 : [Chat(roomId:0, chatId: chatIndex, owner: userList[0], sentDateTime: "2023-01-01 12:30", text: "hello")]
+        chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[0], sentDateTime: "2023-01-01 12:30", text: "hello")
         ]
         
         chatRoomList = [
@@ -94,7 +93,11 @@ extension DataStorage {
     
     /// limit으로 0 입력 시, 해당 채팅방의 전체 채팅 반환
     public func getChatData(roomId: Int, offset: Int = 0, limit: Int = 0) -> [Chat] {
-        guard let result: [Chat] = chatList[roomId] else { return [] }
+        let result = chatList.filter { $0.roomId == roomId }
+        
+        guard result != nil  else {
+            return []
+        }
         
         if limit == 0 { return result }
         
@@ -102,12 +105,13 @@ extension DataStorage {
     }
     
     public func appendChatData(roomId: Int, data: Chat) -> Chat {
-        if chatList[roomId] != nil {
-            chatList[roomId]!.append(data)
+        if chatList.isEmpty {
+            chatList = [data]
         } else {
-            chatList[roomId] = [data]
+            chatList.append(data)
         }
         
+        print("dddddddd")
         saveChatData()
         
         return data
@@ -160,7 +164,7 @@ extension DataStorage {
             return
         }
         
-        guard let loadedChatData = try? PropertyListDecoder().decode([Int : [Chat]].self, from: chatListData),
+        guard let loadedChatData = try? PropertyListDecoder().decode([Chat].self, from: chatListData),
               let loadedUserData = try? PropertyListDecoder().decode([User].self, from: userListData),
               let loadedChatRoomData = try? PropertyListDecoder().decode([ChatRoom].self, from: chatRoomListData)
         else {
@@ -168,8 +172,19 @@ extension DataStorage {
             return
         }
         
+        
         chatList = loadedChatData
+        
+        
+        chatIndex = chatList.count
+        
+        for dt in chatList {
+            print(dt.toString())
+        }
+        
+        
         userList = loadedUserData
         chatRoomList = loadedChatRoomData
+        
     }
 }

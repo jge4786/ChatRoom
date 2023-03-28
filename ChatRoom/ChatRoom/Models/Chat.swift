@@ -42,6 +42,6 @@ struct Chat: Codable {
     }
     
     func toString() -> String {
-        return "[owner: " + owner.toString() + ", sentDateTime: " + sentDateTime + ", unreadCount: " + String(unreadCount) + "]"
+        return "[chatId: " + String(chatId) + ", owner: " + owner.toString() + ", sentDateTime: " + sentDateTime + ", unreadCount: " + String(unreadCount) + "]"
     }
 }
