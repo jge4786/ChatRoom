@@ -26,6 +26,7 @@
 		F08CC66A29CA75BE00EE8961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66829CA75BE00EE8961 /* Main.storyboard */; };
 		F08CC66C29CA75BF00EE8961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66B29CA75BF00EE8961 /* Assets.xcassets */; };
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
+		F09DD7BC29D408F6005D936F /* ChatBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7BB29D408F6005D936F /* ChatBody.swift */; };
 		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
 		F0F104D229CAD1DD00957476 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D129CAD1DD00957476 /* User.swift */; };
 		F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */; };
@@ -58,6 +59,7 @@
 		F08CC66B29CA75BF00EE8961 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F08CC66E29CA75BF00EE8961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F09DD7BB29D408F6005D936F /* ChatBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBody.swift; sourceTree = "<group>"; };
 		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
 		F0F104D129CAD1DD00957476 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
 				F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */,
+				F09DD7BB29D408F6005D936F /* ChatBody.swift */,
 				F08CC66B29CA75BF00EE8961 /* Assets.xcassets */,
 				F05F4B4C29D179D80067C292 /* Resources */,
 				F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */,
@@ -262,6 +265,7 @@
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
 				F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */,
 				F0F104F629CD5F8200957476 /* MyChatCell.swift in Sources */,
+				F09DD7BC29D408F6005D936F /* ChatBody.swift in Sources */,
 				F05F4B6829D2779B0067C292 /* ChatRoom.swift in Sources */,
 				F08CC66729CA75BE00EE8961 /* ViewController.swift in Sources */,
 				F05F4B6629D275660067C292 /* DataStorage.swift in Sources */,

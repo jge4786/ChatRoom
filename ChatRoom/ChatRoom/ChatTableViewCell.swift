@@ -100,4 +100,61 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     func setData(_ chat: Chat) {
         self.data = chat
     }
+    
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool) {
+        initialize()
+        
+        chatBubbleTextView.text = data.text
+        
+        if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
+            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+        } else if var appendedImage = UIImage(data: data.image) {
+            DispatchQueue.main.async {
+                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
+                
+                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                
+                let attachment = NSTextAttachment()
+                attachment.image = appendedImage
+                let imageString = NSAttributedString(attachment: attachment)
+                
+                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
+                
+                self.unreadCountLabel.text = ""
+                self.sentTimeLabel.text = ""
+                
+                self.chatBubbleTextView.textStorage.insert(imageString, at: 0)
+                
+                self.layoutIfNeeded()
+            }
+        }
+        
+        unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
+        
+        
+        if shouldShowTimeLabel {
+            sentTimeLabel.text = (
+                shouldShowTimeLabel
+                ? data.sentTime
+                : ""
+            )
+            
+            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
+            nameLabel.text = data.owner.name
+        }else {
+            profileButton.isHidden = true
+            nameLabel.heightAnchor.constraint(equalToConstant: 0.0)
+            nameLabel.isHidden = true
+        }
+        
+        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+        self.setNeedsLayout()
+    }
+    
+    func initialize() {
+        profileButton.isHidden = false
+        nameLabel.isHidden = false
+        sentTimeLabel.text = ""
+        unreadCountLabel.text = ""
+    }
 }

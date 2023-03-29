@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     
     let me = 5
     let roomId = 0
+    var selectedUser = 5
     
     var userData: User = User()
     var roomData: ChatRoom = ChatRoom()
@@ -32,6 +33,39 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var dataLoadingScreen: UIView!
     @IBOutlet weak var tmpWrapperView: UIView!
+    
+    
+    // **************** 테스트용 ***************
+    
+    var userList: [User] = []
+    
+    @IBOutlet weak var selectUserButton: UIButton!
+    
+    func setSelectUserMenu() {
+        var menuItems: [UIAction] = []
+        
+        for idx in 0..<userList.count {
+            menuItems.append(
+                UIAction(title: userList[idx].name, handler: { _ in self.selectUser(selected: idx) })
+            )
+        }
+        
+        selectUserButton.menu = UIMenu(title: "사용자 선택",
+                                       identifier: nil,
+                                       options: .displayInline,
+                                       children: menuItems
+        )
+    }
+    
+    func selectUser(selected: Int) {
+        selectedUser = selected
+        selectUserButton.setTitle(userList[selected].name, for: .normal)
+    }
+    
+    // ***************************************
+    
+    
+    
     var textViewLine = 1 {
         didSet {
             if oldValue == textViewLine {
@@ -101,7 +135,7 @@ class ViewController: UIViewController {
     }
         
     func fadeDataLoadingScreen() {
-        UIView.animate(withDuration: 0.13, delay: 0.4, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.13, delay: 0.0, options: .curveEaseIn) {
             self.dataLoadingScreen.layer.opacity = 0
         } completion: { finished in
             self.dataLoadingScreen.isHidden = true
@@ -112,7 +146,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
                 
         dataLoadingScreen.layer.zPosition = 100
-        fadeDataLoadingScreen()
         
         storage.loadData()
         guard let crData = storage.getChatRoom(roomId: roomId) else {
@@ -160,10 +193,26 @@ class ViewController: UIViewController {
         imageController.delegate = self
         imageController.allowsEditing = true
         
-        scrollToBottom()
+        
+        /// 첫번째 scrollToBottom: 데이터 로딩 및 UI 깨짐 방지
+        /// 두번째 scrollToBottom: 스크롤 이동
+        
+        scrollToBottom() {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                self.scrollToBottom() {
+                    self.fadeDataLoadingScreen()
+                }
+            }
+        }
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
-        //디버그용
+        
+        // ***************디버그, 테스트용*************
+        
+        userList = DataStorage.instance.getUserList()
+        setSelectUserMenu()
+        
+        // ****************************************
     }
     
     deinit{
@@ -195,7 +244,7 @@ class ViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let sendTime = formatter.string(from: Date())
         
-        chatData.append( storage.appendChatData(roomId: roomId, owner: userData, text: text!) )
+        chatData.append( storage.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!) )
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -205,14 +254,15 @@ class ViewController: UIViewController {
         letterCountWrapperView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 5.0, right: 10.0)
         letterCountWrapperView.isHidden = true
         
-        scrollToBottom()
+        contentTableView.reloadData()
+        scrollToBottom() {}
         
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)
         sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
     }
     @IBAction func onPressScrollToBottom(_ sender: Any) {
-        scrollToBottom()
+        scrollToBottom() {}
     }
 }
 
@@ -289,15 +339,17 @@ extension ViewController {
 
 
 //테이블 뷰 초기화
-extension ViewController:  UITableViewDataSource, UITableViewDelegate{
+extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
     
     
-    func scrollToBottom() {
+    func scrollToBottom(completionHandler: @escaping () -> Void) {
         guard self.chatData.count > 0 else { return }
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
             
             self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            
+            completionHandler()
         }
         scrollToBottomButton.isHidden = true
     }
@@ -306,15 +358,61 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
         return chatData.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let uid = chatData[indexPath.row].owner.userId
+    private func prefetchData(data: Chat) {
+        DispatchQueue.global().async {
+            if var appendedImage = UIImage(data: data.image) {
+                guard DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
+//                    print("return")
+                    return
+                }
+
+                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
+
+                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+
+                let attachment = NSTextAttachment()
+                attachment.image = appendedImage
+                let imageString = NSAttributedString(attachment: attachment)
+
+                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
+
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths{
+//            print("PrefetchForRowAt: \(indexPath.row)")
+
+            self.prefetchData(data: chatData[indexPath.row])
+            
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+//        for indexPath in indexPaths {
+//            print("CancelRowAt \(indexPath.row)")
+//        }
+//    }
+    
+//    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+//        print("ddd????!@!@#$5675")
+//        for indexPath in indexPaths{
+//            print("PrefetchForRowAt: \(indexPath.row)")
+//
+//            self.prefetchData(data: chatData[indexPath.row])
+//        }
+//    }
+    
+
+    func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool) -> UITableViewCell {
         
         if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
             
-            cell.setData(chatData[indexPath.row])
+            cell.setData(data, shouldShowTimeLabel)
             
             return cell
         }else{
@@ -322,10 +420,26 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate{
                 return UITableViewCell()
             }
             
-            cell.setData(chatData[indexPath.row])
+            cell.setData(data, shouldShowTimeLabel)
             return cell
         }
-
+    }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let curData = chatData[indexPath.row]
+        
+        let uid = curData.owner.userId
+        
+        guard indexPath.row + 1 < chatData.count,
+              let prevData = chatData[indexPath.row + 1] as? Chat else
+        {
+            return setCellData(uid, curData, true)
+        }
+        
+        let shouldShowTimeLabel = (uid != prevData.owner.userId || curData.sentTime != prevData.sentTime)
+        
+        
+        return setCellData(uid, curData, shouldShowTimeLabel)
     }
 }
 
@@ -439,15 +553,16 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return
         }
         
-        guard let imageData = image.jpegData(compressionQuality: 0.3 ) else {
+        guard let imageData = image.pngData() else {
             return
         }
         
         chatData.append( storage.appendChatData(roomId: roomId, owner: userData, image: imageData))
         
-        scrollToBottom()
+        scrollToBottom() {}
         
         picker.dismiss(animated: true)
+        
     }
 }
 

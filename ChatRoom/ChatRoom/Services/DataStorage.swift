@@ -23,6 +23,8 @@ class DataStorage {
         }
     }
     
+    public var imageCache = NSCache<NSString, NSAttributedString>()
+    
     private init() {
         initialize()
     }
@@ -111,7 +113,7 @@ extension DataStorage {
             chatList.append(data)
         }
         
-        print("dddddddd")
+//        print("dddddddd")
         saveChatData()
         
         return data
@@ -179,7 +181,7 @@ extension DataStorage {
         chatIndex = chatList.count
         
         for dt in chatList {
-            print(dt.toString())
+//            print(dt.toString())
         }
         
         

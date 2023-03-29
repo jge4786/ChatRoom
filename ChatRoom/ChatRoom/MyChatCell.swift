@@ -1,46 +1,6 @@
-//
-//  MyChatCell.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/24.
-//
-
 import UIKit
 
 class MyChatCell: UITableViewCell, TableViewCellBase {
-    
-    var data: Chat = Chat() {
-        didSet {
-            chatBubbleTextView.text = data.text
-            
-            if var appendedImage = UIImage(data: data.image) {
-                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
-                
-//                appendedImage = appendedImage.downSampling(scale: 0.3)
-                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
-                
-//                thumbnailImageView.image = appendedImage
-//                chatBubbleTextView.isHidden = true
-                
-                let attachment = NSTextAttachment()
-                attachment.image = appendedImage
-                let imageString = NSAttributedString(attachment: attachment)
-
-                //빈 문자열로 초기화하지 않으면 이미지에 텍스트가 들어감
-                //로딩이 덜 돼서 else가 실행되어 생기는 문제?
-                unreadCountLabel.text = ""
-                sentTimeLabel.text = ""
-
-                chatBubbleTextView.textStorage.insert(imageString, at: 0)
-            }else {
-                unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
-                sentTimeLabel.text = data.sentTime
-            }
-            
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
-        }
-    }
-    
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -102,8 +62,40 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
 
     }
     
-    func setData(_ chat: Chat) {
-        self.data = chat
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool) {
+        
+        chatBubbleTextView.text = data.text
+        
+        if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
+            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+        } else if var appendedImage = UIImage(data: data.image) {
+            DispatchQueue.main.async {
+                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
+                
+                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                
+                let attachment = NSTextAttachment()
+                attachment.image = appendedImage
+                let imageString = NSAttributedString(attachment: attachment)
+                
+                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
+                
+                
+                self.chatBubbleTextView.textStorage.insert(imageString, at: 0)
+                
+                self.layoutIfNeeded()
+            }
+        }
+        
+        unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
+        sentTimeLabel.text = (
+            shouldShowTimeLabel
+            ? data.sentTime
+            : ""
+        )
+        
+        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+//        self.setNeedsLayout()
     }
     
 }
