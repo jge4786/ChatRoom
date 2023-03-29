@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bjm-cc-fH8">
-                        <rect key="frame" x="0.0" y="8" width="240" height="266"/>
+                        <rect key="frame" x="0.0" y="3" width="150" height="276"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KGe-Q7-lj2" userLabel="Profile Wrapper View">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="266"/>
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="276"/>
                                 <subviews>
                                     <button autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4K-QE-afN" userLabel="Profile Button">
                                         <rect key="frame" x="5" y="0.0" width="40" height="40"/>
@@ -42,20 +42,34 @@
                                     <constraint firstItem="v4K-QE-afN" firstAttribute="top" secondItem="KGe-Q7-lj2" secondAttribute="top" id="mTX-dk-q3R"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1oy-tc-NWp" userLabel="Bubble Wrapper">
-                                <rect key="frame" x="50" y="0.0" width="140" height="266"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="TIb-di-prf">
+                                <rect key="frame" x="50" y="0.0" width="50" height="276"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6b-m5-h4k" userLabel="Name Label">
-                                        <rect key="frame" x="0.0" y="0.0" width="140" height="253"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6b-m5-h4k" userLabel="Name Label" customClass="PaddingLabel" customModule="ChatRoom" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="266"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.65490196078431373" green="0.64313725490196072" blue="0.66274509803921566" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                <real key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqV-8o-duz" userLabel="Chat Bubble View">
-                                        <rect key="frame" x="0.0" y="256" width="140" height="10"/>
+                                        <rect key="frame" x="0.0" y="266" width="50" height="10"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHD-1y-Nlw" userLabel="Chat Bubble Button">
-                                                <rect key="frame" x="0.0" y="0.0" width="140" height="10"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
                                                 <color key="tintColor" red="0.37947410349999999" green="0.34615725279999998" blue="0.3321693838" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Button"/>
@@ -68,7 +82,7 @@
                                                 </connections>
                                             </button>
                                             <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLK-ig-lxm">
-                                                <rect key="frame" x="0.0" y="0.0" width="140" height="10"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" priority="999" constant="10" id="pS9-6I-NaN"/>
                                                 </constraints>
@@ -77,7 +91,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WL5-nq-fIa" userLabel="Opacity Filter View">
-                                                <rect key="frame" x="0.0" y="0.0" width="140" height="10"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
@@ -91,6 +105,7 @@
                                             <constraint firstItem="oLK-ig-lxm" firstAttribute="leading" secondItem="dqV-8o-duz" secondAttribute="leading" id="c3t-aZ-5PF"/>
                                             <constraint firstAttribute="trailing" secondItem="mHD-1y-Nlw" secondAttribute="trailing" id="hx9-5B-XO6"/>
                                             <constraint firstItem="WL5-nq-fIa" firstAttribute="top" secondItem="dqV-8o-duz" secondAttribute="top" id="nGF-rk-gqN"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="pSv-uH-q4A"/>
                                             <constraint firstAttribute="bottom" secondItem="mHD-1y-Nlw" secondAttribute="bottom" id="s29-Mf-r7X"/>
                                             <constraint firstAttribute="trailing" secondItem="oLK-ig-lxm" secondAttribute="trailing" id="wcX-Mf-XQu"/>
                                             <constraint firstItem="oLK-ig-lxm" firstAttribute="top" secondItem="dqV-8o-duz" secondAttribute="top" id="y63-Ll-926"/>
@@ -98,26 +113,26 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="y6b-m5-h4k" secondAttribute="trailing" id="1Cf-zv-ylX"/>
-                                    <constraint firstItem="dqV-8o-duz" firstAttribute="top" secondItem="y6b-m5-h4k" secondAttribute="bottom" constant="3" id="7QH-SV-MAj"/>
-                                    <constraint firstItem="y6b-m5-h4k" firstAttribute="leading" secondItem="1oy-tc-NWp" secondAttribute="leading" id="V7V-eq-MHX"/>
-                                    <constraint firstAttribute="bottom" secondItem="dqV-8o-duz" secondAttribute="bottom" id="akC-51-Nfx"/>
-                                    <constraint firstItem="dqV-8o-duz" firstAttribute="leading" secondItem="1oy-tc-NWp" secondAttribute="leading" id="iAT-ah-7mj"/>
-                                    <constraint firstAttribute="trailing" secondItem="dqV-8o-duz" secondAttribute="trailing" id="lS8-yG-uj0"/>
-                                    <constraint firstItem="y6b-m5-h4k" firstAttribute="top" secondItem="1oy-tc-NWp" secondAttribute="top" id="wHg-Cx-vTD"/>
+                                    <constraint firstAttribute="trailing" secondItem="dqV-8o-duz" secondAttribute="trailing" id="9sX-OF-VJB"/>
+                                    <constraint firstItem="y6b-m5-h4k" firstAttribute="top" secondItem="TIb-di-prf" secondAttribute="top" id="Cni-W0-A5S"/>
+                                    <constraint firstAttribute="trailing" secondItem="y6b-m5-h4k" secondAttribute="trailing" id="OwT-Et-1FP"/>
+                                    <constraint firstItem="dqV-8o-duz" firstAttribute="top" secondItem="y6b-m5-h4k" secondAttribute="bottom" id="Whu-Ee-Hbt"/>
+                                    <constraint firstItem="y6b-m5-h4k" firstAttribute="leading" secondItem="TIb-di-prf" secondAttribute="leading" id="crw-Jk-Rze"/>
+                                    <constraint firstItem="dqV-8o-duz" firstAttribute="leading" secondItem="TIb-di-prf" secondAttribute="leading" id="mkV-C8-rjc"/>
+                                    <constraint firstAttribute="bottom" secondItem="dqV-8o-duz" secondAttribute="bottom" id="mli-tP-Tnz"/>
                                 </constraints>
-                            </view>
+                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0c-La-Vsb" userLabel="Info Wrapper">
-                                <rect key="frame" x="190" y="0.0" width="50" height="266"/>
+                                <rect key="frame" x="100" y="0.0" width="50" height="276"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFB-On-Geg" userLabel="Unread Count Label">
-                                        <rect key="frame" x="3" y="242" width="47" height="12"/>
+                                        <rect key="frame" x="3" y="252" width="47" height="12"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                                         <color key="textColor" red="0.65490196079999996" green="0.64313725489999995" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="bottomLeft" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nwk-dX-3R3" userLabel="Send Time Label">
-                                        <rect key="frame" x="3" y="254" width="47" height="12"/>
+                                        <rect key="frame" x="3" y="264" width="47" height="12"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" red="0.65490196078431373" green="0.64313725490196072" blue="0.66274509803921566" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
@@ -134,11 +149,7 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="1oy-tc-NWp" firstAttribute="top" secondItem="bjm-cc-fH8" secondAttribute="top" id="1lF-nc-hVG"/>
                             <constraint firstAttribute="trailing" secondItem="K0c-La-Vsb" secondAttribute="trailing" id="KIE-f6-BPf"/>
-                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="KQ2-vV-0mz"/>
-                            <constraint firstAttribute="bottom" secondItem="1oy-tc-NWp" secondAttribute="bottom" id="OJQ-Z6-TV3"/>
-                            <constraint firstItem="K0c-La-Vsb" firstAttribute="leading" secondItem="1oy-tc-NWp" secondAttribute="trailing" id="Xi5-Kh-x1v"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="mrN-qQ-Hhl"/>
                             <constraint firstAttribute="bottom" secondItem="K0c-La-Vsb" secondAttribute="bottom" id="ucV-ra-tRP"/>
                             <constraint firstItem="K0c-La-Vsb" firstAttribute="top" secondItem="bjm-cc-fH8" secondAttribute="top" id="yV1-IA-Qid"/>
@@ -146,8 +157,8 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="bjm-cc-fH8" secondAttribute="bottom" constant="8" id="FT6-0v-bKg"/>
-                    <constraint firstItem="bjm-cc-fH8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="RtT-8m-95R"/>
+                    <constraint firstAttribute="bottom" secondItem="bjm-cc-fH8" secondAttribute="bottom" constant="3" id="FT6-0v-bKg"/>
+                    <constraint firstItem="bjm-cc-fH8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="RtT-8m-95R"/>
                     <constraint firstItem="bjm-cc-fH8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Wz5-af-M0O"/>
                 </constraints>
             </tableViewCellContentView>
@@ -156,7 +167,7 @@
             <connections>
                 <outlet property="chatBubbleButton" destination="mHD-1y-Nlw" id="cyL-12-wTI"/>
                 <outlet property="chatBubbleHeight" destination="pS9-6I-NaN" id="kXF-7V-Z3j"/>
-                <outlet property="chatBubbleMaxWidth" destination="KQ2-vV-0mz" id="yif-aP-eeM"/>
+                <outlet property="chatBubbleMaxWidth" destination="pSv-uH-q4A" id="PRI-0f-GrT"/>
                 <outlet property="chatBubbleTextView" destination="oLK-ig-lxm" id="wL6-Qu-vfo"/>
                 <outlet property="chatBubbleView" destination="dqV-8o-duz" id="8LR-yy-CHS"/>
                 <outlet property="infoView" destination="K0c-La-Vsb" id="2lh-YV-LhK"/>

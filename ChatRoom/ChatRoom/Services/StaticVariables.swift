@@ -9,7 +9,7 @@ struct Constants {
     
     ///채팅의 너비를 제한할 때 쓰이는 상수
     ///기준 너비에 곱하여 사용하며, 보통 디바이스의 너비에 곱하여 사용 중
-    static let chatMaxWidthMultiplier = 0.75
+    static let chatMaxWidthMultiplier = 0.65
     
     static let rightChatRightPadding = 10
     

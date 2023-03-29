@@ -147,19 +147,19 @@ class ViewController: UIViewController {
                 
         dataLoadingScreen.layer.zPosition = 100
         
-        storage.loadData()
-        guard let crData = storage.getChatRoom(roomId: roomId) else {
+        DataStorage.instance.loadData()
+        guard let crData = DataStorage.instance.getChatRoom(roomId: roomId) else {
             fatalError("채팅방 정보 불러오기 실패")
         }
         roomData = crData
         
-        guard let uData = storage.getUser(userId: me) else {
+        guard let uData = DataStorage.instance.getUser(userId: me) else {
             fatalError("유저 정보 불러오기 실패")
         }
         userData = uData
         
         //데이터 초기화
-        chatData = storage.getChatData(roomId: roomId)
+        chatData = DataStorage.instance.getChatData(roomId: roomId)
                 
         //키보드 관련 등록
         addKeyboardObserver()
@@ -216,7 +216,7 @@ class ViewController: UIViewController {
     }
     
     deinit{
-//        storage.flushChatData()
+//        DataStorage.instance.flushChatData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -244,7 +244,7 @@ class ViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         let sendTime = formatter.string(from: Date())
         
-        chatData.append( storage.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!) )
+        chatData.append( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!) )
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -288,7 +288,7 @@ extension ViewController {
         menuButton.setTitle("", for: .normal)
         menuButton.tintColor = UIColor(cgColor: Color.White)
         
-        goBackButton.setTitle(String(storage.getUserList(roomId: roomId).count), for: .normal)
+        goBackButton.setTitle(String(DataStorage.instance.getUserList(roomId: roomId).count), for: .normal)
         goBackButton.tintColor = UIColor(cgColor: Color.White)
     }
 }
@@ -405,14 +405,14 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
 //    }
     
 
-    func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool) -> UITableViewCell {
+    func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) -> UITableViewCell {
         
         if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
             
-            cell.setData(data, shouldShowTimeLabel)
+            cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             
             return cell
         }else{
@@ -420,26 +420,37 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
                 return UITableViewCell()
             }
             
-            cell.setData(data, shouldShowTimeLabel)
+            cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             return cell
         }
     }
         
+    func getShouldShowTimeLabelValue() {
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let curData = chatData[indexPath.row]
         
         let uid = curData.owner.userId
         
-        guard indexPath.row + 1 < chatData.count,
-              let prevData = chatData[indexPath.row + 1] as? Chat else
-        {
-            return setCellData(uid, curData, true)
+        guard indexPath.row > 0,
+              let prevData = chatData[indexPath.row - 1] as? Chat
+        else {
+            return setCellData(uid, curData, true, true)
         }
         
-        let shouldShowTimeLabel = (uid != prevData.owner.userId || curData.sentTime != prevData.sentTime)
+        let shouldShowUserInfo = uid != prevData.owner.userId
         
+        guard indexPath.row + 1 < chatData.count,
+              let nextData = chatData[indexPath.row + 1] as? Chat
+        else {
+            return setCellData(uid, curData, true, shouldShowUserInfo)
+        }
         
-        return setCellData(uid, curData, shouldShowTimeLabel)
+        let shouldShowTimeLabel = (uid != nextData.owner.userId || curData.sentTime != nextData.sentTime)
+        
+        return setCellData(uid, curData, shouldShowTimeLabel, shouldShowUserInfo)
     }
 }
 
@@ -557,12 +568,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             return
         }
         
-        chatData.append( storage.appendChatData(roomId: roomId, owner: userData, image: imageData))
-        
-        scrollToBottom() {}
+        chatData.append( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], image: imageData))
         
         picker.dismiss(animated: true)
         
+        scrollToBottom() {}
     }
 }
 

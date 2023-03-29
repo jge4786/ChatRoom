@@ -62,7 +62,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
 
     }
     
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool) {
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
         
         chatBubbleTextView.text = data.text
         
@@ -93,6 +93,8 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             ? data.sentTime
             : ""
         )
+        
+        
         
         chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
 //        self.setNeedsLayout()

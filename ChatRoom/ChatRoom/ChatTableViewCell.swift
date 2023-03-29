@@ -101,7 +101,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         self.data = chat
     }
     
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool) {
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool = true , _ shouldShowUserInfo: Bool = true) {
         initialize()
         
         chatBubbleTextView.text = data.text
@@ -139,11 +139,14 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
                 : ""
             )
             
+            
+        }
+        
+        if shouldShowUserInfo {
             profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
             nameLabel.text = data.owner.name
-        }else {
+        } else {
             profileButton.isHidden = true
-            nameLabel.heightAnchor.constraint(equalToConstant: 0.0)
             nameLabel.isHidden = true
         }
         

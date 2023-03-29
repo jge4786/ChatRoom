@@ -3,24 +3,26 @@
 import UIKit
 
 class PaddingLabel: UILabel {
-    let verticalInset: CGFloat = 3.0
-    let horizontalInset: CGFloat = 7.0
+    @IBInspectable var topInset: CGFloat = 0
+    @IBInspectable var bottomInset: CGFloat = 0
+    @IBInspectable var leftInset: CGFloat = 0
+    @IBInspectable var rightInset: CGFloat = 0
     
     override func drawText(in rect: CGRect) {
         self.layer.cornerRadius = 8
-        let insets = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
+        let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
         super.drawText(in: rect.inset(by: insets))
     }
 
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
-        return CGSize(width: size.width + horizontalInset * 2,
-                      height: size.height + verticalInset * 2)
+        return CGSize(width: size.width + leftInset + rightInset,
+                      height: size.height + topInset + bottomInset)
     }
 
     override var bounds: CGRect {
         didSet {
-            preferredMaxLayoutWidth = bounds.width - (horizontalInset * 2)
+            preferredMaxLayoutWidth = bounds.width - (leftInset + rightInset)
         }
     }
 }
