@@ -28,7 +28,7 @@ class ChatBody: UIStackView {
     @IBOutlet weak var unreadCountLabel: UILabel!
     @IBOutlet weak var sentTimeLabel: UILabel!
     
-    func setMyChatUI() {
+    private func setMyChatUI() {
         profileWrapperView.isHidden = true
         nameLabel.isHidden = true
         
@@ -38,11 +38,13 @@ class ChatBody: UIStackView {
         ])
     }
     
-    func setChatUI(options: UIOption...) -> UIStackView {
+    func setChatUI(options: UIOption...) {
+        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
         for item in options {
             switch item {
             case .isMyChat:
                 print("isMyChat")
+                setMyChatUI()
             case .shouldHideProfile:
                 profileWrapperView.isHidden = true
                 print("show")
@@ -56,17 +58,16 @@ class ChatBody: UIStackView {
                 break
             }
         }
-        
-        return self
     }
     
     init(_ frame: CGRect) {
         super.init(frame: frame)
         
-        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
     }
     
     required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        
+        addSubview(<#T##view: UIView##UIView#>)
     }
 }

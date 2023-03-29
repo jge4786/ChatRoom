@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -121,7 +120,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="ELI-tF-hSl"/>
             <constraints>
                 <constraint firstItem="RxQ-q2-pTv" firstAttribute="top" secondItem="s7b-8r-S1N" secondAttribute="top" id="Cab-fr-ahV"/>
                 <constraint firstAttribute="bottom" secondItem="RxQ-q2-pTv" secondAttribute="bottom" id="PNE-J9-TiA"/>
