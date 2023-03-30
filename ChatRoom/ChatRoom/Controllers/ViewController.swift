@@ -4,8 +4,9 @@ import PhotosUI
 class ViewController: UIViewController {
     let storage = DataStorage.instance
     
-    let me = 5
-    let roomId = 0
+    var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)
+    var me = 5
+    var roomId = 0
     var selectedUser = 5
     
     var userData: User = User()
@@ -16,7 +17,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var searchButton: UIBarButtonItem!
-    @IBOutlet weak var goBackButton: UINavigationItem!
+    @IBOutlet weak var goBackButton: UIBarButtonItem!
+    @IBOutlet weak var navBar: UINavigationItem!
 //    @IBOutlet weak var searchButton: UIButton!   // 대화 검색 버튼
 //    @IBOutlet weak var menuButton: UIButton!            // 서랍 열기 버튼
 //    @IBOutlet weak var goBackButton: UIButton!          // 대화창 나가기 버튼 (뒤로가기)
@@ -89,10 +91,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func onPressGoBackButton(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func onPressEmojiButton(_ sender: Any) {
         for mode in UITextInputMode.activeInputModes {
             if mode.primaryLanguage == "emoji" {
-                inputTextView
+//                inputTextView
             }
         }
     }
@@ -184,7 +190,9 @@ class ViewController: UIViewController {
         addImageButton.setTitle("", for: .normal)
         scrollToBottomButton.setTitle("", for: .normal)
         emojiButton.setTitle("", for: .normal)
-        searchButton.setTitle("", for: .normal)
+//        searchButton.setTitle("", for: .normal)
+        
+        
         
         scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
         
@@ -325,14 +333,17 @@ extension ViewController {
 // 헤더
 extension ViewController {
     func initHeaderButtonsSetting() {
-        searchButton.setTitle("", for: .normal)
+        self.navigationController?.navigationBar.backgroundColor = .darkGray
+//        navBar.titleView?.tintColor = UIColor(cgColor: Color.Black)
+        
+//        searchButton.setTitle("", for: .normal)
         searchButton.tintColor = UIColor(cgColor: Color.White)
         
-        menuButton.setTitle("", for: .normal)
+//        menuButton.setTitle("", for: .normal)
         menuButton.tintColor = UIColor(cgColor: Color.White)
         
-        goBackButton.setTitle(String(DataStorage.instance.getUserList(roomId: roomId).count), for: .normal)
-        goBackButton.tintColor = UIColor(cgColor: Color.White)
+//        goBackButton.setTitle(String(DataStorage.instance.getUserList(roomId: roomId).count), for: .normal)
+//        goBackButton.tintColor = UIColor(cgColor: Color.White)
     }
 }
 
