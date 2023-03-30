@@ -137,6 +137,8 @@ class ViewController: UIViewController {
         
         print("챗데이터: ", loadedData.count)
         
+        calcSectionData()
+         
         // 로딩된 데이터가 제한보다 적으면 isEndReached을 true로 하여 로딩 메소드 호출 방지
         guard loadedData.count >= Constants.chatLoadLimit else {
             isEndReached = true
@@ -144,6 +146,7 @@ class ViewController: UIViewController {
         }
         
         offset += Constants.chatLoadLimit
+        
     }
     
     override func viewDidLoad() {
@@ -269,6 +272,37 @@ class ViewController: UIViewController {
     @IBAction func onPressScrollToBottom(_ sender: Any) {
         scrollToBottom() {}
     }
+    
+    var sectionChatData: [[Chat]] = []
+}
+
+extension ViewController {
+    func calcSectionData() {
+        sectionChatData = []
+        var prevTime = "25:00"
+
+        for (index, data) in chatData.enumerated() {
+            guard !sectionChatData.isEmpty else {
+                sectionChatData = [[data]]
+                prevTime = data.sentTime
+                continue
+            }
+            
+            if prevTime != data.sentTime {
+                sectionChatData.append([data])
+                prevTime = data.sentTime
+            } else {
+                sectionChatData[sectionChatData.count - 1].append(data)
+            }
+        }
+
+        for dt in sectionChatData {
+            print("-------------",dt.last?.sentTime,"-----------------")
+            for dt_ in dt {
+                print(dt_.chatId, dt_.sentTime)
+            }
+        }
+    }
 }
 
 // 입력창
@@ -351,7 +385,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         guard self.chatData.count > 0 else { return }
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
-            
+
             self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
             
             completionHandler()
@@ -359,61 +393,46 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         scrollToBottomButton.isHidden = true
     }
     
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        print(sectionChatData.count)
+//        return sectionChatData.count
+//    }
+//
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatData.count
     }
+//
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//
+//        return sectionChatData[section].last?.sentTime
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return cellDataSource.count
+//    }
     
     private func prefetchData(index: Int) {
         let data = chatData[index]
-        DispatchQueue.global().async {
-            if var appendedImage = UIImage(data: data.image) {
+        DispatchQueue.main.async {
+            if let appendedImage = UIImage(data: data.image) {
                 guard DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
-//                    print("return")
                     return
                 }
 
-                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
-
-//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
-//                appendedImage = appendedImage.resizeByScale(by: 0.3)
-                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
-
-                let attachment = NSTextAttachment()
-                attachment.image = appendedImage
-                let imageString = NSAttributedString(attachment: attachment)
-
-                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
+                let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
+                
+                DataStorage.instance.imageCache.setObject(cachedImage, forKey: NSString(string: String(data.chatId)))
             }
         }
     }
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths{
-//            print("PrefetchForRowAt: \(indexPath.row)")
-
             self.prefetchData(index: indexPath.row)
-
         }
     }
-    
-//    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-//        for indexPath in indexPaths {
-//            print("CancelRowAt \(indexPath.row)")
-//        }
-//    }
-    
-//    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-//        print("ddd????!@!@#$5675")
-//        for indexPath in indexPaths{
-//            print("PrefetchForRowAt: \(indexPath.row)")
-//
-//            self.prefetchData(data: chatData[indexPath.row])
-//        }
-//    }
-    
 
     func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) -> UITableViewCell {
-        
         if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
@@ -431,15 +450,26 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             return cell
         }
     }
-        
-    func getShouldShowTimeLabelValue() {
-        
-    }
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return sectionChatData.index
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let curData = chatData[indexPath.row]
-        
         let uid = curData.owner.userId
+        
+//        var prevData: Chat, nextData: Chat
+//
+//        if indexPath.row == 0 {
+//            if indexPath.section > 0 {
+//                prevData = sectionChatData[indexPath.section - 1].last!
+//            } else{
+//                return setCellData(uid, curData, true, true)
+//            }
+//        } else {
+//            prevData = sectionChatData[indexPath.section][indexPath.row]
+//        }
         
         guard indexPath.row > 0,
               let prevData = chatData[indexPath.row - 1] as? Chat
@@ -448,6 +478,32 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         }
         
         let shouldShowUserInfo = uid != prevData.owner.userId
+        
+//        if indexPath.section + 1 >= sectionChatData.count {
+//            if indexPath.row + 1 >= sectionChatData[indexPath.section].count {
+//                return setCellData(uid, curData, true, shouldShowUserInfo)
+//            } else {
+//                nextData = sectionChatData[indexPath.section][indexPath.row + 1]
+//            }
+//        } else {
+//            if indexPath.row + 1 >= sectionChatData[indexPath.section].count {
+//                nextData = sectionChatData[indexPath.section + 1][0]
+//            } else {
+//                nextData = sectionChatData[indexPath.section][indexPath.row + 1]
+//            }
+//        }
+        
+        
+//        if indexPath.row + 1 >= sectionChatData[indexPath.section].count {
+//            if indexPath.section + 1 >= sectionChatData.count {
+//                return setCellData(uid, curData, true, shouldShowUserInfo)
+//            } else {
+//                nextData = sectionChatData[indexPath.section + 1][0]
+//            }
+//        } else {
+//            nextData = sectionChatData[indexPath.section][indexPath.row + 1]
+//        }
+        
         
         guard indexPath.row + 1 < chatData.count,
               let nextData = chatData[indexPath.row + 1] as? Chat
@@ -550,7 +606,8 @@ extension ViewController: UIScrollViewDelegate {
     func onTopReached() {
         print("loading!")
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1 ) {
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
             self.loadData()
             
             self.contentTableView.reloadData()
@@ -566,7 +623,7 @@ extension ViewController: UIScrollViewDelegate {
         
         let offsetValue = scrollView.contentSize.height - (scrollView.bounds.size.height + scrollView.contentOffset.y)
         
-        if scrollView.contentOffset.y < 1 && !isLoading && !isEndReached {
+        if scrollView.contentOffset.y < Constants.loadThreshold && !isLoading && !isEndReached {
             onTopReached()
         }
         
@@ -599,40 +656,3 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         }
     }
 }
-
-//extension UIImage {
-//    func resized(to size: CGSize) -> UIImage {
-//        return UIGraphicsImageRenderer(size: size).image { _ in
-//            draw(in: CGRect(origin: .zero, size: size))
-//        }
-//    }
-//    
-//    func resizeByScale(by value: Double) -> UIImage {
-//        let targetSize = CGSize(width: self.size.width * value, height: self.size.height * value)
-//        return UIGraphicsImageRenderer(size: targetSize).image { _ in
-//            draw(in: CGRect(origin: .zero, size: targetSize))
-//        }
-//    }
-//    
-//    
-//    func downSampling(scale: CGFloat) -> UIImage {
-//        let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
-//        let data = self.pngData()! as CFData
-//        
-//        let imageSource = CGImageSourceCreateWithData(data, nil)!
-//        
-//        let maxPixel = max(self.size.width, self.size.height) * scale
-//        let downSampleOptions = [
-//            kCGImageSourceCreateThumbnailFromImageAlways: true,
-//            kCGImageSourceShouldCacheImmediately: true,
-//            kCGImageSourceCreateThumbnailWithTransform: true,
-//            kCGImageSourceThumbnailMaxPixelSize: maxPixel
-//        ] as CFDictionary
-//        
-//        let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
-//
-//        let newImage = UIImage(cgImage: downSampledImage)
-//        
-//        return newImage
-//    }
-//}

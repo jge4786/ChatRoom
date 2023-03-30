@@ -1,7 +1,7 @@
 //import Foundation
 import UIKit
 
-class ImageManager {
+final class ImageManager {
     public static let shared = ImageManager()
     
     private init() {}
@@ -19,5 +19,18 @@ class ImageManager {
         return UIGraphicsImageRenderer(size: targetSize).image { _ in
             image.draw(in: CGRect(origin: .zero, size: targetSize))
         }
+    }
+    
+    @discardableResult
+    func saveImageToCache(image: UIImage, id: Int) -> NSAttributedString {
+        let resizedImage = resized(image: image, to: CGSize(width: Constants.imageSize, height: Constants.imageSize))
+        
+        let attachment = NSTextAttachment()
+        attachment.image = resizedImage
+        let imageString = NSAttributedString(attachment: attachment)
+        
+        imageCache.setObject(imageString, forKey: NSString(string: String(id)))
+        
+        return imageString
     }
 }

@@ -29,7 +29,10 @@ struct Constants {
     // 입력 가능한 최대 메세지 길이
     static let inputLimit = 50
     
-    static let chatLoadLimit = 30
+    static let chatLoadLimit = 15
+    static let loadThreshold = 100.0
+    
+    static let imageSize = deviceSize.width * chatMaxWidthMultiplier - 150
 }
 
 struct Color {

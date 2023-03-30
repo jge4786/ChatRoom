@@ -1,6 +1,6 @@
 import Foundation
 
-class DataStorage {
+final class DataStorage {
     public static let instance = DataStorage()
     
     private let userDataKey = "userList"

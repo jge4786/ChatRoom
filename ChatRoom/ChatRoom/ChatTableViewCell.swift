@@ -1,29 +1,6 @@
-//
-//  ChatTableViewCell.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/23.
-//
-
 import UIKit
 
 class ChatTableViewCell: UITableViewCell, TableViewCellBase {
-    var data: Chat = Chat() {
-        didSet {
-            nameLabel.text = data.owner.name
-            unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
-            sentTimeLabel.text = data.sentTime
-            chatBubbleTextView.text = data.text
-            
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: profileButtonWidth.constant + infoView.frame.width).0
-            
-            // 이미지 나오지 않는 문제 관련 링크
-            ///https://www.dev2qa.com/how-to-fix-image-not-showing-error-for-swift-button
-            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
-            
-        }
-    }
-    
     @IBOutlet weak var profileButtonWrapperView: UIView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
@@ -63,26 +40,33 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        initialize()
+    }
+    
+    
+    func initialize() {
         chatBubbleButton.setTitle("", for: .normal)
         chatBubbleView.layer.cornerRadius = 10
         chatBubbleView.backgroundColor = UIColor(cgColor: Color.White)
-//        chatBubbleButton.tintColor = UIColor(cgColor: Color.Black)
         
         profileButton.setTitle("", for: .normal)
         
-        nameLabel.text = data.owner.name
+        nameLabel.text = ""
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
-        
-//        print(infoView.frame.width)
-        
         chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * Constants.chatMaxWidthMultiplier
         
-        
-        profileButton.layoutIfNeeded()
         profileButton.layer.cornerRadius = profileButton.frame.height / 2.65
-        profileButton.layoutIfNeeded()
+    }
+    
+    
+    func setDataToDefault() {
+        profileButton.isHidden = false
+        nameLabel.isHidden = false
+        sentTimeLabel.text = ""
+        unreadCountLabel.text = ""
+        
     }
     
     private func getUnreadCountText(cnt: Int) -> String {
@@ -93,56 +77,27 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    func setData(_ chat: Chat) {
-        self.data = chat
-    }
-    
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool = true , _ shouldShowUserInfo: Bool = true) {
-        initialize()
-        
-        chatBubbleTextView.text = data.text
-        
+    func setImage(_ data: Chat) {
         if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
             chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-        } else if var appendedImage = UIImage(data: data.image) {
+        } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
-                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
+                let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
-                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
-//                appendedImage = appendedImage.resizeByScale(by: 0.3)
-//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
-                
-                let attachment = NSTextAttachment()
-                attachment.image = appendedImage
-                let imageString = NSAttributedString(attachment: attachment)
-                
-                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
-                
-                self.unreadCountLabel.text = ""
-                self.sentTimeLabel.text = ""
-                
-                self.chatBubbleTextView.textStorage.insert(imageString, at: 0)
-                
-                self.layoutIfNeeded()
+                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
             }
         }
-        
+    }
+    
+    func setUserData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) {
         unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
-        
-        
-        if shouldShowTimeLabel {
-            sentTimeLabel.text = (
-                shouldShowTimeLabel
-                ? data.sentTime
-                : ""
-            )
-            
-            
-        }
+        sentTimeLabel.text = (
+            shouldShowTimeLabel
+            ? data.sentTime
+            : ""
+        )
         
         if shouldShowUserInfo {
             profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -151,15 +106,18 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             profileButton.isHidden = true
             nameLabel.isHidden = true
         }
+    }
+        
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool = true , _ shouldShowUserInfo: Bool = true) {
+        setDataToDefault()
+        
+        chatBubbleTextView.text = data.text
+        
+        setImage(data)
+        
+        setUserData(data, shouldShowTimeLabel, shouldShowUserInfo)
         
         chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
-        self.setNeedsLayout()
     }
     
-    func initialize() {
-        profileButton.isHidden = false
-        nameLabel.isHidden = false
-        sentTimeLabel.text = ""
-        unreadCountLabel.text = ""
-    }
 }

@@ -3,8 +3,6 @@ import UIKit
 class MyChatCell: UITableViewCell, TableViewCellBase {
     @IBOutlet weak var infoView: UIView!
     
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    //    @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
     @IBOutlet weak var chatBubbleView: UIView!
@@ -39,21 +37,9 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         initializeData()
     }
     
-    func initializeData() {
-        chatBubbleButton.setTitle("", for: .normal)
-        chatBubbleView.layer.cornerRadius = 10
-        chatBubbleView.backgroundColor = UIColor(cgColor: Color.Yellow)
-//        chatBubbleButton.tintColor = UIColor(cgColor: Color.Black)
-        
-        unreadCountLabel.text = getUnreadCountText(cnt: 0)
-        sentTimeLabel.text = ""
-        
-        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
-    }
     
     private func getUnreadCountText(cnt: Int) -> String {
         guard cnt > 0 else { return "" }
@@ -61,56 +47,67 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         return String(cnt)
     }
 
+    
+    func initializeData() {
+        chatBubbleButton.setTitle("", for: .normal)
+        chatBubbleView.layer.cornerRadius = 10
+        chatBubbleView.backgroundColor = UIColor(cgColor: Color.Yellow)
+        
+        unreadCountLabel.text = getUnreadCountText(cnt: 0)
+        sentTimeLabel.text = ""
+        
+        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
+    }
+    
+    override func prepareForReuse() {
+        setDataToDefault()
+    }
+    
+    func setDataToDefault() {
+        chatBubbleTextView.text = ""
+        chatBubbleHeight.constant = Constants.imageSize
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
     
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
-        let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
-        
-        chatBubbleTextView.text = data.text
-        
-        if data.text.count > 0 {
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
-        } else {
-//            chatBubbleHeight.constant = maxSize
-        }
-        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
-        
+    func setContent(_ data: Chat) {
         if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
             chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-        } else if var appendedImage = UIImage(data: data.image) {
+            
+            self.chatBubbleHeight.constant = Constants.imageSize
+        } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
-                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
-//                appendedImage = appendedImage.resizeByScale(by: 0.3)
-//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
-                let attachment = NSTextAttachment()
-                attachment.image = appendedImage
-                let imageString = NSAttributedString(attachment: attachment)
+                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
                 
-                DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
-                
-                
-                self.chatBubbleTextView.textStorage.insert(imageString, at: 0)
-                
-                self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
-                self.layoutIfNeeded()
+                self.chatBubbleHeight.constant = Constants.imageSize
             }
+        } else {
+            chatBubbleTextView.text = data.text
         }
-        
+    }
+    
+    func setLabel(_ data: Chat, _ shouldShowTimeLabel: Bool) {
         unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
         sentTimeLabel.text = (
             shouldShowTimeLabel
             ? data.sentTime
             : ""
         )
+    }
+    
+    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
+        setDataToDefault()
         
         
+        setContent(data)
         
+        setLabel(data, shouldShowTimeLabel)
         
-//        self.setNeedsLayout()
+        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
     }
     
 }
