@@ -40,6 +40,10 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        initializeData()
+    }
+    
+    func initializeData() {
         chatBubbleButton.setTitle("", for: .normal)
         chatBubbleView.layer.cornerRadius = 10
         chatBubbleView.backgroundColor = UIColor(cgColor: Color.Yellow)
@@ -63,16 +67,24 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     }
     
     func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
+        let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
         
         chatBubbleTextView.text = data.text
+        
+        if data.text.count > 0 {
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+        } else {
+//            chatBubbleHeight.constant = maxSize
+        }
+        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         
         if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
             chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
         } else if var appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
-                let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
-                
-                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
+//                appendedImage = appendedImage.resizeByScale(by: 0.3)
+//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
                 
                 let attachment = NSTextAttachment()
                 attachment.image = appendedImage
@@ -83,6 +95,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
                 
                 self.chatBubbleTextView.textStorage.insert(imageString, at: 0)
                 
+                self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
                 self.layoutIfNeeded()
             }
         }
@@ -96,7 +109,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         
         
         
-        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+        
 //        self.setNeedsLayout()
     }
     

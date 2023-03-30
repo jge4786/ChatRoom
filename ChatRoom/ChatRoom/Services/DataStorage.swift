@@ -87,6 +87,8 @@ extension DataStorage {
  채팅 목록
  */
 extension DataStorage {
+    
+    ///sentTime에 저장할 현재 시간 받아오는 메소드
     private func now() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -97,13 +99,23 @@ extension DataStorage {
     public func getChatData(roomId: Int, offset: Int = 0, limit: Int = 0) -> [Chat] {
         let result = chatList.filter { $0.roomId == roomId }
         
-        guard result != nil  else {
+        print("전체 데이터: ", result.count, offset, limit)
+        
+        guard result != nil,
+              offset < result.count
+        else {
             return []
         }
         
+        let endIndex =
+            offset + limit > result.count
+            ? (result.count - 1)
+            : (offset + limit)
+        
         if limit == 0 { return result }
         
-        return Array(result[offset..<(offset+limit)])
+        
+        return Array(result.reversed()[offset..<endIndex].reversed())
     }
     
     public func appendChatData(roomId: Int, data: Chat) -> Chat {

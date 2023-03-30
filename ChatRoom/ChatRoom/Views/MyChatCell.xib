@@ -71,7 +71,7 @@
                                                     <action selector="onTouchOutChatBubble:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="dEJ-WT-l9p"/>
                                                 </connections>
                                             </button>
-                                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxC-Ds-QN7">
+                                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" scrollEnabled="NO" contentInsetAdjustmentBehavior="never" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oxC-Ds-QN7">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" priority="999" constant="10" id="n8l-fj-QyY"/>

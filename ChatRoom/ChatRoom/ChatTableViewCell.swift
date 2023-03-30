@@ -112,7 +112,9 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             DispatchQueue.main.async {
                 let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
                 
-                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
+//                appendedImage = appendedImage.resizeByScale(by: 0.3)
+//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
                 
                 let attachment = NSTextAttachment()
                 attachment.image = appendedImage

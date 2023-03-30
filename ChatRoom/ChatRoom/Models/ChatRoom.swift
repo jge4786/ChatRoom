@@ -1,4 +1,4 @@
-class ChatRoom: Codable {
+struct ChatRoom: Codable {
     let roomId: Int
     let roomName: String
     var userList: [User]

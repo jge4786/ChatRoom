@@ -35,7 +35,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var tmpWrapperView: UIView!
     
     
+    var isLoading = false
+    
     // **************** 테스트용 ***************
+    
     
     var userList: [User] = []
     
@@ -63,6 +66,7 @@ class ViewController: UIViewController {
     }
     
     // ***************************************
+    
     
     
     
@@ -100,24 +104,8 @@ class ViewController: UIViewController {
     let imageController = UIImagePickerController()
     
     var isInitialLoad = true
-    var chatSectionData: [[Chat]] = []
-    
-    private func calculateSection(data: Chat) {
-        calculateSection(data: [data])
-    }
-    
-    private func calculateSection(data: [Chat]) {
-        var lastMessageDate = chatSectionData.last?.last?.sentDate ?? "1800-01-01"
-        
-        data.map() {
-            if $0.sentDate != lastMessageDate {
-                chatSectionData.append([])
-                lastMessageDate = $0.sentDate
-            }
 
-            chatSectionData[chatSectionData.count - 1].append($0)
-        }
-    }
+    
     
     var chatData: [Chat] = [] {
         willSet {
@@ -126,7 +114,6 @@ class ViewController: UIViewController {
             }else {
                 guard let newChat: Chat = newValue.last else { return }
                 guard !isInitialLoad else { isInitialLoad = false; return; }
-                calculateSection(data: newChat)
             }
         }
         didSet {
@@ -141,7 +128,24 @@ class ViewController: UIViewController {
             self.dataLoadingScreen.isHidden = true
         }
     }
+    
+    var isEndReached = false
+    var offset = 0
+    func loadData() {
+        let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
+        chatData = loadedData + chatData
         
+        print("챗데이터: ", loadedData.count)
+        
+        // 로딩된 데이터가 제한보다 적으면 isEndReached을 true로 하여 로딩 메소드 호출 방지
+        guard loadedData.count >= Constants.chatLoadLimit else {
+            isEndReached = true
+            return
+        }
+        
+        offset += Constants.chatLoadLimit
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -159,7 +163,7 @@ class ViewController: UIViewController {
         userData = uData
         
         //데이터 초기화
-        chatData = DataStorage.instance.getChatData(roomId: roomId)
+        loadData()
                 
         //키보드 관련 등록
         addKeyboardObserver()
@@ -183,6 +187,7 @@ class ViewController: UIViewController {
         initHeaderButtonsSetting()
         initTextView()
         
+        contentTableView
         //테이블 뷰 셀 등록
         ChatTableViewCell.register(tableView: contentTableView)
         MyChatCell.register(tableView: contentTableView)
@@ -358,7 +363,8 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         return chatData.count
     }
     
-    private func prefetchData(data: Chat) {
+    private func prefetchData(index: Int) {
+        let data = chatData[index]
         DispatchQueue.global().async {
             if var appendedImage = UIImage(data: data.image) {
                 guard DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
@@ -368,14 +374,15 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
 
                 let maxSize = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier - 150
 
-                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+//                appendedImage = appendedImage.resized(to: CGSize(width: maxSize , height: maxSize))
+//                appendedImage = appendedImage.resizeByScale(by: 0.3)
+                appendedImage = ImageManager.shared.resizeByScale(image: appendedImage, by: 0.3)
 
                 let attachment = NSTextAttachment()
                 attachment.image = appendedImage
                 let imageString = NSAttributedString(attachment: attachment)
 
                 DataStorage.instance.imageCache.setObject(imageString, forKey: NSString(string: String(data.chatId)))
-
             }
         }
     }
@@ -384,8 +391,8 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         for indexPath in indexPaths{
 //            print("PrefetchForRowAt: \(indexPath.row)")
 
-            self.prefetchData(data: chatData[indexPath.row])
-            
+            self.prefetchData(index: indexPath.row)
+
         }
     }
     
@@ -540,6 +547,18 @@ extension UITextView {
 }
 
 extension ViewController: UIScrollViewDelegate {
+    func onTopReached() {
+        print("loading!")
+        isLoading = true
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1 ) {
+            self.loadData()
+            
+            self.contentTableView.reloadData()
+            
+            self.isLoading = false
+        }
+    }
+    
     
     // 스크롤 버튼 표시 관리
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -547,13 +566,18 @@ extension ViewController: UIScrollViewDelegate {
         
         let offsetValue = scrollView.contentSize.height - (scrollView.bounds.size.height + scrollView.contentOffset.y)
         
+        if scrollView.contentOffset.y < 1 && !isLoading && !isEndReached {
+            onTopReached()
+        }
+        
+        ///velocity: 양수일 경우 위로 스크롤 중
+        ///offsetValue: 스크롤뷰의 가장 아래서부터의 contentOffset 값
         if velocity >= 0 && offsetValue > Constants.deviceSize.height && scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = false
         }else if velocity <= 0 && offsetValue < 10 && scrollView.isDecelerating && !scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = true
         }
     }
-    
 }
 
 // 갤러리 접근
@@ -570,38 +594,45 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         chatData.append( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], image: imageData))
         
-        picker.dismiss(animated: true)
-        
-        scrollToBottom() {}
-    }
-}
-
-extension UIImage {
-    func resized(to size: CGSize) -> UIImage {
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            draw(in: CGRect(origin: .zero, size: size))
+        scrollToBottom() {
+            picker.dismiss(animated: true)
         }
     }
-    
-    
-    func downSampling(scale: CGFloat) -> UIImage {
-        let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
-        let data = self.pngData()! as CFData
-        
-        let imageSource = CGImageSourceCreateWithData(data, nil)!
-        
-        let maxPixel = max(self.size.width, self.size.height) * scale
-        let downSampleOptions = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxPixel
-        ] as CFDictionary
-        
-        let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
-
-        let newImage = UIImage(cgImage: downSampledImage)
-        
-        return newImage
-    }
 }
+
+//extension UIImage {
+//    func resized(to size: CGSize) -> UIImage {
+//        return UIGraphicsImageRenderer(size: size).image { _ in
+//            draw(in: CGRect(origin: .zero, size: size))
+//        }
+//    }
+//    
+//    func resizeByScale(by value: Double) -> UIImage {
+//        let targetSize = CGSize(width: self.size.width * value, height: self.size.height * value)
+//        return UIGraphicsImageRenderer(size: targetSize).image { _ in
+//            draw(in: CGRect(origin: .zero, size: targetSize))
+//        }
+//    }
+//    
+//    
+//    func downSampling(scale: CGFloat) -> UIImage {
+//        let imageSourceOption = [kCGImageSourceShouldCache: false] as CFDictionary
+//        let data = self.pngData()! as CFData
+//        
+//        let imageSource = CGImageSourceCreateWithData(data, nil)!
+//        
+//        let maxPixel = max(self.size.width, self.size.height) * scale
+//        let downSampleOptions = [
+//            kCGImageSourceCreateThumbnailFromImageAlways: true,
+//            kCGImageSourceShouldCacheImmediately: true,
+//            kCGImageSourceCreateThumbnailWithTransform: true,
+//            kCGImageSourceThumbnailMaxPixelSize: maxPixel
+//        ] as CFDictionary
+//        
+//        let downSampledImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downSampleOptions)!
+//
+//        let newImage = UIImage(cgImage: downSampledImage)
+//        
+//        return newImage
+//    }
+//}
