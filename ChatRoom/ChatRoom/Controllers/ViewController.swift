@@ -14,9 +14,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
-    @IBOutlet weak var searchButton: UIButton!   // 대화 검색 버튼
-    @IBOutlet weak var menuButton: UIButton!            // 서랍 열기 버튼
-    @IBOutlet weak var goBackButton: UIButton!          // 대화창 나가기 버튼 (뒤로가기)
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
+    @IBOutlet weak var goBackButton: UINavigationItem!
+//    @IBOutlet weak var searchButton: UIButton!   // 대화 검색 버튼
+//    @IBOutlet weak var menuButton: UIButton!            // 서랍 열기 버튼
+//    @IBOutlet weak var goBackButton: UIButton!          // 대화창 나가기 버튼 (뒤로가기)
     
     @IBOutlet weak var footerWrapperView: UIView!
     @IBOutlet weak var sendMessageButton: UIButton!     // 메세지 전송 버튼
@@ -416,13 +419,13 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         let data = chatData[index]
         DispatchQueue.main.async {
             if let appendedImage = UIImage(data: data.image) {
-                guard DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
+                guard ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
                     return
                 }
 
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
-                DataStorage.instance.imageCache.setObject(cachedImage, forKey: NSString(string: String(data.chatId)))
+                ImageManager.shared.imageCache.setObject(cachedImage, forKey: NSString(string: String(data.chatId)))
             }
         }
     }

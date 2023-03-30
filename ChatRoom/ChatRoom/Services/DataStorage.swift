@@ -23,8 +23,6 @@ final class DataStorage {
         }
     }
     
-    public var imageCache = NSCache<NSString, NSAttributedString>()
-    
     private init() {
         initialize()
     }
