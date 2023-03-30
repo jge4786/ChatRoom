@@ -60,13 +60,18 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         profileButton.layer.cornerRadius = profileButton.frame.height / 2.65
     }
     
+    override func prepareForReuse() {
+        setDataToDefault()
+    }
     
     func setDataToDefault() {
         profileButton.isHidden = false
         nameLabel.isHidden = false
         sentTimeLabel.text = ""
         unreadCountLabel.text = ""
-        
+        chatBubbleTextView.text = ""
+        chatBubbleTextView.textContainerInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 3)
+        chatBubbleTextView.textContainer.lineFragmentPadding = 3
     }
     
     private func getUnreadCountText(cnt: Int) -> String {
@@ -78,18 +83,33 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
-    func setImage(_ data: Chat) {
-        if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
+
+    func setContent(_ data: Chat) {
+        if let cachedImage = ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) {
             chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+            chatBubbleTextView.textContainerInset = .zero
+            chatBubbleTextView.textContainer.lineFragmentPadding = 0
+            
+            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
         } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
                 self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+                
+                self.chatBubbleHeight.constant = Constants.imageSize
+                
+                self.chatBubbleTextView.textContainerInset = .zero
+                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
+                
+                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
             }
+        } else {
+            chatBubbleTextView.text = data.text
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         }
     }
+    
     
     func setUserData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) {
         unreadCountLabel.text = getUnreadCountText(cnt: data.unreadCount)
@@ -111,13 +131,10 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     func setData(_ data: Chat, _ shouldShowTimeLabel: Bool = true , _ shouldShowUserInfo: Bool = true) {
         setDataToDefault()
         
-        chatBubbleTextView.text = data.text
-        
-        setImage(data)
+        setContent(data)
         
         setUserData(data, shouldShowTimeLabel, shouldShowUserInfo)
-        
-        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+      
     }
     
 }

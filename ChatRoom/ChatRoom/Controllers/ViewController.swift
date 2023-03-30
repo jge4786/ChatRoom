@@ -1,4 +1,5 @@
 import UIKit
+import PhotosUI
 
 class ViewController: UIViewController {
     let storage = DataStorage.instance
@@ -93,7 +94,8 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func onPressAddImageButton(_ sender: Any) {
-        present(imageController, animated: true)
+//        present(imageController, animated: true)
+        openPhotoLibrary()
     }
     var textInputReturnCount = 0
     
@@ -190,7 +192,6 @@ class ViewController: UIViewController {
         initHeaderButtonsSetting()
         initTextView()
         
-        contentTableView
         //테이블 뷰 셀 등록
         ChatTableViewCell.register(tableView: contentTableView)
         MyChatCell.register(tableView: contentTableView)
@@ -206,7 +207,7 @@ class ViewController: UIViewController {
         /// 두번째 scrollToBottom: 스크롤 이동
         
         scrollToBottom() {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.scrollToBottom() {
                     self.fadeDataLoadingScreen()
                 }
@@ -296,12 +297,12 @@ extension ViewController {
             }
         }
 
-        for dt in sectionChatData {
-            print("-------------",dt.last?.sentTime,"-----------------")
-            for dt_ in dt {
-                print(dt_.chatId, dt_.sentTime)
-            }
-        }
+//        for dt in sectionChatData {
+//            print("-------------",dt.last?.sentTime,"-----------------")
+//            for dt_ in dt {
+//                print(dt_.chatId, dt_.sentTime)
+//            }
+//        }
     }
 }
 
@@ -431,13 +432,20 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             self.prefetchData(index: indexPath.row)
         }
     }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if chatData[indexPath.row].text.isEmpty{
+//            return Constants.imageSize
+//        }else {
+//            return
+//        }
+//    }
 
     func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) -> UITableViewCell {
         if uid != me {
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
-            
             cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             
             return cell
@@ -458,19 +466,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let curData = chatData[indexPath.row]
         let uid = curData.owner.userId
-        
-//        var prevData: Chat, nextData: Chat
-//
-//        if indexPath.row == 0 {
-//            if indexPath.section > 0 {
-//                prevData = sectionChatData[indexPath.section - 1].last!
-//            } else{
-//                return setCellData(uid, curData, true, true)
-//            }
-//        } else {
-//            prevData = sectionChatData[indexPath.section][indexPath.row]
-//        }
-        
+
         guard indexPath.row > 0,
               let prevData = chatData[indexPath.row - 1] as? Chat
         else {
@@ -492,8 +488,8 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
 //                nextData = sectionChatData[indexPath.section][indexPath.row + 1]
 //            }
 //        }
-        
-        
+//
+//
 //        if indexPath.row + 1 >= sectionChatData[indexPath.section].count {
 //            if indexPath.section + 1 >= sectionChatData.count {
 //                return setCellData(uid, curData, true, shouldShowUserInfo)
@@ -640,7 +636,7 @@ extension ViewController: UIScrollViewDelegate {
 // 갤러리 접근
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage else{
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else{
             
             return
         }
@@ -651,8 +647,53 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         chatData.append( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], image: imageData))
         
+        ImageManager.shared.saveImageToCache(image: UIImage(data: chatData.last!.image)!, id: chatData.last!.chatId)
+        
         scrollToBottom() {
             picker.dismiss(animated: true)
         }
     }
+}
+
+extension ViewController: PHPickerViewControllerDelegate {
+    func openPhotoLibrary() {
+        var configuration = PHPickerConfiguration()
+        
+        configuration.selectionLimit = 1
+        configuration.filter = .any(of: [.images])
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        self.present(picker, animated: true)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+           
+           picker.dismiss(animated: true) // 1
+           
+           let itemProvider = results.first?.itemProvider // 2
+           
+           if let itemProvider = itemProvider,
+              itemProvider.canLoadObject(ofClass: UIImage.self) { // 3
+               itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in // 4
+                   DispatchQueue.main.async {
+                       guard let image = image as? UIImage,
+                             let imageData = image.pngData()
+                       else {
+                           return
+                       }
+                       
+                       self.chatData.append( DataStorage.instance.appendChatData(roomId: self.roomId, owner: self.userList[self.selectedUser], image: imageData))
+                       
+                       self.scrollToBottom() {
+                           picker.dismiss(animated: true)
+                       }
+                   }
+               }
+           } else {
+               // TODO: Handle empty results or item provider not being able load UIImage
+           }
+       }
+
 }

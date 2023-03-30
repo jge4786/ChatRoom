@@ -66,27 +66,42 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     func setDataToDefault() {
         chatBubbleTextView.text = ""
         chatBubbleHeight.constant = Constants.imageSize
+        chatBubbleTextView.textContainerInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 3)
+        chatBubbleTextView.textContainer.lineFragmentPadding = 3
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
     }
     
+    func setHeight(height: CGFloat) {
+        chatBubbleHeight.constant = height
+    }
+    
+    @IBOutlet weak var tmpImageView: UIImageView!
     func setContent(_ data: Chat) {
-        if let cachedImage = DataStorage.instance.imageCache.object(forKey: NSString(string: String(data.chatId))) {
+        if let cachedImage = ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) {
             chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-            
-            self.chatBubbleHeight.constant = Constants.imageSize
+            chatBubbleTextView.textContainerInset = .zero
+            chatBubbleTextView.textContainer.lineFragmentPadding = 0
+            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
         } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
+                print("not cached")
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
                 self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
                 
                 self.chatBubbleHeight.constant = Constants.imageSize
+                
+                self.chatBubbleTextView.textContainerInset = .zero
+                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
+                
+                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
             }
         } else {
             chatBubbleTextView.text = data.text
+            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
         }
     }
     
@@ -107,7 +122,6 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         
         setLabel(data, shouldShowTimeLabel)
         
-        chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
     }
     
 }

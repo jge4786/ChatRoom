@@ -7,6 +7,7 @@ final class ImageManager {
     private init() {}
     
     public var imageCache = NSCache<NSString, NSAttributedString>()
+    public var imageDataCache = NSCache<NSString, UIImage>()
     
     func resized(image: UIImage, to size: CGSize) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { _ in
@@ -25,10 +26,18 @@ final class ImageManager {
     func saveImageToCache(image: UIImage, id: Int) -> NSAttributedString {
         let resizedImage = resized(image: image, to: CGSize(width: Constants.imageSize, height: Constants.imageSize))
         
+//        let scale = (Constants.deviceSize.width * Constants.chatMaxWidthMultiplier) / image.size.width
+//
+//
+//
+//        let resizedImage = resizeByScale(image: image, by: scale < 1.0 ? scale : 1.0)
+        
+        
         let attachment = NSTextAttachment()
         attachment.image = resizedImage
         let imageString = NSAttributedString(attachment: attachment)
         
+        imageDataCache.setObject(resizedImage, forKey: NSString(string: String(id)))
         imageCache.setObject(imageString, forKey: NSString(string: String(id)))
         
         return imageString
