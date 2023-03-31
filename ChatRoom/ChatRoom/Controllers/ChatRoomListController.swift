@@ -6,12 +6,12 @@ class ChatRoomListController: UIViewController {
         print("ㅇㅇㅇ")
     }
     @IBAction func onPressEnterChatRoomButton(_ sender: Any) {
-        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoom") else {
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoom") as? ViewController else {
             return
         }
         
-//        nextVC.chatRoomInfo = (userId: 5, roomId:0)
-        
+        nextVC.chatRoomInfo = (userId: 5, roomId: 0)
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

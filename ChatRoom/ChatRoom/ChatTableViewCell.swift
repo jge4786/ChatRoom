@@ -137,4 +137,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
       
     }
     
+    deinit{
+        print("deinit ChatTableViewCell")
+    }
 }

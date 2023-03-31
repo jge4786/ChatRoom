@@ -55,7 +55,10 @@ class ViewController: UIViewController {
         
         for idx in 0..<userList.count {
             menuItems.append(
-                UIAction(title: userList[idx].name, handler: { _ in self.selectUser(selected: idx) })
+                UIAction(title: userList[idx].name, handler: { [weak self] _ in
+                    
+                    self?.selectUser(selected: idx)
+                })
             )
         }
         
@@ -162,10 +165,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        roomId = chatRoomInfo.roomId
+        me = chatRoomInfo.userId
+        
         dataLoadingScreen.layer.zPosition = 100
         
-        DataStorage.instance.loadData()
+//        DataStorage.instance.loadData()
         guard let crData = DataStorage.instance.getChatRoom(roomId: roomId) else {
             fatalError("채팅방 정보 불러오기 실패")
         }
@@ -217,10 +223,10 @@ class ViewController: UIViewController {
         /// 첫번째 scrollToBottom: 데이터 로딩 및 UI 깨짐 방지
         /// 두번째 scrollToBottom: 스크롤 이동
         
-        scrollToBottom() {
+        scrollToBottom() { [weak self] in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                self.scrollToBottom() {
-                    self.fadeDataLoadingScreen()
+                self?.scrollToBottom() { [weak self] in
+                    self?.fadeDataLoadingScreen()
                 }
             }
         }
@@ -235,8 +241,20 @@ class ViewController: UIViewController {
         // ****************************************
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("ViewWillDisappear", CFGetRetainCount(self))
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("ViewDidDisappear", CFGetRetainCount(self))
+    }
+    
     deinit{
-//        DataStorage.instance.flushChatData()
+        print("ViewController deinit")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -275,14 +293,14 @@ class ViewController: UIViewController {
         letterCountWrapperView.isHidden = true
         
         contentTableView.reloadData()
-        scrollToBottom() {}
+        scrollToBottom() { [weak self] in }
         
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)
         sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
     }
     @IBAction func onPressScrollToBottom(_ sender: Any) {
-        scrollToBottom() {}
+        scrollToBottom() { [weak self] in }
     }
     
     var sectionChatData: [[Chat]] = []
@@ -397,7 +415,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
     
     
     func scrollToBottom(completionHandler: @escaping () -> Void) {
-        guard self.chatData.count > 0 else { return }
+        guard chatData.count > 0 else { return }
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
 
@@ -443,7 +461,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths{
-            self.prefetchData(index: indexPath.row)
+            prefetchData(index: indexPath.row)
         }
     }
     
@@ -478,6 +496,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
 //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("SELF: ", CFGetRetainCount(self))
         let curData = chatData[indexPath.row]
         let uid = curData.owner.userId
 
@@ -591,24 +610,24 @@ extension UITextView {
     func getTextViewSize(gap: CGFloat = 0 ) -> CGSize {
         let size = CGSize(width: (Constants.deviceSize.width - gap) * Constants.chatMaxWidthMultiplier, height: .infinity)
         
-        let estimatedSize = self.sizeThatFits(size)
+        let estimatedSize = sizeThatFits(size)
         
         
         return estimatedSize
     }
     
     func getTextViewHeight(limit: Int = 0, gap: CGFloat = 0) -> (Double, Bool) {
-        guard self.numberOfLines(gap: gap) > 0 && self.numberOfLines(gap: gap) <= limit + 1 else {
-            return (Double(self.font!.lineHeight) * Double(limit + 1), false)
+        guard numberOfLines(gap: gap) > 0 && numberOfLines(gap: gap) <= limit + 1 else {
+            return (Double(font!.lineHeight) * Double(limit + 1), false)
         }
         
-        return (self.getTextViewSize(gap: gap).height, true)
+        return (getTextViewSize(gap: gap).height, true)
     }
         
     func numberOfLines(gap: CGFloat = 0) -> Int {
         let size = getTextViewSize(gap: gap)
         
-        return Int(size.height / self.font!.lineHeight)
+        return Int(size.height / font!.lineHeight)
     }
 }
 
@@ -663,7 +682,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         
         ImageManager.shared.saveImageToCache(image: UIImage(data: chatData.last!.image)!, id: chatData.last!.chatId)
         
-        scrollToBottom() {
+        scrollToBottom() { [weak self] in
             picker.dismiss(animated: true)
         }
     }
@@ -679,11 +698,10 @@ extension ViewController: PHPickerViewControllerDelegate {
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         
-        self.present(picker, animated: true)
+        present(picker, animated: true)
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-           
            picker.dismiss(animated: true) // 1
            
            let itemProvider = results.first?.itemProvider // 2
@@ -700,7 +718,7 @@ extension ViewController: PHPickerViewControllerDelegate {
                        
                        self.chatData.append( DataStorage.instance.appendChatData(roomId: self.roomId, owner: self.userList[self.selectedUser], image: imageData))
                        
-                       self.scrollToBottom() {
+                       self.scrollToBottom() { [weak self] in
                            picker.dismiss(animated: true)
                        }
                    }

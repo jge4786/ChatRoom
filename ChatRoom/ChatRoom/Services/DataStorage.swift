@@ -43,6 +43,8 @@ final class DataStorage {
         chatRoomList = [
             ChatRoom(0, "채팅방1", userList)
         ]
+        
+        loadData()
     }
 }
 
@@ -114,6 +116,14 @@ extension DataStorage {
         
         
         return Array(result.reversed()[offset..<endIndex].reversed())
+    }
+    
+    public func getChat(chatId: Int) -> Chat? {
+        let result = chatList.filter { $0.chatId == chatId }
+        
+        guard result != nil else{ return nil }
+        
+        return result[0]
     }
     
     public func appendChatData(roomId: Int, data: Chat) -> Chat {

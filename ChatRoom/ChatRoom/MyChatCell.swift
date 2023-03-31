@@ -1,6 +1,8 @@
 import UIKit
 
 class MyChatCell: UITableViewCell, TableViewCellBase {
+    var chatId = 0
+    
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var opacityFilterView: UIView!
@@ -21,6 +23,16 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut")
         manageButtonHighlightAnim(isShow: false)
+        
+        let chatListStoryboard = UIStoryboard(name: "ChatRoom", bundle: nil)
+        
+        guard let nextVC = chatListStoryboard.instantiateViewController(withIdentifier: "ChatDetailController") as? ChatDetailViewController else {
+            return
+        }
+        
+        nextVC.chatId = chatId
+        
+        
     }
     
     @IBAction func onTouchCanceled(_ sender: Any) {
@@ -87,7 +99,6 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
         } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
-                print("not cached")
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
                 self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
@@ -117,11 +128,18 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
         setDataToDefault()
         
+        chatId = data.chatId
+        
         
         setContent(data)
         
         setLabel(data, shouldShowTimeLabel)
         
+    }
+    
+    
+    deinit{
+        print("deinit MyChatCell")
     }
     
 }
