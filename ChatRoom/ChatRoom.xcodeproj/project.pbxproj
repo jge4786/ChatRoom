@@ -25,8 +25,15 @@
 		F08CC66A29CA75BE00EE8961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66829CA75BE00EE8961 /* Main.storyboard */; };
 		F08CC66C29CA75BF00EE8961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66B29CA75BF00EE8961 /* Assets.xcassets */; };
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
-		F0915E7829D6BD3400CDE7D4 /* MyChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7729D6BD3400CDE7D4 /* MyChatCellViewModel.swift */; };
 		F0915E7A29D6BF3400CDE7D4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7929D6BF3400CDE7D4 /* Observable.swift */; };
+		F0915E7C29D6CDB700CDE7D4 /* InputTextController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7B29D6CDB700CDE7D4 /* InputTextController.swift */; };
+		F0915E7E29D6CE8500CDE7D4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7D29D6CE8500CDE7D4 /* TableViewController.swift */; };
+		F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7F29D6D07900CDE7D4 /* UITextViewExtension.swift */; };
+		F0915E8229D6D0B000CDE7D4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E8129D6D0B000CDE7D4 /* UIViewControllerExtension.swift */; };
+		F0915E8429D6D24700CDE7D4 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E8329D6D24700CDE7D4 /* ImagePickerController.swift */; };
+		F0915E8729D6D2A700CDE7D4 /* KeyboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E8629D6D2A700CDE7D4 /* KeyboardController.swift */; };
+		F0915E8929D6D2F600CDE7D4 /* ScrollController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E8829D6D2F600CDE7D4 /* ScrollController.swift */; };
+		F0915E8B29D6D32800CDE7D4 /* InitializeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E8A29D6D32800CDE7D4 /* InitializeHandler.swift */; };
 		F091F3C029D666030040294D /* ChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3BF29D666030040294D /* ChatDetailViewController.swift */; };
 		F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */; };
 		F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7BF29D524FA005D936F /* ImageManager.swift */; };
@@ -62,8 +69,15 @@
 		F08CC66B29CA75BF00EE8961 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F08CC66E29CA75BF00EE8961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F0915E7729D6BD3400CDE7D4 /* MyChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatCellViewModel.swift; sourceTree = "<group>"; };
 		F0915E7929D6BF3400CDE7D4 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		F0915E7B29D6CDB700CDE7D4 /* InputTextController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextController.swift; sourceTree = "<group>"; };
+		F0915E7D29D6CE8500CDE7D4 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		F0915E7F29D6D07900CDE7D4 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
+		F0915E8129D6D0B000CDE7D4 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		F0915E8329D6D24700CDE7D4 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		F0915E8629D6D2A700CDE7D4 /* KeyboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardController.swift; sourceTree = "<group>"; };
+		F0915E8829D6D2F600CDE7D4 /* ScrollController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollController.swift; sourceTree = "<group>"; };
+		F0915E8A29D6D32800CDE7D4 /* InitializeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeHandler.swift; sourceTree = "<group>"; };
 		F091F3BF29D666030040294D /* ChatDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewController.swift; sourceTree = "<group>"; };
 		F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSceneDelegate.swift; sourceTree = "<group>"; };
 		F09DD7BF29D524FA005D936F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
@@ -171,17 +185,19 @@
 			children = (
 				F05F4B6029D274200067C292 /* Models */,
 				F0915E6A29D6B98100CDE7D4 /* Components */,
-				F0915E6929D6B90100CDE7D4 /* Protocols */,
+				F0915E6929D6B90100CDE7D4 /* Protocols_Extension */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		F0915E6929D6B90100CDE7D4 /* Protocols */ = {
+		F0915E6929D6B90100CDE7D4 /* Protocols_Extension */ = {
 			isa = PBXGroup;
 			children = (
 				F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */,
+				F0915E7F29D6D07900CDE7D4 /* UITextViewExtension.swift */,
+				F0915E8129D6D0B000CDE7D4 /* UIViewControllerExtension.swift */,
 			);
-			path = Protocols;
+			path = Protocols_Extension;
 			sourceTree = "<group>";
 		};
 		F0915E6A29D6B98100CDE7D4 /* Components */ = {
@@ -208,19 +224,19 @@
 			isa = PBXGroup;
 			children = (
 				F0915E6E29D6BA3C00CDE7D4 /* Views */,
-				F0915E6D29D6BA3600CDE7D4 /* Controllers */,
+				F0915E6D29D6BA3600CDE7D4 /* ViewControllers */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
 		};
-		F0915E6D29D6BA3600CDE7D4 /* Controllers */ = {
+		F0915E6D29D6BA3600CDE7D4 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				F0915E6F29D6BA9200CDE7D4 /* ChatDetail */,
 				F0915E7129D6BA9E00CDE7D4 /* Main */,
 				F0915E7029D6BA9800CDE7D4 /* ChatRoomList */,
 			);
-			path = Controllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		F0915E6E29D6BA3C00CDE7D4 /* Views */ = {
@@ -228,7 +244,6 @@
 			children = (
 				F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */,
 				F0F104F429CD5F8200957476 /* MyChatCell.swift */,
-				F0915E7629D6BD2600CDE7D4 /* ViewModel */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -253,16 +268,22 @@
 			isa = PBXGroup;
 			children = (
 				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
+				F0915E8529D6D26600CDE7D4 /* Controllers */,
 			);
 			path = Main;
 			sourceTree = "<group>";
 		};
-		F0915E7629D6BD2600CDE7D4 /* ViewModel */ = {
+		F0915E8529D6D26600CDE7D4 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F0915E7729D6BD3400CDE7D4 /* MyChatCellViewModel.swift */,
+				F0915E8329D6D24700CDE7D4 /* ImagePickerController.swift */,
+				F0915E7D29D6CE8500CDE7D4 /* TableViewController.swift */,
+				F0915E7B29D6CDB700CDE7D4 /* InputTextController.swift */,
+				F0915E8629D6D2A700CDE7D4 /* KeyboardController.swift */,
+				F0915E8829D6D2F600CDE7D4 /* ScrollController.swift */,
+				F0915E8A29D6D32800CDE7D4 /* InitializeHandler.swift */,
 			);
-			path = ViewModel;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,24 +367,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */,
 				F0915E7A29D6BF3400CDE7D4 /* Observable.swift in Sources */,
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
 				F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */,
+				F0915E7E29D6CE8500CDE7D4 /* TableViewController.swift in Sources */,
+				F0915E8429D6D24700CDE7D4 /* ImagePickerController.swift in Sources */,
 				F09DD7C229D5842F005D936F /* ChatRoomListController.swift in Sources */,
 				F0F104F629CD5F8200957476 /* MyChatCell.swift in Sources */,
+				F0915E8929D6D2F600CDE7D4 /* ScrollController.swift in Sources */,
 				F05F4B6829D2779B0067C292 /* ChatRoom.swift in Sources */,
 				F08CC66729CA75BE00EE8961 /* ViewController.swift in Sources */,
 				F05F4B6629D275660067C292 /* DataStorage.swift in Sources */,
 				F08CC66329CA75BE00EE8961 /* AppDelegate.swift in Sources */,
 				F0F104E029CC053300957476 /* Chat.swift in Sources */,
+				F0915E8B29D6D32800CDE7D4 /* InitializeHandler.swift in Sources */,
 				F05F4B5E29D2651A0067C292 /* ExtendedButton.swift in Sources */,
 				F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */,
+				F0915E7C29D6CDB700CDE7D4 /* InputTextController.swift in Sources */,
 				F091F3C029D666030040294D /* ChatDetailViewController.swift in Sources */,
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,
-				F0915E7829D6BD3400CDE7D4 /* MyChatCellViewModel.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
+				F0915E8729D6D2A700CDE7D4 /* KeyboardController.swift in Sources */,
 				F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */,
+				F0915E8229D6D0B000CDE7D4 /* UIViewControllerExtension.swift in Sources */,
 				F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

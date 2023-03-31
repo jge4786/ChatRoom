@@ -41,7 +41,13 @@ final class DataStorage {
         ]
         
         chatRoomList = [
-            ChatRoom(0, "채팅방1", userList)
+            ChatRoom(0, "채팅방1", userList),
+            ChatRoom(1, "채팅방2", [
+                User("일", 0, profile: "defaultImage1"),
+                User("이", 1, profile: "defaultImage2"),
+                User("삼", 2, profile: "defaultImage3"),
+                User("사", 3, profile: "defaultImage4"),
+            ])
         ]
         
         loadData()
@@ -60,6 +66,19 @@ extension DataStorage {
         return chatRoomList.first {
             $0.roomId == roomId
         }
+    }
+    
+    public func makeChatRoom(roomId: Int, userId: Int) {
+        
+        chatRoomList.append(
+            ChatRoom(roomId, "새로운 채팅방",[
+                User("일", 0, profile: "defaultImage1"),
+                User("이", 1, profile: "defaultImage2"),
+                User("삼", 2, profile: "defaultImage3"),
+            
+                User("사", 3, profile: "defaultImage4"),
+            ])
+        )
     }
 }
 
@@ -190,7 +209,7 @@ extension DataStorage {
               let loadedUserData = try? PropertyListDecoder().decode([User].self, from: userListData),
               let loadedChatRoomData = try? PropertyListDecoder().decode([ChatRoom].self, from: chatRoomListData)
         else {
-//            fatalError("데이터 로딩 중 에러")
+            print("데이터 로딩 중 에러. 데이터 초기화 필요")
             return
         }
         

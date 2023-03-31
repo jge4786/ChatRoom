@@ -39,20 +39,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBY-lq-HAf">
-                                <rect key="frame" x="159" y="409" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBY-lq-HAf">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Ieb-dM-FSS"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="1번"/>
                                 <connections>
-                                    <action selector="onPressEnterChatRoomButton:" destination="vMp-E1-W3r" eventType="touchUpInside" id="2HG-qF-Tpm"/>
+                                    <action selector="onPressEnterFirstChatRoomButton:" destination="vMp-E1-W3r" eventType="touchUpInside" id="iqb-P8-STT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti6-RF-6MQ">
+                                <rect key="frame" x="0.0" y="50" width="393" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="IaT-T0-66N"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="jyO-Fz-hN8"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="2번"/>
+                                <connections>
+                                    <action selector="onPressEnterSecondChatRoomButton:" destination="vMp-E1-W3r" eventType="touchUpInside" id="g8H-hg-zrs"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Dnc-wV-Fyy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TBY-lq-HAf" firstAttribute="top" secondItem="Dnc-wV-Fyy" secondAttribute="top" id="1zt-2E-rns"/>
+                            <constraint firstItem="Dnc-wV-Fyy" firstAttribute="trailing" secondItem="TBY-lq-HAf" secondAttribute="trailing" id="2gD-Fw-ahS"/>
+                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="trailing" secondItem="Dnc-wV-Fyy" secondAttribute="trailing" id="L3H-SL-3aH"/>
+                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="top" secondItem="TBY-lq-HAf" secondAttribute="bottom" id="LDu-zK-azb"/>
+                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="leading" secondItem="Dnc-wV-Fyy" secondAttribute="leading" id="rYf-DR-27w"/>
+                            <constraint firstItem="TBY-lq-HAf" firstAttribute="leading" secondItem="Dnc-wV-Fyy" secondAttribute="leading" id="xJQ-Ov-x4V"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vdQ-BD-yoV"/>
+                    <connections>
+                        <outlet property="firstRoomButton" destination="TBY-lq-HAf" id="aSg-Wx-8xv"/>
+                        <outlet property="secondRoomButton" destination="ti6-RF-6MQ" id="p1Q-47-pwC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZO-uH-Vf3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -4,8 +4,6 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     var chatId = 0
     weak var delegate: ChangeSceneDelegate?
     
-    let viewModel = MyChatCellViewModel()
-    
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var opacityFilterView: UIView!
@@ -19,22 +17,28 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     
     @IBAction func onTouchInChatBubble(_ sender: Any) {
         print("touchIn")
-        viewModel.manageButtonHighlightAnim(isShow: true)
+        manageButtonHighlightAnim(isShow: true)
     }
     
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut")
         delegate?.goToChatDetailScene(chatId: chatId)
-        viewModel.manageButtonHighlightAnim(isShow: false)
+        manageButtonHighlightAnim(isShow: false)
         
     }
     
     @IBAction func onTouchCanceled(_ sender: Any) {
         print("canceled")
-        viewModel.manageButtonHighlightAnim(isShow: false)
+        manageButtonHighlightAnim(isShow: false)
     }
         
+    func manageButtonHighlightAnim(isShow: Bool) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .allowUserInteraction) {
+            self.opacityFilterView.layer.opacity = isShow ? 0.3 : 0.0
+        }
+    }
+    
     @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()

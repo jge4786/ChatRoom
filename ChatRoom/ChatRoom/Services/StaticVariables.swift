@@ -19,6 +19,7 @@ struct Constants {
         "DefaultImage3",
         "DefaultImage4",
         "DefaultImage5",
+        "DefaultImage6",
 //        UIImage(named: "defaultImage1"),
 //        UIImage(named: "defaultImage2"),
 //        UIImage(named: "defaultImage3"),
