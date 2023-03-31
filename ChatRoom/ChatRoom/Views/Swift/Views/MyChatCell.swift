@@ -4,6 +4,8 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     var chatId = 0
     weak var delegate: ChangeSceneDelegate?
     
+    let viewModel = MyChatCellViewModel()
+    
     @IBOutlet weak var infoView: UIView!
     
     @IBOutlet weak var opacityFilterView: UIView!
@@ -17,32 +19,54 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     
     @IBAction func onTouchInChatBubble(_ sender: Any) {
         print("touchIn")
-        manageButtonHighlightAnim(isShow: true)
+        viewModel.manageButtonHighlightAnim(isShow: true)
     }
     
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut")
         delegate?.goToChatDetailScene(chatId: chatId)
-        manageButtonHighlightAnim(isShow: false)
+        viewModel.manageButtonHighlightAnim(isShow: false)
         
     }
     
     @IBAction func onTouchCanceled(_ sender: Any) {
         print("canceled")
-        manageButtonHighlightAnim(isShow: false)
-    }
-    
-    func manageButtonHighlightAnim(isShow: Bool) {
-        UIView.animate(withDuration: 0.1, delay: 0, options: .allowUserInteraction) {
-            self.opacityFilterView.layer.opacity = isShow ? 0.3 : 0.0
-        }
+        viewModel.manageButtonHighlightAnim(isShow: false)
     }
         
     @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         initializeData()
+        
+        viewModel.opacityView.bind { [weak self] view in
+            self?.opacityFilterView = view
+        }
+        
+        viewModel.chatBubbleHeight.bind { [weak self] height in
+            self?.chatBubbleHeight = height
+        }
+        
+        viewModel.chatBubbleView.bind { [weak self] view in
+            self?.chatBubbleView = view
+        }
+        
+        viewModel.chatBubbleButton.bind { [weak self] btn in
+            self?.chatBubbleButton = btn
+        }
+        
+        viewModel.unreadCountLabel.bind { [weak self] label in
+            self?.unreadCountLabel = label
+        }
+        
+        viewModel.sentTimeLabel.bind { [weak self] label in
+            self?.sentTimeLabel = label
+        }
+        
+        viewModel.chatBubbleTextView.bind { [weak self] text in
+            self?.chatBubbleTextView = text
+        }
     }
     
     
@@ -126,6 +150,5 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         setContent(data)
         
         setLabel(data, shouldShowTimeLabel)
-        
     }
 }
