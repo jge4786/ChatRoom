@@ -40,33 +40,33 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         super.awakeFromNib()
         initializeData()
         
-        viewModel.opacityView.bind { [weak self] view in
-            self?.opacityFilterView = view
-        }
-        
-        viewModel.chatBubbleHeight.bind { [weak self] height in
-            self?.chatBubbleHeight = height
-        }
-        
-        viewModel.chatBubbleView.bind { [weak self] view in
-            self?.chatBubbleView = view
-        }
-        
-        viewModel.chatBubbleButton.bind { [weak self] btn in
-            self?.chatBubbleButton = btn
-        }
-        
-        viewModel.unreadCountLabel.bind { [weak self] label in
-            self?.unreadCountLabel = label
-        }
-        
-        viewModel.sentTimeLabel.bind { [weak self] label in
-            self?.sentTimeLabel = label
-        }
-        
-        viewModel.chatBubbleTextView.bind { [weak self] text in
-            self?.chatBubbleTextView = text
-        }
+//        viewModel.opacityView.bind { [weak self] view in
+//            self?.opacityFilterView = view
+//        }
+//
+//        viewModel.chatBubbleHeight.bind { [weak self] height in
+//            self?.chatBubbleHeight = height
+//        }
+//
+//        viewModel.chatBubbleView.bind { [weak self] view in
+//            self?.chatBubbleView = view
+//        }
+//
+//        viewModel.chatBubbleButton.bind { [weak self] btn in
+//            self?.chatBubbleButton = btn
+//        }
+//
+//        viewModel.unreadCountLabel.bind { [weak self] label in
+//            self?.unreadCountLabel = label
+//        }
+//
+//        viewModel.sentTimeLabel.bind { [weak self] label in
+//            self?.sentTimeLabel = label
+//        }
+//
+//        viewModel.chatBubbleTextView.bind { [weak self] text in
+//            self?.chatBubbleTextView = text
+//        }
     }
     
     
