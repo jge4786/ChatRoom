@@ -186,6 +186,15 @@ class ViewController: UIViewController {
         
         //데이터 초기화
         loadData()
+        
+        /// 첫번째 scrollToBottom: 데이터 로딩 및 UI 깨짐 방지
+        /// 두번째 scrollToBottom: 스크롤 이동
+        
+        scrollToBottom() { [weak self] in
+            self?.scrollToBottom() { [weak self] in
+                self?.fadeDataLoadingScreen()
+            }
+        }
                 
         //키보드 관련 등록
         addKeyboardObserver()
@@ -223,16 +232,7 @@ class ViewController: UIViewController {
         imageController.allowsEditing = true
         
         
-        /// 첫번째 scrollToBottom: 데이터 로딩 및 UI 깨짐 방지
-        /// 두번째 scrollToBottom: 스크롤 이동
-        
-        scrollToBottom() { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
-                self?.scrollToBottom() { [weak self] in
-                    self?.fadeDataLoadingScreen()
-                }
-            }
-        }
+
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         
@@ -481,6 +481,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             
             cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             
@@ -642,7 +643,6 @@ extension ViewController: UIScrollViewDelegate {
     func onTopReached() {
         print("loading!")
         isLoading = true
-        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() ) {
             self.loadData()
             
@@ -659,6 +659,10 @@ extension ViewController: UIScrollViewDelegate {
         
         let offsetValue = scrollView.contentSize.height - (scrollView.bounds.size.height + scrollView.contentOffset.y)
         
+        // 텍스트뷰 이벤트에 반응하는 것 방지
+        if scrollView.restorationIdentifier != nil {
+            return
+        }
         if scrollView.contentOffset.y < Constants.loadThreshold && !isLoading && !isEndReached {
             onTopReached()
         }

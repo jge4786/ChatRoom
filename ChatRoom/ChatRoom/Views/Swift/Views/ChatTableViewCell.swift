@@ -1,6 +1,9 @@
 import UIKit
 
 class ChatTableViewCell: UITableViewCell, TableViewCellBase {
+    var chatId = 0
+    weak var delegate: ChangeSceneDelegate?
+    
     @IBOutlet weak var profileButtonWrapperView: UIView!
     @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
@@ -22,6 +25,8 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut", chatBubbleTextView.text ?? "")
+        
+        delegate?.goToChatDetailScene(chatId: chatId)
         manageButtonHighlightAnim(isShow: false)
     }
     
@@ -132,12 +137,9 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         setDataToDefault()
         
         setContent(data)
+        chatId = data.chatId
         
         setUserData(data, shouldShowTimeLabel, shouldShowUserInfo)
       
-    }
-    
-    deinit{
-        print("deinit ChatTableViewCell")
     }
 }

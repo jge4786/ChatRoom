@@ -190,7 +190,7 @@ extension DataStorage {
               let loadedUserData = try? PropertyListDecoder().decode([User].self, from: userListData),
               let loadedChatRoomData = try? PropertyListDecoder().decode([ChatRoom].self, from: chatRoomListData)
         else {
-            fatalError("데이터 로딩 중 에러")
+//            fatalError("데이터 로딩 중 에러")
             return
         }
         

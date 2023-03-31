@@ -176,7 +176,7 @@
                                                     <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="cXf-rU-Iri" userLabel="Input View Wrapper">
                                                         <rect key="frame" x="47" y="4" width="336" height="56"/>
                                                         <subviews>
-                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
+                                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" restorationIdentifier="inputText" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
                                                                 <rect key="frame" x="10" y="3" width="210.66666666666666" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>

@@ -26,7 +26,7 @@
 		F08CC66C29CA75BF00EE8961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66B29CA75BF00EE8961 /* Assets.xcassets */; };
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
 		F091F3C029D666030040294D /* ChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3BF29D666030040294D /* ChatDetailViewController.swift */; };
-		F091F3C229D66B3A0040294D /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3C129D66B3A0040294D /* Protocols.swift */; };
+		F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */; };
 		F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7BF29D524FA005D936F /* ImageManager.swift */; };
 		F09DD7C229D5842F005D936F /* ChatRoomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7C129D5842F005D936F /* ChatRoomListController.swift */; };
 		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
@@ -61,7 +61,7 @@
 		F08CC66E29CA75BF00EE8961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F091F3BF29D666030040294D /* ChatDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewController.swift; sourceTree = "<group>"; };
-		F091F3C129D66B3A0040294D /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSceneDelegate.swift; sourceTree = "<group>"; };
 		F09DD7BF29D524FA005D936F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		F09DD7C129D5842F005D936F /* ChatRoomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListController.swift; sourceTree = "<group>"; };
 		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
@@ -110,41 +110,21 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F05F4B6129D2742B0067C292 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		F05F4B6229D2743B0067C292 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				F05F4B6529D275660067C292 /* DataStorage.swift */,
+				F09DD7BF29D524FA005D936F /* ImageManager.swift */,
 				F0F104CF29CAD15E00957476 /* StaticVariables.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		F05F4B6329D274450067C292 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				F091F3BF29D666030040294D /* ChatDetailViewController.swift */,
-				F09DD7C129D5842F005D936F /* ChatRoomListController.swift */,
-				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		F05F4B6429D2746C0067C292 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */,
-				F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */,
-				F05F4B5D29D2651A0067C292 /* ExtendedButton.swift */,
-				F08CC66829CA75BE00EE8961 /* Main.storyboard */,
-				F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */,
-				F0F104F529CD5F8200957476 /* MyChatCell.xib */,
+				F0915E6C29D6BA1300CDE7D4 /* Swift */,
+				F0915E6B29D6B9F800CDE7D4 /* Xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,23 +148,107 @@
 		F08CC66129CA75BE00EE8961 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
-				F05F4B6429D2746C0067C292 /* Views */,
-				F05F4B6329D274450067C292 /* Controllers */,
+				F0915E6829D6B64400CDE7D4 /* Entities */,
 				F05F4B6229D2743B0067C292 /* Services */,
-				F05F4B6129D2742B0067C292 /* ViewModels */,
-				F05F4B6029D274200067C292 /* Models */,
+				F05F4B6429D2746C0067C292 /* Views */,
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
-				F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */,
 				F08CC66B29CA75BF00EE8961 /* Assets.xcassets */,
 				F05F4B4C29D179D80067C292 /* Resources */,
 				F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */,
 				F08CC67029CA75BF00EE8961 /* Info.plist */,
-				F0F104F429CD5F8200957476 /* MyChatCell.swift */,
-				F091F3C129D66B3A0040294D /* Protocols.swift */,
-				F09DD7BF29D524FA005D936F /* ImageManager.swift */,
 			);
 			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		F0915E6829D6B64400CDE7D4 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F05F4B6029D274200067C292 /* Models */,
+				F0915E6A29D6B98100CDE7D4 /* Components */,
+				F0915E6929D6B90100CDE7D4 /* Protocols */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		F0915E6929D6B90100CDE7D4 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F0915E6A29D6B98100CDE7D4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */,
+				F05F4B5D29D2651A0067C292 /* ExtendedButton.swift */,
+				F0F104DD29CBFA9700957476 /* TableViewCellBase.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		F0915E6B29D6B9F800CDE7D4 /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				F08CC66829CA75BE00EE8961 /* Main.storyboard */,
+				F0F104DA29CBEDD600957476 /* ChatTableViewCell.xib */,
+				F0F104F529CD5F8200957476 /* MyChatCell.xib */,
+			);
+			path = Xib;
+			sourceTree = "<group>";
+		};
+		F0915E6C29D6BA1300CDE7D4 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				F0915E6E29D6BA3C00CDE7D4 /* Views */,
+				F0915E6D29D6BA3600CDE7D4 /* Controllers */,
+			);
+			path = Swift;
+			sourceTree = "<group>";
+		};
+		F0915E6D29D6BA3600CDE7D4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F0915E6F29D6BA9200CDE7D4 /* ChatDetail */,
+				F0915E7129D6BA9E00CDE7D4 /* Main */,
+				F0915E7029D6BA9800CDE7D4 /* ChatRoomList */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F0915E6E29D6BA3C00CDE7D4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */,
+				F0F104F429CD5F8200957476 /* MyChatCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F0915E6F29D6BA9200CDE7D4 /* ChatDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F091F3BF29D666030040294D /* ChatDetailViewController.swift */,
+			);
+			path = ChatDetail;
+			sourceTree = "<group>";
+		};
+		F0915E7029D6BA9800CDE7D4 /* ChatRoomList */ = {
+			isa = PBXGroup;
+			children = (
+				F09DD7C129D5842F005D936F /* ChatRoomListController.swift */,
+			);
+			path = ChatRoomList;
+			sourceTree = "<group>";
+		};
+		F0915E7129D6BA9E00CDE7D4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +347,7 @@
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
-				F091F3C229D66B3A0040294D /* Protocols.swift in Sources */,
+				F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */,
 				F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -23,10 +23,6 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut")
-        if delegate == nil {
-            print("nininillll")
-        }
-        
         delegate?.goToChatDetailScene(chatId: chatId)
         manageButtonHighlightAnim(isShow: false)
         
@@ -127,16 +123,9 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         
         chatId = data.chatId
         
-        
         setContent(data)
         
         setLabel(data, shouldShowTimeLabel)
         
     }
-    
-    
-    deinit{
-        print("deinit MyChatCell")
-    }
-    
 }
