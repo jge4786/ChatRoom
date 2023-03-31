@@ -1,16 +1,13 @@
-//
-//  ChatDetailViewController.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/31.
-//
-
 import UIKit
 
 class ChatDetailViewController: UIViewController {
     
     var chatId: Int = 0
     
+    @IBAction func onPressGoBackButton(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    @IBOutlet weak var goBackButton: UIBarButtonItem!
     @IBOutlet weak var imageDetailView: UIImageView!
     @IBOutlet weak var textDetailView: UITextView!
     override func viewDidLoad() {
@@ -21,24 +18,21 @@ class ChatDetailViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
+        goBackButton.title = ""
+        self.navigationItem.title = ""
        if data.text.isEmpty {
+           textDetailView.isHidden = true
            let image = UIImage(data: data.image)
            
            imageDetailView.image = image
        } else {
+           imageDetailView.isHidden = true
            textDetailView.text = data.text
        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+    deinit{
+        print("detail deinit")
     }
-    */
 
 }

@@ -307,7 +307,7 @@
                         <outlet property="letterCountLabel" destination="0ta-UV-4vx" id="AZc-XO-6Al"/>
                         <outlet property="letterCountWrapperView" destination="0sf-89-KBx" id="g7H-Kf-dfK"/>
                         <outlet property="menuButton" destination="758-Dz-8Tk" id="5WU-o7-gvB"/>
-                        <outlet property="navBar" destination="6vG-Lq-5uq" id="Shs-tu-F5y"/>
+                        <outlet property="navBar" destination="6vG-Lq-5uq" id="3l0-sm-FTM"/>
                         <outlet property="scrollToBottomButton" destination="b5R-Z7-gVf" id="s2b-aU-T3v"/>
                         <outlet property="searchButton" destination="Dfo-WQ-6N3" id="Tc5-f1-2vg"/>
                         <outlet property="selectUserButton" destination="nvE-Il-JQI" id="5J1-xi-lxh"/>
@@ -321,20 +321,21 @@
         <!--ChatDetailController-->
         <scene sceneID="WfK-4y-dfG">
             <objects>
-                <viewController id="OwJ-oK-Swk" userLabel="ChatDetailController" customClass="ChatDetailViewController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatDetail" id="OwJ-oK-Swk" userLabel="ChatDetailController" customClass="ChatDetailViewController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8fK-O1-o87">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eB4-AF-3sU">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fUG-Mu-iVJ">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                                <color key="textColor" systemColor="labelColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eB4-AF-3sU">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MWK-r2-OXh"/>
                         <color key="backgroundColor" red="0.15686270590000001" green="0.15686270590000001" blue="0.15686270590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -349,7 +350,23 @@
                             <constraint firstItem="MWK-r2-OXh" firstAttribute="bottom" secondItem="eB4-AF-3sU" secondAttribute="bottom" id="dIi-9p-ceH"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="Z0I-n8-Nfg">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="iEk-fb-seh">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="onPressGoBackButton:" destination="OwJ-oK-Swk" id="PWX-B0-JdA"/>
+                            </connections>
+                        </barButtonItem>
+                        <centerItemGroups>
+                            <barButtonItemGroup customizationDisposition="fixed" id="8no-bs-O1L">
+                                <barButtonItems>
+                                    <barButtonItem title="Item" id="Qi7-rc-aAp"/>
+                                </barButtonItems>
+                            </barButtonItemGroup>
+                        </centerItemGroups>
+                    </navigationItem>
                     <connections>
+                        <outlet property="goBackButton" destination="iEk-fb-seh" id="yTC-SW-gEN"/>
                         <outlet property="imageDetailView" destination="eB4-AF-3sU" id="GBt-km-saB"/>
                         <outlet property="textDetailView" destination="fUG-Mu-iVJ" id="3Aq-co-fHA"/>
                     </connections>
@@ -360,15 +377,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="123"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="smiley" catalog="system" width="128" height="123"/>
-        <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

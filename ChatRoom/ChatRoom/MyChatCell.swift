@@ -2,6 +2,7 @@ import UIKit
 
 class MyChatCell: UITableViewCell, TableViewCellBase {
     var chatId = 0
+    weak var delegate: ChangeSceneDelegate?
     
     @IBOutlet weak var infoView: UIView!
     
@@ -22,16 +23,12 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     //버튼 터치 시 실행할 함수 정의
     @IBAction func onTouchOutChatBubble(_ sender: Any) {
         print("touchOut")
-        manageButtonHighlightAnim(isShow: false)
-        
-        let chatListStoryboard = UIStoryboard(name: "ChatRoom", bundle: nil)
-        
-        guard let nextVC = chatListStoryboard.instantiateViewController(withIdentifier: "ChatDetailController") as? ChatDetailViewController else {
-            return
+        if delegate == nil {
+            print("nininillll")
         }
         
-        nextVC.chatId = chatId
-        
+        delegate?.goToChatDetailScene(chatId: chatId)
+        manageButtonHighlightAnim(isShow: false)
         
     }
     

@@ -1,3 +1,3 @@
-protocol ChangeSceneDelegate: class {
-    func goToNextScene()
+protocol ChangeSceneDelegate: AnyObject {
+    func goToChatDetailScene(chatId: Int)
 }

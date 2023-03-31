@@ -177,6 +177,8 @@ class ViewController: UIViewController {
         }
         roomData = crData
         
+        self.title = roomData.roomName
+        
         guard let uData = DataStorage.instance.getUser(userId: me) else {
             fatalError("유저 정보 불러오기 실패")
         }
@@ -210,6 +212,7 @@ class ViewController: UIViewController {
         initTextView()
         
         //테이블 뷰 셀 등록
+        
         ChatTableViewCell.register(tableView: contentTableView)
         MyChatCell.register(tableView: contentTableView)
         
@@ -224,7 +227,7 @@ class ViewController: UIViewController {
         /// 두번째 scrollToBottom: 스크롤 이동
         
         scrollToBottom() { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
                 self?.scrollToBottom() { [weak self] in
                     self?.fadeDataLoadingScreen()
                 }
@@ -478,6 +481,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
+            
             cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             
             return cell
@@ -485,6 +489,8 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             guard case let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
+            
+            cell.delegate = self
             
             cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
             return cell
@@ -496,7 +502,6 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
 //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("SELF: ", CFGetRetainCount(self))
         let curData = chatData[indexPath.row]
         let uid = curData.owner.userId
 
@@ -546,6 +551,8 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
     }
 }
 
+
+//탭 제스쳐 등록
 extension UIViewController {
     func recognizeHidingKeyboardGesture() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer (
@@ -728,4 +735,16 @@ extension ViewController: PHPickerViewControllerDelegate {
            }
        }
 
+}
+
+extension ViewController: ChangeSceneDelegate {
+    func goToChatDetailScene(chatId: Int) {
+        guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatDetail") as? ChatDetailViewController else {
+            print("없음ㅁㅁㅁ")
+            return
+        }
+        
+        nextVC.chatId = chatId
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
