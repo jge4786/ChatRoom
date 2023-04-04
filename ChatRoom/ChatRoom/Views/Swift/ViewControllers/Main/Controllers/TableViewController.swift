@@ -48,7 +48,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
     
     func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) -> UITableViewCell {
         if uid != me {
-            guard case let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
+            guard let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
             cell.delegate = self
@@ -57,7 +57,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             
             return cell
         }else{
-            guard case let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
+            guard let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
             
@@ -73,7 +73,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         let uid = curData.owner.userId
 
         guard indexPath.row > 0,
-              let prevData = chatData[indexPath.row - 1] as? Chat
+              case let prevData = chatData[indexPath.row - 1]
         else {
             return setCellData(uid, curData, true, true)
         }
@@ -81,7 +81,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
         let shouldShowUserInfo = uid != prevData.owner.userId
                 
         guard indexPath.row + 1 < chatData.count,
-              let nextData = chatData[indexPath.row + 1] as? Chat
+              case let nextData = chatData[indexPath.row + 1]
         else {
             return setCellData(uid, curData, true, shouldShowUserInfo)
         }

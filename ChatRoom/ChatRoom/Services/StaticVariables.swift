@@ -1,6 +1,7 @@
 import UIKit
 
 struct Constants {
+    
     ///디바이스의 크기
     static let deviceSize = UIScreen.main.bounds.size
     

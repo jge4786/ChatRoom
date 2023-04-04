@@ -4,10 +4,13 @@ class ChatRoomListController: UIViewController {
     @IBOutlet weak var secondRoomButton: UIButton!
     @IBOutlet weak var firstRoomButton: UIButton!
     
+    let tmpAPI = APIService()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        tmpAPI.sendChat(text: "hello")
         
         firstRoomButton.setTitle(DataStorage.instance.getChatRoom(roomId: 0)?.roomName, for: .normal)
         secondRoomButton.setTitle(DataStorage.instance.getChatRoom(roomId: 1)?.roomName, for: .normal)
@@ -35,6 +38,5 @@ class ChatRoomListController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("나타난다")
     }
 }

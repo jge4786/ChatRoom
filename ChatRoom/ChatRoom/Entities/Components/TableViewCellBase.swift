@@ -9,7 +9,7 @@ import UIKit
 
 protocol TableViewCellBase {
     static func register(tableView: UITableView)
-    static func dequeueReusableCell(tableView: UITableView) -> Self
+    static func dequeueReusableCell(tableView: UITableView) -> Self?
     static var reuseIdentifier: String { get }
     static var NibName: String { get }
 }
@@ -20,9 +20,9 @@ extension TableViewCellBase where Self: UITableViewCell {
         tableView.register(Nib, forCellReuseIdentifier: self.reuseIdentifier)
     }
     
-    static func dequeueReusableCell(tableView: UITableView) -> Self {
+    static func dequeueReusableCell(tableView: UITableView) -> Self? {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: self.reuseIdentifier) as? Self else {
-            fatalError("Error! \(self.reuseIdentifier)")
+            return nil
         }
         
         return cell

@@ -120,12 +120,6 @@ extension DataStorage {
         
         print("전체 데이터: ", result.count, offset, limit)
         
-        guard result != nil,
-              offset < result.count
-        else {
-            return []
-        }
-        
         let endIndex =
             offset + limit > result.count
             ? (result.count - 1)
@@ -134,15 +128,13 @@ extension DataStorage {
         if limit == 0 { return result }
         
         
-        return Array(result.reversed()[offset..<endIndex].reversed())
+        return Array(result.reversed()[offset..<endIndex])
     }
     
     public func getChat(chatId: Int) -> Chat? {
-        let result = chatList.filter { $0.chatId == chatId }
+        guard let result = chatList.first(where: { $0.chatId == chatId }) else { return nil }
         
-        guard result != nil else{ return nil }
-        
-        return result[0]
+        return result
     }
     
     public func appendChatData(roomId: Int, data: Chat) -> Chat {
@@ -219,13 +211,11 @@ extension DataStorage {
         
         chatIndex = chatList.count
         
-        for dt in chatList {
-//            print(dt.toString())
-        }
-        
-        
         userList = loadedUserData
         chatRoomList = loadedChatRoomData
         
     }
+    
+
+    
 }

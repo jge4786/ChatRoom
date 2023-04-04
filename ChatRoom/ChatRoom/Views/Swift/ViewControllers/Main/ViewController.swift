@@ -69,7 +69,7 @@ class ViewController: UIViewController {
             if chatData.count > newValue.count {
 //                print("줄었음")
             }else {
-                guard let newChat: Chat = newValue.last else { return }
+                guard newValue.last != nil else { return }
                 guard !isInitialLoad else { isInitialLoad = false; return; }
             }
         }
