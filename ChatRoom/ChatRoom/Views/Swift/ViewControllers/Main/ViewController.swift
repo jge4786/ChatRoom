@@ -1,9 +1,9 @@
 import UIKit
 import PhotosUI
+import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController {
-
-    
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
@@ -49,11 +49,23 @@ class ViewController: UIViewController {
 
     // 전송 버튼 눌림
     @IBAction func onPressSendMessageButton(_ sender: Any) {
-        sendMessage()
+        print("룸아이디: \(roomId), \(DataStorage.instance.isGPTRoom(roomId: roomId))")
+        DataStorage.instance.isGPTRoom(roomId: roomId)
+        ? sendMessageToGPT()
+        : sendMessage()
     }
     
     @IBAction func onPressScrollToBottom(_ sender: Any) {
         scrollToBottom()
+    }
+    
+    
+    @IBAction func onPressMenuButton(_ sender: Any) {
+        
+    }
+    
+    var drawer = UIView().then {
+        $0.backgroundColor = UIColor(cgColor: Color.DarkGray)
     }
     
     let storage = DataStorage.instance
@@ -62,6 +74,7 @@ class ViewController: UIViewController {
     var me = 5
     var roomId = 0
     var selectedUser = 5
+    var gptInfo: User? = nil
     
     var userData: User = User()
     var roomData: ChatRoom = ChatRoom()
@@ -100,9 +113,13 @@ class ViewController: UIViewController {
             }
         }
         didSet {
+            print("리로드!")
             contentTableView.reloadData()
         }
     }
+    
+    var gptMessageData: [Message] = []
+
     
     // **************** 테스트용 ***************
     
@@ -124,7 +141,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         initializeSettings()
-        
     }
     
     deinit{

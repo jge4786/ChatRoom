@@ -9,22 +9,27 @@ import UIKit
 
 extension ViewController {
     // 빈 메세지 확인
-    func isMessageEmpty() -> Bool {
-        guard let text = inputTextView.text else{ return true }
+    func isMessageEmpty(_ text: String?) -> Bool {
+        guard let text = text else { return true }
+        
         return text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty
     }
     
     
-    
-    
-    func sendMessage() {
-        if isMessageEmpty() { return }
+    func sendMessage(owner: User, text: String?, isUser: Bool = true) {
+        if isMessageEmpty(text) { return }
 
-        let text = inputTextView.text
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         
-        chatData.insert( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!), at: 0)
+        chatData.insert( DataStorage.instance.appendChatData(roomId: roomId, owner: owner, text: text!), at: 0)
+        
+        guard isUser else {
+            contentTableView.reloadData()
+            scrollToBottom()
+            return
+            
+        }
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -40,6 +45,27 @@ extension ViewController {
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)
         sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+    }
+    
+    func sendMessage() {
+        sendMessage(owner: userList[selectedUser], text: inputTextView.text)
+    }
+    
+    
+    func sendMessageToGPT() {
+        let text = inputTextView.text
+        if isMessageEmpty(text) { return }
+
+        guard let text = text else { return }
+        
+        sendMessage()
+        
+        gptMessageData.append(Message(role: "user", content: text))
+        
+        APIService.shared.sendChat(text: gptMessageData) { response in
+            self.sendMessage(owner: self.gptInfo!, text: response.content, isUser: false)
+            self.gptMessageData.append(response)
+        }
     }
 }
 

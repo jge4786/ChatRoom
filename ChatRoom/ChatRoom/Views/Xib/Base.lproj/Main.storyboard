@@ -74,9 +74,16 @@
                             <constraint firstItem="TBY-lq-HAf" firstAttribute="leading" secondItem="Dnc-wV-Fyy" secondAttribute="leading" id="xJQ-Ov-x4V"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vdQ-BD-yoV"/>
+                    <navigationItem key="navigationItem" id="vdQ-BD-yoV">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="qsI-hS-1Vp">
+                            <connections>
+                                <action selector="onPressGPTButton:" destination="vMp-E1-W3r" id="cZr-GL-pmr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="firstRoomButton" destination="TBY-lq-HAf" id="aSg-Wx-8xv"/>
+                        <outlet property="gptButton" destination="qsI-hS-1Vp" id="NLd-ib-nQc"/>
                         <outlet property="secondRoomButton" destination="ti6-RF-6MQ" id="p1Q-47-pwC"/>
                     </connections>
                 </viewController>
@@ -315,7 +322,11 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="ellipsis" catalog="system" id="758-Dz-8Tk"/>
+                            <barButtonItem image="ellipsis" catalog="system" id="758-Dz-8Tk">
+                                <connections>
+                                    <action selector="onPressMenuButton:" destination="BYZ-38-t0r" id="j1l-15-8lw"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="magnifyingglass" catalog="system" id="Dfo-WQ-6N3"/>
                         </rightBarButtonItems>
                     </navigationItem>

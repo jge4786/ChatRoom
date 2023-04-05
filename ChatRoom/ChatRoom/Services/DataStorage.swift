@@ -6,10 +6,13 @@ final class DataStorage {
     private let userDataKey = "userList"
     private let chatDataKey = "chatList"
     private let chatRoomDataKey = "chatRoomList"
+    private let gptRoomKey = "GPT"
     
     private var userList: [User] = []
     private var chatList: [Chat] = []
     private var chatRoomList: [ChatRoom] = []
+    
+    private var gptRoomId: Int?
     
     private var cursor = -1
     
@@ -24,12 +27,12 @@ final class DataStorage {
     }
     
     private init() {
-        initialize()
+        loadData()
     }
     
     private func initialize() {
         userList = [
-            User("하나", 0, profile: "defaultImage1"),
+            User("GPT", 0),
             User("둘", 1, profile: "defaultImage2"),
             User("셋", 2, profile: "defaultImage3"),
             User("넷", 3, profile: "defaultImage4"),
@@ -37,20 +40,20 @@ final class DataStorage {
             User("나", 5, profile: "defaultImage5"),
         ]
         
-        chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[0], sentDateTime: "2023-01-01 12:30", text: "hello")
-        ]
+        chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[0], sentDateTime: "2023-01-01 12:30", text: "hello")]
         
         chatRoomList = [
             ChatRoom(0, "채팅방1", userList),
             ChatRoom(1, "채팅방2", [
-                User("일", 0, profile: "defaultImage1"),
+//                User("일", 0, profile: "defaultImage1"),
                 User("이", 1, profile: "defaultImage2"),
                 User("삼", 2, profile: "defaultImage3"),
                 User("사", 3, profile: "defaultImage4"),
             ])
         ]
         
-        loadData()
+        makeChatGPTRoom()
+//        loadData()
     }
 }
 
@@ -68,15 +71,49 @@ extension DataStorage {
         }
     }
     
-    public func makeChatRoom(roomId: Int) {
-        chatRoomList.append(
-            ChatRoom(roomId, "새로운 채팅방",[
-                User("일", 0, profile: "defaultImage1"),
-                User("이", 1, profile: "defaultImage2"),
-                User("삼", 2, profile: "defaultImage3"),
-                User("사", 3, profile: "defaultImage4"),
+    public func getGPTRoom() -> Int {
+        let result = chatRoomList.first { $0.roomName == gptRoomKey }
+        
+        guard let result = result else { return makeChatGPTRoom().roomId }
+        
+        print("리절트.룸아이디 \(result.roomId)")
+        
+        return result.roomId
+    }
+    
+    @discardableResult
+    public func makeChatRoom(name: String) -> ChatRoom {
+        let newChatRoom = ChatRoom(chatRoomList.count, name,[
+//            User("일", 0, profile: "defaultImage1"),
+            User("이", 1, profile: "defaultImage2"),
+            User("삼", 2, profile: "defaultImage3"),
+            User("사", 3, profile: "defaultImage4"),
+        ])
+        
+        chatRoomList.append(newChatRoom)
+        
+        return newChatRoom
+    }
+    
+    //TODO: 테스트용으로 userId: 0으로 생성. 시간 나면 내 userId 지정하고 이 userId로 초기화하도록
+    @discardableResult
+    public func makeChatGPTRoom() -> ChatRoom {
+        gptRoomId = chatRoomList.count
+        let newChatRoom = ChatRoom(
+            gptRoomId!,
+            gptRoomKey,
+            [
+                getUser(userId: 1)!,
+                getUser(userId: 0)!,
             ])
-        )
+        
+        chatRoomList.append(newChatRoom)
+        
+        return newChatRoom
+    }
+    
+    public func isGPTRoom(roomId: Int) -> Bool {
+        return roomId == gptRoomId
     }
     
 //    public func makeChatRoom(roomId: Int, userId: Int...) { }
@@ -116,7 +153,14 @@ extension DataStorage {
     
     /// limit으로 0 입력 시, 해당 채팅방의 전체 채팅 반환
     public func getChatData(roomId: Int, offset: Int = 0, limit: Int = 0) -> [Chat] {
-        let result = chatList.filter { $0.roomId == roomId }
+        
+        let result = chatList.filter {
+            print("비교", $0.roomId, roomId)
+            return $0.roomId == roomId
+            
+        }
+        
+        guard result.count > 0 else { return [] }
         
         print("전체 데이터: ", result.count, offset, limit)
         
@@ -157,6 +201,13 @@ extension DataStorage {
         return appendChatData(roomId: roomId, data: Chat(roomId: roomId, chatId: chatIndex, owner: owner, sentDateTime: now(), unreadCount: 0, image: image))
     }
     
+    public func clearChatData(roomId: Int) {
+        chatList.removeAll {
+            $0.roomId == roomId
+        }
+        
+        saveChatData()
+    }
 }
 
 /**
@@ -169,13 +220,15 @@ extension DataStorage {
         
         saveData()
     }
-    
+        
     public func saveChatData() {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatList), forKey: chatDataKey)
     }
     
     // 데이터 저장
     public func saveData() {
+        print("dddd")
+        
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.userList), forKey: userDataKey)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatList), forKey: chatDataKey)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatRoomList), forKey: chatRoomDataKey)
@@ -191,7 +244,8 @@ extension DataStorage {
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.userList), forKey: userDataKey)
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatRoomList), forKey: chatRoomDataKey)
             
-            makeChatRoom(roomId: chatRoomList.count)
+            print("error - loadDataFromUserDefaults")
+            initialize()
             
             return
         }
@@ -204,17 +258,23 @@ extension DataStorage {
             return
         }
         
-        
         chatList = loadedChatData
         
         
-        chatIndex = chatList.count
-        
+        chatIndex = chatList.last?.chatId ?? -1
+
         userList = loadedUserData
+        
         chatRoomList = loadedChatRoomData
         
+        gptRoomId = chatRoomList.first { $0.roomName == gptRoomKey }?.roomId
+        
+        flushChatData()
     }
     
 
-    
+    enum DataError {
+        case loadFromUserDefaultsFailure
+        case dataDecodeFailure
+    }
 }

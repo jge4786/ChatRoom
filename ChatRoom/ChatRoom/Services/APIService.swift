@@ -8,7 +8,7 @@
 import Foundation
 
 final class APIService {
-    public static let shared = APIService()
+    static let shared = APIService()
     
     private enum DefaultSettings {
         static let apiUrl = "https://api.openai.com/v1/chat/completions"    // API Url
@@ -26,9 +26,9 @@ final class APIService {
 
     var isLoading = false
         
-    typealias ChatGPTResult = (Response) -> Void
+    typealias ChatGPTResult = (Message) -> Void
         
-    private func makeDataRequest(method: String = DefaultSettings.method, data text: String) -> URLRequest? {
+    private func makeDataRequest(method: String = DefaultSettings.method, data: [Message]) -> URLRequest? {
         let url = URL(string: DefaultSettings.apiUrl)
         
         var request = URLRequest(url: url!)
@@ -36,13 +36,20 @@ final class APIService {
         request.httpMethod = method
         request.allHTTPHeaderFields = DefaultSettings.headers
         
-        let jsonBody = [
+        var messages: [[String: String]] = []
+        
+        for datum in data {
+            let tmpArr: [String : String] = ["role" : datum.role, "content" : datum.content]
+            
+            messages.append(tmpArr)
+        }
+        
+        let jsonBody: [String : Any] = [
             "model": DefaultSettings.model,
-            "messages": [
-                ["role": "user", "content": text]
-            ],
+            "messages": messages,
             "max_tokens": DefaultSettings.tokenLimit
-        ] as [String : Any]
+        ]
+        
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: jsonBody) else {
             print("JSON 실패")
@@ -54,7 +61,7 @@ final class APIService {
         return request
     }
     
-    private func makeDataTasks(text: String, completion: @escaping ChatGPTResult){
+    private func makeDataTasks(text: [Message], completion: @escaping ChatGPTResult){
         guard !isLoading,
               let request = makeDataRequest(data: text)
         else {
@@ -74,6 +81,7 @@ final class APIService {
                   successRange.contains(statusCode),
                   let data = data
             else {
+                print("DDFFFGGG")
                 return
             }
 
@@ -81,11 +89,9 @@ final class APIService {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(Response.self, from: data)
                 
-                DispatchQueue.global().async {
-                    completion(response)
+                DispatchQueue.main.async {
+                    completion(response.choices[0].message)
                 }
-                
-                dump(response)
             } catch let DecodingError.dataCorrupted(context) {
                 print(context)
             } catch let DecodingError.keyNotFound(key, context) {
@@ -108,7 +114,7 @@ final class APIService {
 
 // 외부와 연결되는 곳
 extension APIService {
-    func sendChat(text: String, completion: @escaping ChatGPTResult) {
+    func sendChat(text: [Message], completion: @escaping ChatGPTResult) {
         makeDataTasks(text: text, completion: completion)
     }
 }

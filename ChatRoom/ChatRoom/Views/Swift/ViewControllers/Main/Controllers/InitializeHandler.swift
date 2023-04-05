@@ -9,7 +9,7 @@ extension ViewController {
 
 // UI
 extension ViewController {
-    func setUI() {
+    private func setUI() {
         initHeaderButtonsSetting()
         setSplash()
         setButtonsUI()
@@ -26,14 +26,14 @@ extension ViewController {
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
     }
     
-    func initTextView() {
+    private func initTextView() {
         inputTextViewWrapper.layer.cornerRadius = 15
         inputTextViewWrapper.layer.borderWidth = 1
         inputTextViewWrapper.layer.borderColor = Color.DarkerGray
     }
     
     //헤더 초기화
-    func initHeaderButtonsSetting() {
+    private func initHeaderButtonsSetting() {
         self.navigationController?.navigationBar.backgroundColor = .darkGray
 
         searchButton.tintColor = UIColor(cgColor: Color.White)
@@ -41,13 +41,13 @@ extension ViewController {
         menuButton.tintColor = UIColor(cgColor: Color.White)
     }
     
-    func setSplash() {
+    private func setSplash() {
         dataLoadingScreen.layer.zPosition = 100
     }
     
     
     
-    func setInitPosition() {
+    private func setInitPosition() {
         
         //하단 버튼의 위치를 고정하기 위한 높이 조절
         NSLayoutConstraint.activate([
@@ -55,15 +55,9 @@ extension ViewController {
             self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
         ])
         self.fadeDataLoadingScreen()
-//        scrollToBottom() { [weak self] in
-//            guard let self = self else { return }
-//            self.scrollToBottom() { [weak self] in
-//                self?.fadeDataLoadingScreen()
-//            }
-//        }
     }
     
-    func setButtonsUI() {
+    private func setButtonsUI() {
         addImageButton.setTitle("", for: .normal)
         scrollToBottomButton.setTitle("", for: .normal)
         emojiButton.setTitle("", for: .normal)
@@ -71,7 +65,7 @@ extension ViewController {
         scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
     }
     
-    func fadeDataLoadingScreen() {
+    private func fadeDataLoadingScreen() {
         UIView.animate(withDuration: 0.13, delay: 0.0, options: .curveEaseIn) {
             self.dataLoadingScreen.layer.opacity = 0
         } completion: { finished in
@@ -82,11 +76,12 @@ extension ViewController {
 
 
 extension ViewController {
-    func setData() {
+    private func setData() {
         
         //데이터 초기화
-        loadData()
         setRoomSetting()
+        loadData()
+        loadGPTData()
         registComponents()
         
         // ***************디버그, 테스트용*************
@@ -97,7 +92,8 @@ extension ViewController {
         // ****************************************
     }
     
-    func setRoomSetting() {
+    private func setRoomSetting() {
+        print(chatRoomInfo)
         roomId = chatRoomInfo.roomId
         me = chatRoomInfo.userId
         selectedUser = me
@@ -115,7 +111,7 @@ extension ViewController {
         userData = uData
     }
         
-    func registComponents() {
+    private func registComponents() {
         addKeyboardObserver()
         recognizeHidingKeyboardGesture()
         
@@ -126,7 +122,7 @@ extension ViewController {
         MyChatCell.register(tableView: contentTableView)
     }
     
-    func setSelectUserMenu() {
+    private func setSelectUserMenu() {
         var menuItems: [UIAction] = []
         
         for idx in 0..<userList.count {
@@ -146,6 +142,7 @@ extension ViewController {
     }
     
     func loadData() {
+        print("로드: \(offset), \(Constants.chatLoadLimit)")
         let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
         chatData.append(contentsOf: loadedData)
         
@@ -156,5 +153,10 @@ extension ViewController {
         }
         
         offset += Constants.chatLoadLimit
+    }
+    
+    func loadGPTData() {
+        gptInfo = DataStorage.instance.getUser(userId: 0)
+        print("지피티인포 \(gptInfo)")
     }
 }
