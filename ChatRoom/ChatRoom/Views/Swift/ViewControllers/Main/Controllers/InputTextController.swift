@@ -23,9 +23,8 @@ extension ViewController {
         let text = inputTextView.text
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let sendTime = formatter.string(from: Date())
         
-        chatData.append( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!) )
+        chatData.insert( DataStorage.instance.appendChatData(roomId: roomId, owner: userList[selectedUser], text: text!), at: 0)
         
         inputTextView.text = ""
         inputTextViewHeight.constant = getTextViewHeight()
@@ -36,7 +35,7 @@ extension ViewController {
         letterCountWrapperView.isHidden = true
         
         contentTableView.reloadData()
-        scrollToBottom() { [weak self] in }
+        scrollToBottom()
         
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)

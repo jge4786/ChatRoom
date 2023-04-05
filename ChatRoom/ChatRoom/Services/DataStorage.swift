@@ -68,18 +68,18 @@ extension DataStorage {
         }
     }
     
-    public func makeChatRoom(roomId: Int, userId: Int) {
-        
+    public func makeChatRoom(roomId: Int) {
         chatRoomList.append(
             ChatRoom(roomId, "새로운 채팅방",[
                 User("일", 0, profile: "defaultImage1"),
                 User("이", 1, profile: "defaultImage2"),
                 User("삼", 2, profile: "defaultImage3"),
-            
                 User("사", 3, profile: "defaultImage4"),
             ])
         )
     }
+    
+//    public func makeChatRoom(roomId: Int, userId: Int...) { }
 }
 
 /**
@@ -192,7 +192,7 @@ extension DataStorage {
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.userList), forKey: userDataKey)
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatRoomList), forKey: chatRoomDataKey)
             
-            initialize()
+            makeChatRoom(roomId: chatRoomList.count)
             
             return
         }

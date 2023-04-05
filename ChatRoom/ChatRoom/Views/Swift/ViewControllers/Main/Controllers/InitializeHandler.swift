@@ -21,6 +21,8 @@ extension ViewController {
         initHeaderButtonsSetting()
         initTextView()
         
+        contentTableView.transform = CGAffineTransform(rotationAngle: .pi)
+        
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
     }
     
@@ -46,17 +48,19 @@ extension ViewController {
     
     
     func setInitPosition() {
-        scrollToBottom() { [weak self] in
-            guard let self = self else { return }
-            //하단 버튼의 위치를 고정하기 위한 높이 조절
-            NSLayoutConstraint.activate([
-                self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
-                self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
-            ])
-            self.scrollToBottom() { [weak self] in
-                self?.fadeDataLoadingScreen()
-            }
-        }
+        
+        //하단 버튼의 위치를 고정하기 위한 높이 조절
+        NSLayoutConstraint.activate([
+            self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
+            self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
+        ])
+        self.fadeDataLoadingScreen()
+//        scrollToBottom() { [weak self] in
+//            guard let self = self else { return }
+//            self.scrollToBottom() { [weak self] in
+//                self?.fadeDataLoadingScreen()
+//            }
+//        }
     }
     
     func setButtonsUI() {
@@ -143,7 +147,7 @@ extension ViewController {
     
     func loadData() {
         let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
-        chatData = loadedData + chatData
+        chatData.append(contentsOf: loadedData)
         
         // 로딩된 데이터가 제한보다 적으면 isEndReached을 true로 하여 로딩 메소드 호출 방지
         guard loadedData.count >= Constants.chatLoadLimit else {

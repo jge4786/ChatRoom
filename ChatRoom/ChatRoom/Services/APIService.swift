@@ -7,72 +7,88 @@
 
 import Foundation
 
-class APIService {
-    let apiUrl = "https://api.openai.com/v1/chat/completions"
+final class APIService {
+    public static let shared = APIService()
     
-    static let config = URLSessionConfiguration.default
+    private enum DefaultSettings {
+        static let apiUrl = "https://api.openai.com/v1/chat/completions"
+        static let apiKey = "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"
+        static let model = "gpt-3.5-turbo"
+        static let systemText = "You're a helpful assistant"
+        static let temperature: Double = 0.5
+        static let headers = [
+            "Content-Type": "application/json",
+            "Authorization": "Bearer \(DefaultSettings.apiKey)",
+        ]
+        static let method = "POST"
+        
+        static let tokenLimit = 50
+    }
 
-    let session = URLSession(configuration: config)
+    let session = URLSession(configuration: .default)
 
-    let API_KEY = "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"
-    let defaultModel = "gpt-3.5-turbo"
-    let defaultSystemText = "You're a helpful assistant"
-    let defaultTemperature = 0.5
-    
-    private func makeDataTasks(text: String){
-        let url = URL(string: apiUrl)
+    var isLoading = false
+        
+    typealias ChatGPTResult = (Response) -> Void
+        
+    private func makeDataRequest(method: String = DefaultSettings.method, data text: String) -> URLRequest? {
+        let url = URL(string: DefaultSettings.apiUrl)
         
         var request = URLRequest(url: url!)
         
-        let headers = [
-            "Content-Type": "application/json",
-            "Authorization": "Bearer \(API_KEY)",
-        ]
-
-        // Create a URLSession request with the endpoint URL and request headers
-        
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
+        request.httpMethod = method
+        request.allHTTPHeaderFields = DefaultSettings.headers
         
         let jsonBody = [
-            "model": "gpt-3.5-turbo",
+            "model": DefaultSettings.model,
             "messages": [
-                ["role": "user", "content": "Hello!"]
+                ["role": "user", "content": text]
             ],
-            "max_tokens": 50
+            "max_tokens": DefaultSettings.tokenLimit
         ] as [String : Any]
-        print("ddd?")
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: jsonBody) else {
             print("JSON 실패")
-            return
+            return nil
         }
 
         request.httpBody = jsonData
+        
+        return request
+    }
+    
+    private func makeDataTasks(text: String, completion: @escaping ChatGPTResult){
+        guard !isLoading,
+              let request = makeDataRequest(data: text)
+        else {
+            return
+        }
 
+        isLoading = true
+        
         let dataTask = session.dataTask(with: request) {
             data, response, error in
+            
+            defer { self.isLoading = false }
+            
             let successRange = 200..<300
             guard error == nil,
                   let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode) else {
-                print("aaaaa", (response as? HTTPURLResponse)?.statusCode)
-                print("error", error?.localizedDescription)
-                return
-            }
-
-            guard let resultData = data else {
-                print("dsssss")
+                  successRange.contains(statusCode),
+                  let data = data
+            else {
                 return
             }
 
             do {
                 let decoder = JSONDecoder()
-                let response = try decoder.decode(Response.self, from: resultData)
+                let response = try decoder.decode(Response.self, from: data)
                 
+                DispatchQueue.global().async {
+                    completion(response)
+                }
                 
                 dump(response)
-
             } catch let DecodingError.dataCorrupted(context) {
                 print(context)
             } catch let DecodingError.keyNotFound(key, context) {
@@ -91,12 +107,13 @@ class APIService {
 
         dataTask.resume()
     }
+}
 
-    func sendChat(text: String) {
-        makeDataTasks(text: text)
-//        makeDataTasks(url: "/chat/completions", authKey: key, value: ["model" : "gpt-3.5-turbo"], ["message" : Message(text)])
+// 외부와 연결되는 곳
+extension APIService {
+    func sendChat(text: String, completion: @escaping ChatGPTResult) {
+        makeDataTasks(text: text, completion: completion)
     }
-    
 }
 
 struct Response: Codable {
@@ -106,47 +123,7 @@ struct Response: Codable {
     var model: String
     var usage: Usage
     var choices: [Choice]
-    
-//    func toString() -> String {
-//
-//        return "id: \(id)\b\() \() \() \() \()"
-//    }
 }
-
-//struct Usage: Codable {
-//    var prompt_tokens: Int
-//    var completion_tokens: Int
-//    var total_tokens: Int
-//}
-//
-//struct Choice: Codable {
-//    var message: String
-//    var finish_reason: String
-//    var index: Int
-//}
-//
-//struct Message: Codable {
-//    var role: String
-//    var content: String
-//
-//    var jsonData: [String : Codable] {
-//        get {
-//            return ["role" : role, "content" : content]
-//        }
-//    }
-//
-//    init(_ content: String) {
-//        self.role = "user"
-//        self.content = content
-//    }
-//}
-//
-//struct Request: Codable {
-//    let model: String
-//    let temperature: Double
-//    let messages: [Message]
-//    let stream: Bool
-//}
 
 struct Choice: Codable {
     let index: Int
@@ -159,12 +136,10 @@ struct Choice: Codable {
     }
 }
 
-// MARK: - Message
 struct Message: Codable {
     let role, content: String
 }
 
-// MARK: - Usage
 struct Usage: Codable {
     let promptTokens, completionTokens, totalTokens: Int
 

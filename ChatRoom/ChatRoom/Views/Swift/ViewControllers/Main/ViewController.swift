@@ -2,25 +2,7 @@ import UIKit
 import PhotosUI
 
 class ViewController: UIViewController {
-    let storage = DataStorage.instance
-    
-    var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)
-    var me = 5
-    var roomId = 0
-    var selectedUser = 5
-    
-    var userData: User = User()
-    var roomData: ChatRoom = ChatRoom()
-    
-    
-    var isLoading = false
-    
-    var isEndReached = false
-    var offset = 0
-    
-    var safeAreaBottomInset: CGFloat = 0.0
-    
-    var isInitialLoad = true
+
     
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
@@ -47,54 +29,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var dataLoadingScreen: UIView!
     @IBOutlet weak var tmpWrapperView: UIView!
     
-    
-    // 입력창 높이
-    var textViewLine = 1 {
-        didSet {
-            if oldValue == textViewLine {
-            }else{
-                guard let lineHeight = inputTextView.font?.lineHeight else { return }
-                
-                let direction: Double = Double(textViewLine - oldValue)
-                let translationValue = lineHeight * direction
-                
-                contentTableView.contentOffset.y = contentTableView.contentOffset.y + translationValue
-            }
-        }
-    }
-    
-
-    var chatData: [Chat] = [] {
-        willSet {
-            if chatData.count > newValue.count {
-//                print("줄었음")
-            }else {
-                guard newValue.last != nil else { return }
-                guard !isInitialLoad else { isInitialLoad = false; return; }
-            }
-        }
-        didSet {
-            contentTableView.reloadData()
-        }
-    }
-    
-    // **************** 테스트용 ***************
-    
-    
-    var userList: [User] = []
-    
     @IBOutlet weak var selectUserButton: UIButton!
-    
-    func selectUser(selected: Int) {
-        selectedUser = selected
-        selectUserButton.setTitle(userList[selected].name, for: .normal)
-    }
-    // ***************************************
-    
-    
-    
-    
-    
     
     @IBAction func onPressGoBackButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -118,8 +53,70 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onPressScrollToBottom(_ sender: Any) {
-        scrollToBottom() { [weak self] in }
+        scrollToBottom()
     }
+    
+    let storage = DataStorage.instance
+    
+    var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)
+    var me = 5
+    var roomId = 0
+    var selectedUser = 5
+    
+    var userData: User = User()
+    var roomData: ChatRoom = ChatRoom()
+    
+    
+    var isLoading = false
+    
+    var isEndReached = false
+    var offset = 0
+    
+    var safeAreaBottomInset: CGFloat = 0.0
+    
+    var isInitialLoad = true
+    
+    // 입력창 높이
+    var textViewLine = 1 {
+        didSet {
+            if oldValue == textViewLine {
+            }else{
+                guard let lineHeight = inputTextView.font?.lineHeight else { return }
+                
+                let direction: Double = Double(textViewLine - oldValue)
+                let translationValue = lineHeight * direction
+                
+                contentTableView.contentOffset.y = contentTableView.contentOffset.y + translationValue
+            }
+        }
+    }
+    
+
+    var chatData: [Chat] = [] {
+        willSet {
+            if chatData.count <= newValue.count {
+                guard newValue.last != nil else { return }
+                guard !isInitialLoad else { isInitialLoad = false; return; }
+            }
+        }
+        didSet {
+            contentTableView.reloadData()
+        }
+    }
+    
+    // **************** 테스트용 ***************
+    
+    
+    var userList: [User] = []
+    
+    func selectUser(selected: Int) {
+        selectedUser = selected
+        selectUserButton.setTitle(userList[selected].name, for: .normal)
+    }
+    // ***************************************
+    
+    
+    
     
     
     
@@ -127,6 +124,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         initializeSettings()
+        
     }
     
     deinit{

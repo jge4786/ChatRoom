@@ -4,9 +4,6 @@ class ChatRoomListController: UIViewController {
     @IBOutlet weak var secondRoomButton: UIButton!
     @IBOutlet weak var firstRoomButton: UIButton!
     
-    let tmpAPI = APIService()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +26,7 @@ class ChatRoomListController: UIViewController {
         }
         
         if DataStorage.instance.getChatRoom(roomId: 1) == nil {
-            DataStorage.instance.makeChatRoom(roomId: 1, userId: 2)
+            DataStorage.instance.makeChatRoom(roomId: 1)
         }
         
         nextVC.chatRoomInfo = (userId: 2, roomId: 1)

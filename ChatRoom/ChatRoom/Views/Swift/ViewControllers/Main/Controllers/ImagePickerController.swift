@@ -28,11 +28,11 @@ extension ViewController: PHPickerViewControllerDelegate, UINavigationController
                            return
                        }
                        
-                       self.chatData.append( DataStorage.instance.appendChatData(roomId: self.roomId, owner: self.userList[self.selectedUser], image: imageData))
+                       self.chatData.insert( DataStorage.instance.appendChatData(roomId: self.roomId, owner: self.userList[self.selectedUser], image: imageData), at: 0)
                        
-                       self.scrollToBottom() { [weak self] in
-                           picker.dismiss(animated: true)
-                       }
+                       self.scrollToBottom()
+                       picker.dismiss(animated: true)
+                       
                    }
                }
            } else {

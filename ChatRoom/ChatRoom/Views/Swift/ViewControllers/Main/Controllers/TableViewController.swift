@@ -9,15 +9,14 @@ import UIKit
 
 //테이블 뷰 초기화
 extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
-    func scrollToBottom(completionHandler: @escaping () -> Void) {
-        guard chatData.count > 0 else { return }
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.chatData.count - 1, section: 0)
+    func scrollToBottom() {
+        guard chatData.count >= 0 else { return }
+//        contentTableView.setContentOffset(.zero, animated: false)
 
-            self.contentTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-            
-            completionHandler()
-        }
+//        let tmp = contentTableView.decelerationRate
+//        contentTableView.decelerationRate = UIScrollView.DecelerationRate(rawValue: 0.0)
+//        contentTableView.decelerationRate = tmp
+        self.contentTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         scrollToBottomButton.isHidden = true
     }
     
@@ -51,6 +50,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             guard let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
+            cell.transform = CGAffineTransform(rotationAngle: .pi)
             cell.delegate = self
             
             cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
@@ -60,6 +60,7 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             guard let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
                 return UITableViewCell()
             }
+            cell.transform = CGAffineTransform(rotationAngle: .pi)
             
             cell.delegate = self
             
