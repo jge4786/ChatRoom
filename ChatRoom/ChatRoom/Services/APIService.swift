@@ -11,18 +11,15 @@ final class APIService {
     public static let shared = APIService()
     
     private enum DefaultSettings {
-        static let apiUrl = "https://api.openai.com/v1/chat/completions"
-        static let apiKey = "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"
-        static let model = "gpt-3.5-turbo"
-        static let systemText = "You're a helpful assistant"
-        static let temperature: Double = 0.5
-        static let headers = [
+        static let apiUrl = "https://api.openai.com/v1/chat/completions"    // API Url
+        static let model = "gpt-3.5-turbo"                                  // 사용할 GPT 모델
+        static let headers = [                                              // 헤더 설정
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(DefaultSettings.apiKey)",
+            "Authorization": "Bearer \(APIKey.value)",
         ]
-        static let method = "POST"
+        static let method = "POST"                                          // request method
         
-        static let tokenLimit = 50
+        static let tokenLimit = 50                                          // 응답의 최대 토큰 수
     }
 
     let session = URLSession(configuration: .default)

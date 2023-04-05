@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DD4B0AE9D9416BE16D37CEE0 /* Pods_ChatRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4DEDE8088E641BAA01966C /* Pods_ChatRoom.framework */; };
 		F0466EDD29DBA19F00A42F8C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0466EDC29DBA19E00A42F8C /* APIService.swift */; };
+		F0466EE129DD0A7F00A42F8C /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0466EE029DD0A7F00A42F8C /* APIKey.swift */; };
 		F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */; };
 		F05F4B5529D17A260067C292 /* ddalgi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B4D29D17A260067C292 /* ddalgi.jpg */; };
 		F05F4B5629D17A260067C292 /* subak.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B4E29D17A260067C292 /* subak.jpg */; };
@@ -55,6 +56,7 @@
 		5F4DEDE8088E641BAA01966C /* Pods_ChatRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B665C10920ECCE97848B45A4 /* Pods-ChatRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatRoom.debug.xcconfig"; path = "Target Support Files/Pods-ChatRoom/Pods-ChatRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		F0466EDC29DBA19E00A42F8C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		F0466EE029DD0A7F00A42F8C /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		F05F4B4D29D17A260067C292 /* ddalgi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ddalgi.jpg; sourceTree = "<group>"; };
 		F05F4B4E29D17A260067C292 /* subak.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = subak.jpg; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				F05F4B4C29D179D80067C292 /* Resources */,
 				F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */,
 				F08CC67029CA75BF00EE8961 /* Info.plist */,
+				F0466EE029DD0A7F00A42F8C /* APIKey.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				F091F3C029D666030040294D /* ChatDetailViewController.swift in Sources */,
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,
+				F0466EE129DD0A7F00A42F8C /* APIKey.swift in Sources */,
 				F0F104D229CAD1DD00957476 /* User.swift in Sources */,
 				F0915E8729D6D2A700CDE7D4 /* KeyboardController.swift in Sources */,
 				F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */,

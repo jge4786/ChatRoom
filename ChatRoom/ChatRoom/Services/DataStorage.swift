@@ -144,7 +144,6 @@ extension DataStorage {
             chatList.append(data)
         }
         
-//        print("dddddddd")
         saveChatData()
         
         return data
