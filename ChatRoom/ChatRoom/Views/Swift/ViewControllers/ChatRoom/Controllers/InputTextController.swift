@@ -60,9 +60,20 @@ extension ViewController {
         
         sendMessage()
         
-        gptMessageData.append(Message(role: "user", content: text))
+        var gptDataSet = DataStorage.instance.getGptDataSet(dataSetId: temporaryGptDataSetId)
         
-        APIService.shared.sendChat(text: gptMessageData) { response in
+        if gptDataSet == nil {
+            gptDataSet = []
+        }
+        
+        
+        let requestedMessage = Message(role: "user", content: text)
+        
+        gptDataSet?.append( DataStorage.instance.appendGptChatData(dataSetId: temporaryGptDataSetId, message: requestedMessage) )
+        
+        guard let gptDataSet = gptDataSet else { return }
+        
+        APIService.shared.sendChat(text: gptDataSet) { response in
             self.sendMessage(owner: self.gptInfo!, text: response.content, isUser: false)
             self.gptMessageData.append(response)
         }

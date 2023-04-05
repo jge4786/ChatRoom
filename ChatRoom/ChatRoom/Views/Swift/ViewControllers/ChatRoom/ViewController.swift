@@ -59,14 +59,25 @@ class ViewController: UIViewController {
         scrollToBottom()
     }
     
-    
+    var drawerState = false
     @IBAction func onPressMenuButton(_ sender: Any) {
-        
+        drawerShowAndHideAnimation(isShow: !drawerState)
+        drawerState = !drawerState
     }
     
-    var drawer = UIView().then {
+    let temporaryGptDataSetId = 0
+    
+    var drawerView = UIView().then {
         $0.backgroundColor = UIColor(cgColor: Color.DarkGray)
+        $0.layer.zPosition = 10
     }
+    
+    var deleteDataButton = UIButton().then {
+        $0.backgroundColor = UIColor(cgColor: Color.DarkYellow)
+        $0.tintColor = UIColor(cgColor: Color.Yellow)
+        $0.setTitle("삭제", for: .normal)
+    }
+    
     
     let storage = DataStorage.instance
     
@@ -141,6 +152,49 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         initializeSettings()
+        
+        view.addSubview(drawerView)
+        drawerView.addSubview(deleteDataButton)
+        
+        drawerView.snp.makeConstraints { make in
+            make.top.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(inputTextViewWrapper.snp.top)
+            make.width.equalTo(0.0)
+        }
+        
+        deleteDataButton.snp.makeConstraints { make in
+            make.top.leading.bottom.equalToSuperview()
+            make.width.equalTo(100)
+        }
+        
+        deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
+    }
+    
+    func drawerShowAndHideAnimation(isShow: Bool) {
+        switch isShow {
+        case true:
+            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
+                self.drawerView.snp.updateConstraints { make in
+                    make.width.equalTo(Constants.deviceSize.width * 0.8)
+                }
+                self.view.layoutIfNeeded()
+            }
+        case false:
+            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
+                self.drawerView.snp.updateConstraints { make in
+                    make.width.equalTo(0)
+                }
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+        
+    @objc
+    func onPressDeleteDataButton() {
+        DataStorage.instance.deleteChatData(roomId: roomId)
+        DataStorage.instance.deleteGptChatData(dataSetId: 0)
+        chatData = []
+        contentTableView.reloadData()
     }
     
     deinit{

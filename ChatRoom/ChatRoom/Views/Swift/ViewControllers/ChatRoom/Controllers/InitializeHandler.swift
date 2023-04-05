@@ -45,8 +45,6 @@ extension ViewController {
         dataLoadingScreen.layer.zPosition = 100
     }
     
-    
-    
     private func setInitPosition() {
         
         //하단 버튼의 위치를 고정하기 위한 높이 조절

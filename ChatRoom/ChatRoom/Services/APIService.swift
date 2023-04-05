@@ -19,7 +19,7 @@ final class APIService {
         ]
         static let method = "POST"                                          // request method
         
-        static let tokenLimit = 50                                          // 응답의 최대 토큰 수
+        static let tokenLimit = 100                                          // 응답의 최대 토큰 수
     }
 
     let session = URLSession(configuration: .default)

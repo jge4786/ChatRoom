@@ -1,13 +1,17 @@
 import UIKit
+import RxSwift
+import RxCocoa
 import SnapKit
 import Then
 
 class ChatRoomListController: UIViewController {
     @IBOutlet weak var secondRoomButton: UIButton!
     @IBOutlet weak var firstRoomButton: UIButton!
-    
-    
     @IBOutlet weak var gptButton: UIBarButtonItem!
+    
+    var tabBar = UITabBarController()
+    
+    let modelView = ChatRoomListModelView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +25,20 @@ class ChatRoomListController: UIViewController {
         
     }
     
-    func setConstraints() {
+    func setSubViews() {
+        
     }
     
-    func setSubViews() {
+    func setConstraints() {
+        
     }
+    
     
     func setData() {
+    }
+    
+    func setBiding() {
+        
     }
     @IBAction func onPressGPTButton(_ sender: Any) {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoom") as? ViewController else { return }
@@ -36,8 +47,6 @@ class ChatRoomListController: UIViewController {
 
         nextVC.chatRoomInfo = (userId: 1, roomId: DataStorage.instance.getGPTRoom())
         self.navigationController?.pushViewController(nextVC, animated: true)
-        
-        
     }
     
     @IBAction func onPressEnterFirstChatRoomButton(_ sender: Any) {

@@ -10,6 +10,7 @@
 		DD4B0AE9D9416BE16D37CEE0 /* Pods_ChatRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4DEDE8088E641BAA01966C /* Pods_ChatRoom.framework */; };
 		F0466EDD29DBA19F00A42F8C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0466EDC29DBA19E00A42F8C /* APIService.swift */; };
 		F0466EE129DD0A7F00A42F8C /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0466EE029DD0A7F00A42F8C /* APIKey.swift */; };
+		F0466EE429DE3A9900A42F8C /* ChatRoomListModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0466EE329DE3A9900A42F8C /* ChatRoomListModelView.swift */; };
 		F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */; };
 		F05F4B5529D17A260067C292 /* ddalgi.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B4D29D17A260067C292 /* ddalgi.jpg */; };
 		F05F4B5629D17A260067C292 /* subak.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F05F4B4E29D17A260067C292 /* subak.jpg */; };
@@ -57,6 +58,7 @@
 		B665C10920ECCE97848B45A4 /* Pods-ChatRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatRoom.debug.xcconfig"; path = "Target Support Files/Pods-ChatRoom/Pods-ChatRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		F0466EDC29DBA19E00A42F8C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		F0466EE029DD0A7F00A42F8C /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		F0466EE329DE3A9900A42F8C /* ChatRoomListModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListModelView.swift; sourceTree = "<group>"; };
 		F05F4B4A29D16B2D0067C292 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		F05F4B4D29D17A260067C292 /* ddalgi.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ddalgi.jpg; sourceTree = "<group>"; };
 		F05F4B4E29D17A260067C292 /* subak.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = subak.jpg; sourceTree = "<group>"; };
@@ -129,6 +131,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		F0466EE229DE3A6B00A42F8C /* ModelView */ = {
+			isa = PBXGroup;
+			children = (
+				F0466EE329DE3A9900A42F8C /* ChatRoomListModelView.swift */,
+			);
+			path = ModelView;
+			sourceTree = "<group>";
+		};
 		F05F4B4C29D179D80067C292 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +208,7 @@
 			children = (
 				F0915E6829D6B64400CDE7D4 /* Entities */,
 				F05F4B6229D2743B0067C292 /* Services */,
+				F0466EE229DE3A6B00A42F8C /* ModelView */,
 				F05F4B6429D2746C0067C292 /* Views */,
 				F08CC66229CA75BE00EE8961 /* AppDelegate.swift */,
 				F08CC66429CA75BE00EE8961 /* SceneDelegate.swift */,
@@ -263,7 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				F0915E6F29D6BA9200CDE7D4 /* ChatDetail */,
-				F0915E7129D6BA9E00CDE7D4 /* Main */,
+				F0915E7129D6BA9E00CDE7D4 /* ChatRoom */,
 				F0915E7029D6BA9800CDE7D4 /* ChatRoomList */,
 			);
 			path = ViewControllers;
@@ -294,13 +305,13 @@
 			path = ChatRoomList;
 			sourceTree = "<group>";
 		};
-		F0915E7129D6BA9E00CDE7D4 /* Main */ = {
+		F0915E7129D6BA9E00CDE7D4 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
 				F08CC66629CA75BE00EE8961 /* ViewController.swift */,
 				F0915E8529D6D26600CDE7D4 /* Controllers */,
 			);
-			path = Main;
+			path = ChatRoom;
 			sourceTree = "<group>";
 		};
 		F0915E8529D6D26600CDE7D4 /* Controllers */ = {
@@ -441,6 +452,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0466EE429DE3A9900A42F8C /* ChatRoomListModelView.swift in Sources */,
 				F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */,
 				F0915E7A29D6BF3400CDE7D4 /* Observable.swift in Sources */,
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
