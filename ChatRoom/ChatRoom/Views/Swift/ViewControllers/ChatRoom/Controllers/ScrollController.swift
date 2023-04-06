@@ -1,6 +1,6 @@
 import UIKit
 
-extension ViewController: UIScrollViewDelegate {
+extension ChatRoomViewController: UIScrollViewDelegate {
     func onTopReached() {
         guard !isLoading,
               !isEndReached
@@ -15,7 +15,6 @@ extension ViewController: UIScrollViewDelegate {
         }
         
         self.loadData()
-        
         self.contentTableView.reloadData()
     }
     

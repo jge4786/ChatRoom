@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension ViewController {
+extension ChatRoomViewController {
     // 빈 메세지 확인
     func isMessageEmpty(_ text: String?) -> Bool {
         guard let text = text else { return true }
@@ -47,8 +47,15 @@ extension ViewController {
         sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
     }
     
+    func updateLatestMessage(text: String) {
+        guard let firstIndex = chatData.first?.chatId else { return }
+        _ = DataStorage.instance.updateChatData(roomId: roomId, chatId: firstIndex, text: text)
+        chatData[0].text = text
+    }
+    
     func sendMessage() {
         sendMessage(owner: userList[selectedUser], text: inputTextView.text)
+        contentTableView.reloadData()
     }
     
     
@@ -73,16 +80,21 @@ extension ViewController {
         
         guard let gptDataSet = gptDataSet else { return }
         
+        sendMessage(owner: self.gptInfo!, text: "...", isUser: false)
+        
+        sendMessageButton.isEnabled = false
         APIService.shared.sendChat(text: gptDataSet) { response in
-            self.sendMessage(owner: self.gptInfo!, text: response.content, isUser: false)
+            self.updateLatestMessage(text: response.content)
+//            self.sendMessage(owner: self.gptInfo!, text: response.content, isUser: false)
             self.gptMessageData.append(response)
+            self.sendMessageButton.isEnabled = true
         }
     }
 }
 
 
 
-extension ViewController: UITextViewDelegate {
+extension ChatRoomViewController: UITextViewDelegate {
     func getTextViewHeight() -> Double {
         return inputTextView.getTextViewSize().height
     }

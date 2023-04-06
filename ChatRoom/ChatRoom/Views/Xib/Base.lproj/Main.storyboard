@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sva-Le-4qu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="51p-oO-5fV">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -7,14 +7,32 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--My Project Tab Bar Controller-->
+        <scene sceneID="Yug-Cs-rLr">
+            <objects>
+                <tabBarController id="51p-oO-5fV" customClass="MyProjectTabBarController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Pzk-2M-OoU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="sva-Le-4qu" kind="relationship" relationship="viewControllers" id="tCG-iT-NyO"/>
+                        <segue destination="rjG-0I-qxZ" kind="relationship" relationship="viewControllers" id="9CA-ma-yCa"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wu6-Vt-F9e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4779" y="54"/>
+        </scene>
+        <!--Chat-->
         <scene sceneID="FIr-57-AI9">
             <objects>
                 <navigationController id="sva-Le-4qu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chat" id="Pzh-bz-E5z"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Nyo-LJ-YZc">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -24,77 +42,50 @@
                         </textAttributes>
                     </navigationBar>
                     <connections>
-                        <segue destination="vMp-E1-W3r" kind="relationship" relationship="rootViewController" id="5Pf-iA-39w"/>
+                        <segue destination="vMp-E1-W3r" kind="relationship" relationship="rootViewController" id="oXq-pf-Gor"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auE-YL-aPJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2982" y="-26"/>
+            <point key="canvasLocation" x="-3705" y="-296"/>
         </scene>
         <!--Chat Room List Controller-->
         <scene sceneID="PvX-Ig-iGh">
             <objects>
                 <viewController id="vMp-E1-W3r" customClass="ChatRoomListController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NrA-Ov-U2T">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBY-lq-HAf">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="Ieb-dM-FSS"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="1번"/>
-                                <connections>
-                                    <action selector="onPressEnterFirstChatRoomButton:" destination="vMp-E1-W3r" eventType="touchUpInside" id="iqb-P8-STT"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti6-RF-6MQ">
-                                <rect key="frame" x="0.0" y="50" width="393" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="IaT-T0-66N"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="jyO-Fz-hN8"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="2번"/>
-                                <connections>
-                                    <action selector="onPressEnterSecondChatRoomButton:" destination="vMp-E1-W3r" eventType="touchUpInside" id="g8H-hg-zrs"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Dnc-wV-Fyy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="TBY-lq-HAf" firstAttribute="top" secondItem="Dnc-wV-Fyy" secondAttribute="top" id="1zt-2E-rns"/>
-                            <constraint firstItem="Dnc-wV-Fyy" firstAttribute="trailing" secondItem="TBY-lq-HAf" secondAttribute="trailing" id="2gD-Fw-ahS"/>
-                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="trailing" secondItem="Dnc-wV-Fyy" secondAttribute="trailing" id="L3H-SL-3aH"/>
-                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="top" secondItem="TBY-lq-HAf" secondAttribute="bottom" id="LDu-zK-azb"/>
-                            <constraint firstItem="ti6-RF-6MQ" firstAttribute="leading" secondItem="Dnc-wV-Fyy" secondAttribute="leading" id="rYf-DR-27w"/>
-                            <constraint firstItem="TBY-lq-HAf" firstAttribute="leading" secondItem="Dnc-wV-Fyy" secondAttribute="leading" id="xJQ-Ov-x4V"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vdQ-BD-yoV">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="qsI-hS-1Vp">
-                            <connections>
-                                <action selector="onPressGPTButton:" destination="vMp-E1-W3r" id="cZr-GL-pmr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="firstRoomButton" destination="TBY-lq-HAf" id="aSg-Wx-8xv"/>
-                        <outlet property="gptButton" destination="qsI-hS-1Vp" id="NLd-ib-nQc"/>
-                        <outlet property="secondRoomButton" destination="ti6-RF-6MQ" id="p1Q-47-pwC"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="vdQ-BD-yoV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZO-uH-Vf3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1888" y="-26"/>
+            <point key="canvasLocation" x="-2714" y="54"/>
+        </scene>
+        <!--GPT-->
+        <scene sceneID="6Ea-Rq-Nmk">
+            <objects>
+                <navigationController id="rjG-0I-qxZ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="GPT" id="H6Q-su-jbF"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wuM-ST-ns7">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vMp-E1-W3r" kind="relationship" relationship="rootViewController" id="hhd-uO-Fyu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2i4-zf-mSS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3705" y="404"/>
         </scene>
         <!--ChatRoom-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ChatRoom" id="BYZ-38-t0r" userLabel="ChatRoom" customClass="ViewController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatRoom" id="BYZ-38-t0r" userLabel="ChatRoom" customClass="ChatRoomViewController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,79 +106,62 @@
                                                 </connections>
                                             </tableView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="wKH-Uq-0c4">
-                                                <rect key="frame" x="5" y="595" width="388" height="100"/>
+                                                <rect key="frame" x="393" y="695" width="0.0" height="0.0"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvE-Il-JQI">
-                                                        <rect key="frame" x="0.0" y="0.0" width="46" height="100"/>
-                                                        <menu key="menu" id="7Ki-O4-ucr">
-                                                            <children>
-                                                                <command title="Item 1" id="yM0-JO-v54"/>
-                                                                <command title="Item 2" id="FFB-A1-ETG"/>
-                                                            </children>
-                                                        </menu>
-                                                        <state key="normal" title="Button"/>
-                                                    </button>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="idR-0E-7as" userLabel="Floating Button Stack View">
-                                                        <rect key="frame" x="378" y="0.0" width="10" height="100"/>
+                                                    <view hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="0sf-89-KBx" userLabel="Letter Count Wrapper">
+                                                        <rect key="frame" x="-10" y="-128" width="10" height="128"/>
                                                         <subviews>
-                                                            <view hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="0sf-89-KBx" userLabel="Letter Count Wrapper">
-                                                                <rect key="frame" x="0.0" y="0.0" width="10" height="100"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.94999999999999996" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ta-UV-4vx" customClass="PaddingLabel" customModule="ChatRoom" customModuleProvider="target">
-                                                                        <rect key="frame" x="0.0" y="95" width="0.0" height="0.0"/>
-                                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                        <size key="shadowOffset" width="1" height="1"/>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="topInset">
-                                                                                <real key="value" value="3"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
-                                                                                <real key="value" value="3"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                                                                <real key="value" value="7"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                            <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                                                <real key="value" value="7"/>
-                                                                            </userDefinedRuntimeAttribute>
-                                                                        </userDefinedRuntimeAttributes>
-                                                                    </label>
-                                                                </subviews>
-                                                                <constraints>
-                                                                    <constraint firstItem="0ta-UV-4vx" firstAttribute="leading" secondItem="0sf-89-KBx" secondAttribute="leadingMargin" id="QCy-cP-aBp"/>
-                                                                    <constraint firstAttribute="bottomMargin" secondItem="0ta-UV-4vx" secondAttribute="bottom" id="kX6-gv-u1V"/>
-                                                                    <constraint firstAttribute="trailingMargin" secondItem="0ta-UV-4vx" secondAttribute="trailing" id="sT0-tK-EKd"/>
-                                                                </constraints>
-                                                                <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="0.0" bottom="5" trailing="10"/>
-                                                            </view>
-                                                            <button hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5R-Z7-gVf" userLabel="Scroll To Bottom Button">
-                                                                <rect key="frame" x="10" y="0.0" width="0.0" height="100"/>
-                                                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="15"/>
-                                                                <size key="titleShadowOffset" width="3" height="3"/>
-                                                                <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" title=" ">
-                                                                    <imageReference key="image" image="chevron.down.circle.fill" catalog="system" symbolScale="default"/>
-                                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="45"/>
-                                                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                </buttonConfiguration>
-                                                                <connections>
-                                                                    <action selector="onPressScrollToBottom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bfp-Qi-LRU"/>
-                                                                </connections>
-                                                            </button>
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.94999999999999996" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ta-UV-4vx" customClass="PaddingLabel" customModule="ChatRoom" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="123" width="0.0" height="0.0"/>
+                                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                                <size key="shadowOffset" width="1" height="1"/>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="topInset">
+                                                                        <real key="value" value="3"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomInset">
+                                                                        <real key="value" value="3"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                                                        <real key="value" value="7"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                    <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
+                                                                        <real key="value" value="7"/>
+                                                                    </userDefinedRuntimeAttribute>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </label>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="bottom" secondItem="b5R-Z7-gVf" secondAttribute="bottom" id="J1q-VL-sxJ"/>
-                                                            <constraint firstAttribute="bottom" secondItem="0sf-89-KBx" secondAttribute="bottom" id="WnF-ef-4A1"/>
-                                                            <constraint firstItem="b5R-Z7-gVf" firstAttribute="top" secondItem="idR-0E-7as" secondAttribute="top" id="Xv2-SY-QGw"/>
-                                                            <constraint firstItem="b5R-Z7-gVf" firstAttribute="leading" secondItem="0sf-89-KBx" secondAttribute="trailing" priority="990" id="aNZ-pS-0Ae"/>
-                                                            <constraint firstAttribute="trailing" secondItem="b5R-Z7-gVf" secondAttribute="trailing" id="h4F-Bj-cLu"/>
-                                                            <constraint firstItem="0sf-89-KBx" firstAttribute="leading" secondItem="idR-0E-7as" secondAttribute="leading" priority="995" id="kBK-DC-cWu"/>
+                                                            <constraint firstItem="0ta-UV-4vx" firstAttribute="leading" secondItem="0sf-89-KBx" secondAttribute="leadingMargin" id="QCy-cP-aBp"/>
+                                                            <constraint firstAttribute="bottomMargin" secondItem="0ta-UV-4vx" secondAttribute="bottom" id="kX6-gv-u1V"/>
+                                                            <constraint firstAttribute="trailingMargin" secondItem="0ta-UV-4vx" secondAttribute="trailing" id="sT0-tK-EKd"/>
                                                         </constraints>
-                                                    </stackView>
+                                                        <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="0.0" bottom="5" trailing="10"/>
+                                                    </view>
+                                                    <button hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5R-Z7-gVf" userLabel="Scroll To Bottom Button">
+                                                        <rect key="frame" x="0.0" y="-128" width="0.0" height="128"/>
+                                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="15" maxY="15"/>
+                                                        <size key="titleShadowOffset" width="3" height="3"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title=" ">
+                                                            <imageReference key="image" image="chevron.down.circle.fill" catalog="system" symbolScale="default"/>
+                                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="45"/>
+                                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="onPressScrollToBottom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bfp-Qi-LRU"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="b5R-Z7-gVf" secondAttribute="bottom" id="FQI-sZ-qdC"/>
+                                                    <constraint firstAttribute="bottom" secondItem="0sf-89-KBx" secondAttribute="bottom" id="aVh-jt-rcF"/>
+                                                    <constraint firstItem="b5R-Z7-gVf" firstAttribute="leading" secondItem="0sf-89-KBx" secondAttribute="trailing" id="qSm-PZ-ZFI"/>
+                                                    <constraint firstAttribute="trailing" secondItem="b5R-Z7-gVf" secondAttribute="trailing" id="uwg-nY-Nb7"/>
+                                                </constraints>
                                             </stackView>
                                             <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zb5-JG-iCz" userLabel="Footer Wrapper">
                                                 <rect key="frame" x="0.0" y="695" width="393" height="64"/>
@@ -285,7 +259,6 @@
                                             <constraint firstItem="eTs-42-XNV" firstAttribute="top" secondItem="XKZ-5P-1r6" secondAttribute="top" id="WGQ-hC-M5j"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="wKH-Uq-0c4" secondAttribute="bottom" id="Wbg-qr-RYq"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="eTs-42-XNV" secondAttribute="bottom" id="Yyk-yJ-add"/>
-                                            <constraint firstItem="wKH-Uq-0c4" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" constant="5" id="bnO-TI-jUF"/>
                                             <constraint firstAttribute="trailing" secondItem="eTs-42-XNV" secondAttribute="trailing" id="cIf-NI-7qc"/>
                                             <constraint firstAttribute="bottom" secondItem="zb5-JG-iCz" secondAttribute="bottom" id="eGv-7k-ubD"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="fL1-w8-kCd"/>
@@ -314,6 +287,7 @@
                             <constraint firstItem="lyL-8h-4h9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vEa-gs-qfH"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="t2I-OE-Mrx"/>
                     <navigationItem key="navigationItem" title="채팅방이름" id="6vG-Lq-5uq">
                         <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="Dik-Im-q1Q">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -347,13 +321,12 @@
                         <outlet property="navBar" destination="6vG-Lq-5uq" id="3l0-sm-FTM"/>
                         <outlet property="scrollToBottomButton" destination="b5R-Z7-gVf" id="s2b-aU-T3v"/>
                         <outlet property="searchButton" destination="Dfo-WQ-6N3" id="Tc5-f1-2vg"/>
-                        <outlet property="selectUserButton" destination="nvE-Il-JQI" id="5J1-xi-lxh"/>
                         <outlet property="sendMessageButton" destination="bqB-Fu-53V" id="b4T-pi-NJS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1088" y="-26"/>
+            <point key="canvasLocation" x="-1700" y="54"/>
         </scene>
         <!--ChatDetailController-->
         <scene sceneID="WfK-4y-dfG">
@@ -410,9 +383,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b2M-d8-dr9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-211" y="-26"/>
+            <point key="canvasLocation" x="-706" y="54"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="hhd-uO-Fyu"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="123"/>

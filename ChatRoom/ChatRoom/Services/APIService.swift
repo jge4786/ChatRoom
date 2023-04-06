@@ -81,7 +81,6 @@ final class APIService {
                   successRange.contains(statusCode),
                   let data = data
             else {
-                print("DDFFFGGG")
                 return
             }
 

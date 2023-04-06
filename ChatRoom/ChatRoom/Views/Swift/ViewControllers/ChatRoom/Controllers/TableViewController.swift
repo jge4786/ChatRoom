@@ -8,7 +8,7 @@
 import UIKit
 
 //테이블 뷰 초기화
-extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
+extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
     func scrollToBottom() {
         guard chatData.count >= 0 else { return }
 //        contentTableView.setContentOffset(.zero, animated: false)
@@ -68,26 +68,33 @@ extension ViewController:  UITableViewDataSource, UITableViewDelegate, UITableVi
             return cell
         }
     }
-        
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let curData = chatData[indexPath.row]
         let uid = curData.owner.userId
+        
+        // 시간 표시는 처음 채팅에, 프로필 표시는 마지막 채팅에
 
+        guard chatData.count != 1 else { return setCellData(uid, curData, true, true) }
+        
         guard indexPath.row > 0,
               case let prevData = chatData[indexPath.row - 1]
         else {
-            return setCellData(uid, curData, true, true)
+            let shouldShowUserInfo = uid != chatData[indexPath.row + 1].owner.userId
+            
+            return setCellData(uid, curData, true, shouldShowUserInfo)
         }
-        
-        let shouldShowUserInfo = uid != prevData.owner.userId
-                
+
+        let shouldShowTimeLabel = (uid != prevData.owner.userId || curData.sentTime != prevData.sentTime)
+
         guard indexPath.row + 1 < chatData.count,
               case let nextData = chatData[indexPath.row + 1]
         else {
-            return setCellData(uid, curData, true, shouldShowUserInfo)
+            return setCellData(uid, curData, shouldShowTimeLabel, true)
         }
-        
-        let shouldShowTimeLabel = (uid != nextData.owner.userId || curData.sentTime != nextData.sentTime)
+
+        let shouldShowUserInfo = uid != nextData.owner.userId
+
         
         return setCellData(uid, curData, shouldShowTimeLabel, shouldShowUserInfo)
     }

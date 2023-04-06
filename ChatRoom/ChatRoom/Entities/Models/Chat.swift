@@ -6,7 +6,7 @@ struct Chat: Codable {
     let owner: User
     let sentDateTime: String
     var unreadCount: Int
-    let text: String
+    var text: String
     let image: Data
     
     var sentDate: String {

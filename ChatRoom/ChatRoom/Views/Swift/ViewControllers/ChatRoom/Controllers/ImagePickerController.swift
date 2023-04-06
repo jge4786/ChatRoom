@@ -1,6 +1,6 @@
 import PhotosUI
 
-extension ViewController: PHPickerViewControllerDelegate, UINavigationControllerDelegate  {
+extension ChatRoomViewController: PHPickerViewControllerDelegate, UINavigationControllerDelegate  {
     func openPhotoLibrary() {
         var configuration = PHPickerConfiguration()
         

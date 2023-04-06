@@ -1,6 +1,6 @@
 import UIKit
 
-extension ViewController {
+extension ChatRoomViewController {
     func initializeSettings() {
         setData()
         setUI()
@@ -8,7 +8,8 @@ extension ViewController {
 }
 
 // UI
-extension ViewController {
+extension ChatRoomViewController {
+    
     private func setUI() {
         initHeaderButtonsSetting()
         setSplash()
@@ -17,13 +18,27 @@ extension ViewController {
         inputTextViewHeight.constant = getTextViewHeight()
         letterCountLabel.layer.cornerRadius = 8
         
-        setInitPosition()
+        footerWrapperView.layoutIfNeeded()
+        
         initHeaderButtonsSetting()
         initTextView()
-        
         contentTableView.transform = CGAffineTransform(rotationAngle: .pi)
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
+        
+        setInitPosition()
+
+    }
+    
+    func hidingBar() {
+        guard let tabBarController = self.tabBarController,
+              let navigationController = self.navigationController
+        else {
+            return
+        }
+        
+        tabBarController.tabBar.isHidden = true
+        navigationController.isNavigationBarHidden = false
     }
     
     private func initTextView() {
@@ -46,8 +61,14 @@ extension ViewController {
     }
     
     private func setInitPosition() {
-        
         //하단 버튼의 위치를 고정하기 위한 높이 조절
+//        addImageButton.snp.makeConstraints {
+//            $0.height.equalTo(footerWrapperView.frame.height)
+//        }
+//        sendMessageButton.snp.makeConstraints { make in
+//            make.height.equalTo(inputTextViewHeight.constant)
+//        }
+        
         NSLayoutConstraint.activate([
             self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
             self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
@@ -73,7 +94,7 @@ extension ViewController {
 }
 
 
-extension ViewController {
+extension ChatRoomViewController {
     private func setData() {
         
         //데이터 초기화
@@ -85,13 +106,12 @@ extension ViewController {
         // ***************디버그, 테스트용*************
         
         userList = DataStorage.instance.getUserList()
-        setSelectUserMenu()
+//        setSelectUserMenu()
         
         // ****************************************
     }
     
     private func setRoomSetting() {
-        print(chatRoomInfo)
         roomId = chatRoomInfo.roomId
         me = chatRoomInfo.userId
         selectedUser = me
@@ -140,7 +160,6 @@ extension ViewController {
     }
     
     func loadData() {
-        print("로드: \(offset), \(Constants.chatLoadLimit)")
         let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
         chatData.append(contentsOf: loadedData)
         
@@ -155,6 +174,5 @@ extension ViewController {
     
     func loadGPTData() {
         gptInfo = DataStorage.instance.getUser(userId: 0)
-        print("지피티인포 \(gptInfo)")
     }
 }

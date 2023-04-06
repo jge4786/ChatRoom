@@ -18,6 +18,12 @@ class ChatDetailViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
+        if let navigationController = self.navigationController {
+            navigationController.isNavigationBarHidden = false
+        }
+        
+        
+        
         goBackButton.title = ""
         self.navigationItem.title = ""
        if data.text.isEmpty {

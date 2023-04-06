@@ -34,7 +34,7 @@ final class DataStorage {
     
     private func initialize() {
         userList = [
-            User("GPT", 0),
+            User("GPT", 0, profile: "gpt"),
             User("둘", 1, profile: "defaultImage2"),
             User("셋", 2, profile: "defaultImage3"),
             User("넷", 3, profile: "defaultImage4"),
@@ -42,7 +42,7 @@ final class DataStorage {
             User("나", 5, profile: "defaultImage5"),
         ]
         
-        chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[0], sentDateTime: "2023-01-01 12:30", text: "hello")]
+        chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[1], sentDateTime: "2023-01-01 12:30", text: "hello")]
         
         chatRoomList = [
             ChatRoom(0, "채팅방1", userList),
@@ -78,8 +78,6 @@ extension DataStorage {
         let result = chatRoomList.first { $0.roomName == gptRoomKey }
         
         guard let result = result else { return makeChatGPTRoom().roomId }
-        
-        print("리절트.룸아이디 \(result.roomId)")
         
         return result.roomId
     }
@@ -158,16 +156,13 @@ extension DataStorage {
     func getChatData(roomId: Int, offset: Int = 0, limit: Int = 0) -> [Chat] {
         
         let result = chatList.filter {
-            print("비교", $0.roomId, roomId)
             return $0.roomId == roomId
             
         }
         
-        print("GETCHATDATA!!!!")
         
         guard result.count > 0 else { return [] }
         
-        print("전체 데이터: ", result.count, offset, limit)
         
         let endIndex =
             offset + limit > result.count
@@ -176,9 +171,8 @@ extension DataStorage {
         
         if limit == 0 { return result }
         
-        print("endIndex: \(endIndex)")
-        
-        return Array(result.reversed()[offset..<endIndex])
+        print("전체 데이터:  \(result.count), offset:  \(offset),  limit: \(limit), endIndex: \(endIndex)")
+        return Array(result.reversed()[offset...endIndex])
     }
     
     func getChat(chatId: Int) -> Chat? {
@@ -205,6 +199,20 @@ extension DataStorage {
     
     func appendChatData(roomId: Int, owner: User, image: Data) -> Chat {
         return appendChatData(roomId: roomId, data: Chat(roomId: roomId, chatId: chatIndex, owner: owner, sentDateTime: now(), unreadCount: 0, image: image))
+    }
+    
+    func updateChatData(roomId: Int, chatId: Int, text: String) -> Chat? {
+        let chatIndex = chatList.firstIndex { $0.chatId == chatId }
+        
+        guard let chatIndex = chatIndex else {
+            return nil
+        }
+        
+        chatList[chatIndex].text = text
+        
+        saveChatData()
+        
+        return chatList[chatIndex]
     }
     
     func deleteChatData(roomId: Int) {
@@ -241,7 +249,6 @@ extension DataStorage {
     func deleteGptChatData(dataSetId id: Int) {
         let index =  gptChatList.firstIndex { $0.key == id }
 
-        print(index)
         guard let index = index else { return }
         
         gptChatList.remove(at: index)
@@ -275,7 +282,7 @@ extension DataStorage {
     
     // 데이터 저장
     func saveData() {
-        print("dddd")
+        print("Save Data")
         
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.userList), forKey: userDataKey)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatList), forKey: chatDataKey)
@@ -324,7 +331,6 @@ extension DataStorage {
         
         gptChatList = loadedGptChatData
         
-        flushChatData()
     }
     
 

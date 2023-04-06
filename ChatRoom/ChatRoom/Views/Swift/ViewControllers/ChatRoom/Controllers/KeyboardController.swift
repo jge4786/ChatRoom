@@ -1,7 +1,7 @@
 import UIKit
 
 // 키보드
-extension ViewController {
+extension ChatRoomViewController {
     func addKeyboardObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -23,7 +23,6 @@ extension ViewController {
         guard let keyboardHeight = (endValue as? CGRect)?.size.height else { return }
         
         let translationValue = keyboardHeight - safeAreaBottomInset
-        contentTableView.flashScrollIndicators()
         
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:

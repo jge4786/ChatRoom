@@ -3,7 +3,7 @@ import PhotosUI
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController {
+class ChatRoomViewController: UIViewController {
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
@@ -31,6 +31,17 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var selectUserButton: UIButton!
     
+    
+    var goBackButton_ = UIButton().then {
+        $0.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
+    }
+    
+    @objc
+    func onPressGoBack() {
+        
+    }
+    
     @IBAction func onPressGoBackButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -49,7 +60,6 @@ class ViewController: UIViewController {
 
     // 전송 버튼 눌림
     @IBAction func onPressSendMessageButton(_ sender: Any) {
-        print("룸아이디: \(roomId), \(DataStorage.instance.isGPTRoom(roomId: roomId))")
         DataStorage.instance.isGPTRoom(roomId: roomId)
         ? sendMessageToGPT()
         : sendMessage()
@@ -120,11 +130,12 @@ class ViewController: UIViewController {
         willSet {
             if chatData.count <= newValue.count {
                 guard newValue.last != nil else { return }
-                guard !isInitialLoad else { isInitialLoad = false; return; }
             }
         }
         didSet {
-            print("리로드!")
+            print("몇번?", isInitialLoad)
+            
+            guard !isInitialLoad else { isInitialLoad = false; return; }
             contentTableView.reloadData()
         }
     }
@@ -170,6 +181,17 @@ class ViewController: UIViewController {
         deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        hidingBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    
     func drawerShowAndHideAnimation(isShow: Bool) {
         switch isShow {
         case true:
@@ -192,20 +214,23 @@ class ViewController: UIViewController {
     @objc
     func onPressDeleteDataButton() {
         DataStorage.instance.deleteChatData(roomId: roomId)
-        DataStorage.instance.deleteGptChatData(dataSetId: 0)
+        if gptInfo != nil {
+            print("지피티 초기화")
+            DataStorage.instance.deleteGptChatData(dataSetId: 0)
+        }
         chatData = []
         contentTableView.reloadData()
     }
     
     deinit{
         DataStorage.instance.saveData()
-        print("ViewController deinit")
+        print("ChatRoomViewController deinit")
     }
 }
 
 
 
-extension ViewController: ChangeSceneDelegate {
+extension ChatRoomViewController: ChangeSceneDelegate {
     func goToChatDetailScene(chatId: Int) {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatDetail") as? ChatDetailViewController else {
             return
