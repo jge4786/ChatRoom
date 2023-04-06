@@ -22,8 +22,6 @@ class ChatDetailViewController: UIViewController {
             navigationController.isNavigationBarHidden = false
         }
         
-        
-        
         goBackButton.title = ""
         self.navigationItem.title = ""
        if data.text.isEmpty {

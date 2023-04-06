@@ -2,7 +2,9 @@ import UIKit
 
 extension UITextView {
     func getTextViewSize(gap: CGFloat = 0 ) -> CGSize {
-        let size = CGSize(width: (Constants.deviceSize.width - gap) * Constants.chatMaxWidthMultiplier, height: .infinity)
+        let deviceSize = UIScreen.main.bounds.size
+        
+        let size = CGSize(width: (deviceSize.width - gap) * Constants.chatMaxWidthMultiplier, height: .infinity)
         
         let estimatedSize = sizeThatFits(size)
         

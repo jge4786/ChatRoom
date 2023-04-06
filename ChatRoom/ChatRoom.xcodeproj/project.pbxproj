@@ -30,7 +30,6 @@
 		F08CC66A29CA75BE00EE8961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66829CA75BE00EE8961 /* Main.storyboard */; };
 		F08CC66C29CA75BF00EE8961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66B29CA75BF00EE8961 /* Assets.xcassets */; };
 		F08CC66F29CA75BF00EE8961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F08CC66D29CA75BF00EE8961 /* LaunchScreen.storyboard */; };
-		F0915E7A29D6BF3400CDE7D4 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7929D6BF3400CDE7D4 /* Observable.swift */; };
 		F0915E7C29D6CDB700CDE7D4 /* InputTextController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7B29D6CDB700CDE7D4 /* InputTextController.swift */; };
 		F0915E7E29D6CE8500CDE7D4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7D29D6CE8500CDE7D4 /* TableViewController.swift */; };
 		F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0915E7F29D6D07900CDE7D4 /* UITextViewExtension.swift */; };
@@ -81,7 +80,6 @@
 		F08CC66B29CA75BF00EE8961 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F08CC66E29CA75BF00EE8961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F08CC67029CA75BF00EE8961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F0915E7929D6BF3400CDE7D4 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		F0915E7B29D6CDB700CDE7D4 /* InputTextController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextController.swift; sourceTree = "<group>"; };
 		F0915E7D29D6CE8500CDE7D4 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		F0915E7F29D6D07900CDE7D4 /* UITextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExtension.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				F0F104D129CAD1DD00957476 /* User.swift */,
 				F0F104DF29CC053300957476 /* Chat.swift */,
 				F05F4B6729D2779B0067C292 /* ChatRoom.swift */,
-				F0915E7929D6BF3400CDE7D4 /* Observable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -457,7 +454,6 @@
 			files = (
 				F0466EE429DE3A9900A42F8C /* ChatRoomListModelView.swift in Sources */,
 				F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */,
-				F0915E7A29D6BF3400CDE7D4 /* Observable.swift in Sources */,
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
 				F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */,
 				F0915E7E29D6CE8500CDE7D4 /* TableViewController.swift in Sources */,

@@ -79,7 +79,6 @@ class ChatRoomViewController: UIViewController {
     
     var drawerView = UIView().then {
         $0.backgroundColor = UIColor(cgColor: Color.DarkGray)
-        $0.layer.zPosition = 10
     }
     
     var deleteDataButton = UIButton().then {
@@ -155,10 +154,6 @@ class ChatRoomViewController: UIViewController {
     // ***************************************
     
     
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -173,9 +168,9 @@ class ChatRoomViewController: UIViewController {
             make.width.equalTo(0.0)
         }
         
-        deleteDataButton.snp.makeConstraints { make in
-            make.top.leading.bottom.equalToSuperview()
-            make.width.equalTo(100)
+        deleteDataButton.snp.makeConstraints {
+            $0.trailing.leading.bottom.equalToSuperview()
+            $0.height.equalTo(50)
         }
         
         deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
@@ -193,11 +188,12 @@ class ChatRoomViewController: UIViewController {
     
     
     func drawerShowAndHideAnimation(isShow: Bool) {
+        let deviceSize = UIScreen.main.bounds.size
         switch isShow {
         case true:
             UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
                 self.drawerView.snp.updateConstraints { make in
-                    make.width.equalTo(Constants.deviceSize.width * 0.8)
+                    make.width.equalTo(deviceSize.width * 0.4)
                 }
                 self.view.layoutIfNeeded()
             }

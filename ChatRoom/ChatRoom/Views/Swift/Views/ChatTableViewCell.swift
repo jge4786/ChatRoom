@@ -60,7 +60,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         nameLabel.text = ""
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = "00:00"
-        chatBubbleMaxWidth.constant = (Constants.deviceSize.width) * Constants.chatMaxWidthMultiplier
+        chatBubbleMaxWidth.constant = (UIScreen.main.bounds.size.width) * Constants.chatMaxWidthMultiplier
         
         profileButton.layer.cornerRadius = profileButton.frame.height / 2.65
     }
@@ -90,24 +90,40 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     }
 
     func setContent(_ data: Chat) {
-        if let cachedImage = ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) {
-            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-            chatBubbleTextView.textContainerInset = .zero
-            chatBubbleTextView.textContainer.lineFragmentPadding = 0
+        if let cachedImage = ImageManager.shared.imageDataCache.object(forKey: NSString(string: String(data.chatId))) {
+            let tmpImage = UIImageView(image: cachedImage)
             
-            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
+            self.chatBubbleView.addSubview(tmpImage)
+            
+            tmpImage.snp.makeConstraints {
+                $0.edges.equalTo(opacityFilterView)
+            }
+            
+//            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+//            chatBubbleTextView.textContainerInset = .zero
+//            chatBubbleTextView.textContainer.lineFragmentPadding = 0
+            
+//            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
         } else if let appendedImage = UIImage(data: data.image) {
             DispatchQueue.main.async {
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
-                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+                let tmpImage = UIImageView(image: cachedImage)
                 
-                self.chatBubbleHeight.constant = Constants.imageSize
+                self.chatBubbleView.addSubview(tmpImage)
                 
-                self.chatBubbleTextView.textContainerInset = .zero
-                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
+                tmpImage.snp.makeConstraints {
+                    $0.edges.equalTo(self.chatBubbleView)
+                }
                 
-                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
+//                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
+                
+//                self.chatBubbleHeight.constant = Constants.imageSize
+                
+//                self.chatBubbleTextView.textContainerInset = .zero
+//                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
+                
+//                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
             }
         } else {
             chatBubbleTextView.text = data.text

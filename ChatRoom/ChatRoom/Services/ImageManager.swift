@@ -22,17 +22,23 @@ final class ImageManager {
         }
     }
     
+    func getFitSize(image: UIImage) -> CGSize {
+        let deviceSize = UIScreen.main.bounds.size
+        
+        let maxWidth = deviceSize.width * Constants.chatMaxWidthMultiplier
+        
+        var ratio = maxWidth / image.size.width
+        ratio = ratio > 1 ? 1 : ratio
+        
+        return CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
+    }
+    
     @discardableResult
-    func saveImageToCache(image: UIImage, id: Int) -> NSAttributedString {
-        let resizedImage = resized(image: image, to: CGSize(width: Constants.imageSize, height: Constants.imageSize))
-   
-        let attachment = NSTextAttachment()
-        attachment.image = resizedImage
-        let imageString = NSAttributedString(attachment: attachment)
+    func saveImageToCache(image: UIImage, id: Int) -> UIImage {
+        let resizedImage = resized(image: image, to: getFitSize(image: image))
         
         imageDataCache.setObject(resizedImage, forKey: NSString(string: String(id)))
-        imageCache.setObject(imageString, forKey: NSString(string: String(id)))
         
-        return imageString
+        return resizedImage
     }
 }

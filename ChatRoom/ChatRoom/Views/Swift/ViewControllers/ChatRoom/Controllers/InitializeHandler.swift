@@ -12,7 +12,6 @@ extension ChatRoomViewController {
     
     private func setUI() {
         initHeaderButtonsSetting()
-        setSplash()
         setButtonsUI()
         
         inputTextViewHeight.constant = getTextViewHeight()
@@ -55,19 +54,9 @@ extension ChatRoomViewController {
         
         menuButton.tintColor = UIColor(cgColor: Color.White)
     }
-    
-    private func setSplash() {
-        dataLoadingScreen.layer.zPosition = 100
-    }
-    
+        
     private func setInitPosition() {
         //하단 버튼의 위치를 고정하기 위한 높이 조절
-//        addImageButton.snp.makeConstraints {
-//            $0.height.equalTo(footerWrapperView.frame.height)
-//        }
-//        sendMessageButton.snp.makeConstraints { make in
-//            make.height.equalTo(inputTextViewHeight.constant)
-//        }
         
         NSLayoutConstraint.activate([
             self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
@@ -85,7 +74,7 @@ extension ChatRoomViewController {
     }
     
     private func fadeDataLoadingScreen() {
-        UIView.animate(withDuration: 0.13, delay: 0.0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.13, delay: 0.2, options: .curveEaseIn) {
             self.dataLoadingScreen.layer.opacity = 0
         } completion: { finished in
             self.dataLoadingScreen.isHidden = true

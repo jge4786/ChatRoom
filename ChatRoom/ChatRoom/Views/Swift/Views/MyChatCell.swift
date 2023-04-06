@@ -12,8 +12,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     @IBOutlet weak var chatBubbleButton: UIButton!
     @IBOutlet weak var unreadCountLabel: UILabel!
     @IBOutlet weak var sentTimeLabel: UILabel!
-    
-    @IBOutlet weak var chatBubbleTextView: UITextView!
+        
     
     @IBAction func onTouchInChatBubble(_ sender: Any) {
         print("touchIn")
@@ -43,34 +42,6 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     override func awakeFromNib() {
         super.awakeFromNib()
         initializeData()
-        
-//        viewModel.opacityView.bind { [weak self] view in
-//            self?.opacityFilterView = view
-//        }
-//
-//        viewModel.chatBubbleHeight.bind { [weak self] height in
-//            self?.chatBubbleHeight = height
-//        }
-//
-//        viewModel.chatBubbleView.bind { [weak self] view in
-//            self?.chatBubbleView = view
-//        }
-//
-//        viewModel.chatBubbleButton.bind { [weak self] btn in
-//            self?.chatBubbleButton = btn
-//        }
-//
-//        viewModel.unreadCountLabel.bind { [weak self] label in
-//            self?.unreadCountLabel = label
-//        }
-//
-//        viewModel.sentTimeLabel.bind { [weak self] label in
-//            self?.sentTimeLabel = label
-//        }
-//
-//        viewModel.chatBubbleTextView.bind { [weak self] text in
-//            self?.chatBubbleTextView = text
-//        }
     }
     
     
@@ -89,19 +60,17 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = ""
         
-        chatBubbleMaxWidth.constant = Constants.deviceSize.width * Constants.chatMaxWidthMultiplier
+        chatBubbleMaxWidth.constant = UIScreen.main.bounds.size.width * Constants.chatMaxWidthMultiplier
     }
     
     override func prepareForReuse() {
-        setDataToDefault()
+        chatBubbleView.subviews.forEach {
+            guard $0 as? UIImageView != nil || $0 as? UITextView != nil else { return }
+            
+            $0.removeFromSuperview()
+        }
     }
     
-    func setDataToDefault() {
-        chatBubbleTextView.text = ""
-        chatBubbleHeight.constant = Constants.imageSize
-        chatBubbleTextView.textContainerInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 3)
-        chatBubbleTextView.textContainer.lineFragmentPadding = 3
-    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -113,27 +82,43 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     
     @IBOutlet weak var tmpImageView: UIImageView!
     func setContent(_ data: Chat) {
-        if let cachedImage = ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) {
-            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-            chatBubbleTextView.textContainerInset = .zero
-            chatBubbleTextView.textContainer.lineFragmentPadding = 0
-            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
+        if let cachedImage = ImageManager.shared.imageDataCache.object(forKey: NSString(string: String(data.chatId))) {
+            let tmpImage = UIImageView(image: cachedImage)
+            
+            self.chatBubbleView.addSubview(tmpImage)
+            
+            tmpImage.snp.makeConstraints {
+                $0.edges.equalTo(chatBubbleView)
+            }
+            
         } else if let appendedImage = UIImage(data: data.image) {
+            let imageView = UIImageView(image: ImageManager.shared.resized(image: appendedImage, to: ImageManager.shared.getFitSize(image: appendedImage)))
+            
+            chatBubbleView.addSubview(imageView)
+            
+            imageView.snp.makeConstraints {
+                $0.edges.equalTo(chatBubbleView)
+            }
             DispatchQueue.main.async {
-                let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
-                
-                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-                
-                self.chatBubbleHeight.constant = Constants.imageSize
-                
-                self.chatBubbleTextView.textContainerInset = .zero
-                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
-                
-                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
+                ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
             }
         } else {
+            let chatBubbleTextView = UITextView().then {
+                $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+                $0.textColor = .black
+                $0.isScrollEnabled = false
+                $0.isUserInteractionEnabled = false
+            }
+            
             chatBubbleTextView.text = data.text
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+            
+            chatBubbleView.addSubview(chatBubbleTextView)
+                       
+            chatBubbleTextView.snp.makeConstraints {
+                $0.edges.equalTo(chatBubbleView)
+            }
+            
+            
         }
     }
     
@@ -146,9 +131,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
         )
     }
     
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool = false) {
-        setDataToDefault()
-        
+    func setData(_ data: Chat, shouldShowTimeLabel: Bool, shouldShowUserInfo: Bool = false) {
         chatId = data.chatId
         
         setContent(data)

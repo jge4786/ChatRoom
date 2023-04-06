@@ -16,7 +16,9 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
 //        let tmp = contentTableView.decelerationRate
 //        contentTableView.decelerationRate = UIScrollView.DecelerationRate(rawValue: 0.0)
 //        contentTableView.decelerationRate = tmp
-        self.contentTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        contentTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        contentTableView.contentOffset.y = 0
+        
         scrollToBottomButton.isHidden = true
     }
     
@@ -28,13 +30,13 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
         let data = chatData[index]
         DispatchQueue.main.async {
             if let appendedImage = UIImage(data: data.image) {
-                guard ImageManager.shared.imageCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
+                guard ImageManager.shared.imageDataCache.object(forKey: NSString(string: String(data.chatId))) == nil else {
                     return
                 }
 
                 let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
                 
-                ImageManager.shared.imageCache.setObject(cachedImage, forKey: NSString(string: String(data.chatId)))
+                ImageManager.shared.imageDataCache.setObject(cachedImage, forKey: NSString(string: String(data.chatId)))
             }
         }
     }
@@ -64,7 +66,7 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
             
             cell.delegate = self
             
-            cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
+            cell.setData(data, shouldShowTimeLabel: shouldShowTimeLabel, shouldShowUserInfo: shouldShowUserInfo)
             return cell
         }
     }

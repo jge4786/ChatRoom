@@ -165,14 +165,15 @@ extension DataStorage {
         
         
         let endIndex =
-            offset + limit > result.count
-            ? (result.count - 1)
+            offset + limit >= result.count
+            ? (result.count)
             : (offset + limit)
         
         if limit == 0 { return result }
         
         print("전체 데이터:  \(result.count), offset:  \(offset),  limit: \(limit), endIndex: \(endIndex)")
-        return Array(result.reversed()[offset...endIndex])
+        
+        return Array(result.reversed()[offset..<endIndex])
     }
     
     func getChat(chatId: Int) -> Chat? {
