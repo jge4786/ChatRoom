@@ -29,7 +29,7 @@ struct Constants {
     ]
     
     // 입력 가능한 최대 메세지 길이
-    static let inputLimit = 50
+    static let inputLimit = 150
     
     static let chatLoadLimit = 20
     static let loadThreshold = 100.0
