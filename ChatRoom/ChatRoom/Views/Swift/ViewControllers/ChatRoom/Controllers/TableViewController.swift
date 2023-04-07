@@ -1,21 +1,9 @@
-//
-//  TableViewController.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/31.
-//
-
 import UIKit
 
 //테이블 뷰 초기화
 extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching{
     func scrollToBottom() {
         guard chatData.count >= 0 else { return }
-//        contentTableView.setContentOffset(.zero, animated: false)
-
-//        let tmp = contentTableView.decelerationRate
-//        contentTableView.decelerationRate = UIScrollView.DecelerationRate(rawValue: 0.0)
-//        contentTableView.decelerationRate = tmp
         contentTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         contentTableView.contentOffset.y = 0
         
@@ -52,6 +40,7 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
         guard let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
             return UITableViewCell()
         }
+        
         cell.transform = CGAffineTransform(rotationAngle: .pi)
         cell.delegate = self
         
@@ -68,10 +57,11 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
         let curData = chatData[indexPath.row]
         let uid = curData.owner.userId
         
-        // 시간 표시는 처음 채팅에, 프로필 표시는 마지막 채팅에
-
+        //데이터가 하나일 경우 indexPath.row > 0을 통과하지 못하기 때문에 추가한 조건
         guard chatData.count != 1 else { return setCellData(uid, curData, true, true) }
         
+        
+        //이전 데이터와 같은 시간에 작성된 채팅인지 확인
         guard indexPath.row > 0,
               case let prevData = chatData[indexPath.row - 1]
         else {
@@ -82,6 +72,8 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
 
         let shouldShowTimeLabel = (uid != prevData.owner.userId || curData.sentTime != prevData.sentTime)
 
+        
+        //다음 데이터와 작성자가 같은지 확인
         guard indexPath.row + 1 < chatData.count,
               case let nextData = chatData[indexPath.row + 1]
         else {
@@ -89,7 +81,6 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
         }
 
         let shouldShowUserInfo = uid != nextData.owner.userId
-
         
         return setCellData(uid, curData, shouldShowTimeLabel, shouldShowUserInfo)
     }

@@ -14,7 +14,6 @@ class ChatDetailViewController: UIViewController {
         super.viewDidLoad()
 
         guard let data = DataStorage.instance.getChat(chatId: chatId) else {
-            print("데이터 로딩 실패")
             self.navigationController?.popViewController(animated: true)
             return
         }
@@ -34,9 +33,4 @@ class ChatDetailViewController: UIViewController {
            textDetailView.text = data.text
        }
     }
-        
-    deinit{
-        print("detail deinit")
-    }
-
 }

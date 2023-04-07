@@ -52,7 +52,6 @@ final class APIService {
         
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: jsonBody) else {
-            print("JSON 실패")
             return nil
         }
 

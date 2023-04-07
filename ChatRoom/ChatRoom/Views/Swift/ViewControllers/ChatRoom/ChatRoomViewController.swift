@@ -132,8 +132,6 @@ class ChatRoomViewController: UIViewController {
             }
         }
         didSet {
-            print("몇번?", isInitialLoad)
-            
             guard !isInitialLoad else { isInitialLoad = false; return; }
             contentTableView.reloadData()
         }
@@ -208,7 +206,6 @@ class ChatRoomViewController: UIViewController {
     func onPressDeleteDataButton() {
         DataStorage.instance.deleteChatData(roomId: roomId)
         if gptInfo != nil {
-            print("지피티 초기화")
             DataStorage.instance.deleteGptChatData(dataSetId: roomId)
         }
         
@@ -219,7 +216,6 @@ class ChatRoomViewController: UIViewController {
     
     deinit{
         DataStorage.instance.saveData()
-        print("ChatRoomViewController deinit")
     }
 }
 

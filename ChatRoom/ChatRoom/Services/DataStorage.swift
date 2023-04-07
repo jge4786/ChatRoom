@@ -164,8 +164,6 @@ extension DataStorage {
         
         if limit == 0 { return result }
         
-        print("전체 데이터:  \(result.count), offset:  \(offset),  limit: \(limit), endIndex: \(endIndex)")
-        
         return Array(result.reversed()[offset..<endIndex])
     }
     
@@ -241,7 +239,6 @@ extension DataStorage {
     @discardableResult
     func makeChatGPTRoom() -> ChatRoom {
         let gptRoomId = roomIndex
-        print("GPTROOMID!!!!: \(gptRoomId)")
         let newChatRoom = ChatRoom(
             gptRoomId,
             gptRoomKey,
@@ -255,8 +252,6 @@ extension DataStorage {
         if gptChatList.count == 0 {
             gptChatList = [gptRoomId : []]
         } else {
-            print("지피티")
-            dump(gptChatList)
             gptChatList[gptRoomId] = []
         }
         
@@ -293,7 +288,7 @@ extension DataStorage {
     func deleteGptChatData(dataSetId id: Int) {
         let index =  gptChatList.firstIndex { $0.key == id }
 
-        guard let index = index else { return }
+        guard index != nil else { return }
         
         gptChatList[id] = []
         
@@ -326,8 +321,6 @@ extension DataStorage {
     
     // 데이터 저장
     func saveData() {
-        print("Save Data")
-        
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.userList), forKey: userDataKey)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatList), forKey: chatDataKey)
         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatRoomList), forKey: chatRoomDataKey)
@@ -346,7 +339,6 @@ extension DataStorage {
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.chatRoomList), forKey: chatRoomDataKey)
             UserDefaults.standard.set(try? PropertyListEncoder().encode(self.gptChatList), forKey: chatGptKey)
             
-            print("error - loadDataFromUserDefaults")
             initialize()
             saveData()
             
@@ -358,7 +350,6 @@ extension DataStorage {
               let loadedChatRoomData = try? PropertyListDecoder().decode([ChatRoom].self, from: chatRoomListData),
               let loadedGptChatData = try? PropertyListDecoder().decode([Int : [Message]].self, from: gptChatListData)
         else {
-            print("데이터 로딩 중 에러. 데이터 초기화 필요")
             return
         }
         
@@ -372,17 +363,8 @@ extension DataStorage {
         chatRoomList = loadedChatRoomData
         
         roomIndex = chatRoomList.last?.roomId ?? -1
-        
-//        print("룸인덱스: ", roomIndex)
-        
-//        gptRoomId = chatRoomList.first { $0.roomName == gptRoomKey }?.roomId
-        
-        gptChatList = loadedGptChatData
-    }
-    
 
-    enum DataError {
-        case loadFromUserDefaultsFailure
-        case dataDecodeFailure
+        gptChatList = loadedGptChatData
+        
     }
 }

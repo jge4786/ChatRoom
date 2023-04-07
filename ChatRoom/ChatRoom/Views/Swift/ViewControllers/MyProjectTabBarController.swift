@@ -9,6 +9,12 @@ class MyProjectTabBarController: UITabBarController {
         super.viewDidLoad()
         
         self.delegate = self
+        
+        if let controllers = self.tabBarController?.viewControllers {
+            controllers.forEach {
+                $0.tabBarItem.image = nil
+            }
+        }
     }
 }
 

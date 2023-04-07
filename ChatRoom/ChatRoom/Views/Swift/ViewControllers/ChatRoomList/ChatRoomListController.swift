@@ -80,19 +80,15 @@ class ChatRoomListController: UIViewController {
         
         switch isGPT {
         case true:
-            print("GPT!")
 //            roomStackView.addArrangedSubview(roomButton)
             
             for data in DataStorage.instance.getGptDataSetList() {
-                print(data.key)
                 addRoomButton(key: data.key)
             }
             
         case false:
-            print("Chat!")
             for data in DataStorage.instance.getChatRoomList() {
                 guard !DataStorage.instance.isGPTRoom(roomId: data.roomId) else { continue }
-                print("ddd: \(data.roomId)")
                 
                 addRoomButton(key: data.roomId)
             }
@@ -134,7 +130,6 @@ class ChatRoomListController: UIViewController {
         
         switch isGPT {
         case true:
-            print("GPT!")
             for button in roomStackView.subviews {
                 guard let button = button as? UIButton else { return }
                 button.setTitle("GPT \(button.tag)", for: .normal)
@@ -161,14 +156,9 @@ class ChatRoomListController: UIViewController {
     func onPressAddNewRoomButton() {
         switch isGPT {
         case true:
-            print("가짜")
             DataStorage.instance.makeChatGPTRoom()
         case false:
-            print("진짜?")
-            let newRoom = DataStorage.instance.makeChatRoom(name: "newRoom \(DataStorage.instance.getChatRoomList().count)")
-            
-            dump(newRoom)
-            
+            DataStorage.instance.makeChatRoom(name: "newRoom \(DataStorage.instance.getChatRoomList().count)")
         }
         DataStorage.instance.saveData()
         roomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }

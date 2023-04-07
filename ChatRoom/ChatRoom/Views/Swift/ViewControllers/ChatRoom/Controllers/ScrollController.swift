@@ -6,7 +6,6 @@ extension ChatRoomViewController: UIScrollViewDelegate {
               !isEndReached
         else { return }
         
-        print("loading!")
         isLoading = true
         
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1 ) {
