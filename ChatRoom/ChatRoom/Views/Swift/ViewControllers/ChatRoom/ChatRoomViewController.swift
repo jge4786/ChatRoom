@@ -31,16 +31,7 @@ class ChatRoomViewController: UIViewController {
     
     @IBOutlet weak var selectUserButton: UIButton!
     
-    
-    var goBackButton_ = UIButton().then {
-        $0.tintColor = .black
-        $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
-    }
-    
-    @objc
-    func onPressGoBack() {
-        
-    }
+
     
     @IBAction func onPressGoBackButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -49,7 +40,6 @@ class ChatRoomViewController: UIViewController {
     @IBAction func onPressEmojiButton(_ sender: Any) {
         for mode in UITextInputMode.activeInputModes {
             if mode.primaryLanguage == "emoji" {
-//                inputTextView
             }
         }
     }
@@ -57,7 +47,7 @@ class ChatRoomViewController: UIViewController {
         openPhotoLibrary()
     }
     
-
+    
     // 전송 버튼 눌림
     @IBAction func onPressSendMessageButton(_ sender: Any) {
         DataStorage.instance.isGPTRoom(roomId: roomId)
@@ -65,17 +55,16 @@ class ChatRoomViewController: UIViewController {
         : sendMessage()
     }
     
+    // 하단 스크롤 버튼 눌림
     @IBAction func onPressScrollToBottom(_ sender: Any) {
         scrollToBottom()
     }
     
-    var drawerState = false
     @IBAction func onPressMenuButton(_ sender: Any) {
         drawerShowAndHideAnimation(isShow: !drawerState)
         drawerState = !drawerState
     }
     
-    var gptDataSetId = 0
     
     var drawerView = UIView().then {
         $0.backgroundColor = Color.DarkGray
@@ -87,18 +76,19 @@ class ChatRoomViewController: UIViewController {
         $0.setTitle("삭제", for: .normal)
     }
     
+    var goBackButton_ = UIButton().then {
+        $0.tintColor = .black
+        $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
+    }
     
-    let storage = DataStorage.instance
-    
-    var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)
-    var me = 5
-    var roomId = 0
-    var selectedUser = 5
+    var drawerState = false
+    var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)   // ChatRoomListController 에서 넘기는 값을 저장
+    var me = 5              // 내 userId
+    var roomId = 0          // 현재 방의 userId
     var gptInfo: User? = nil
     
     var userData: User = User()
     var roomData: ChatRoom = ChatRoom()
-    
     
     var isLoading = false
     
@@ -143,7 +133,6 @@ class ChatRoomViewController: UIViewController {
     var userList: [User] = []
     
     func selectUser(selected: Int) {
-        selectedUser = selected
         selectUserButton.setTitle(userList[selected].name, for: .normal)
     }
     // ***************************************

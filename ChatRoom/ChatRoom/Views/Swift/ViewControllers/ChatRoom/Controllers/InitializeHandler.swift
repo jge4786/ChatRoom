@@ -103,7 +103,6 @@ extension ChatRoomViewController {
     private func setRoomSetting() {
         roomId = chatRoomInfo.roomId
         me = chatRoomInfo.userId
-        selectedUser = me
         
         guard let crData = DataStorage.instance.getChatRoom(roomId: roomId) else {
             fatalError("채팅방 정보 불러오기 실패")

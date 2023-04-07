@@ -8,15 +8,14 @@ extension ChatRoomViewController: UIScrollViewDelegate {
         
         isLoading = true
         
+        //연속 로딩 방지
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1 ) {
-            
             self.isLoading = false
         }
         
         self.loadData()
         self.contentTableView.reloadData()
     }
-    
     
     // 스크롤 버튼 표시 관리
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -32,7 +31,6 @@ extension ChatRoomViewController: UIScrollViewDelegate {
             onTopReached()
         }
         
-        ///velocity: 양수일 경우 위로 스크롤 중
         if velocity >= 0 && offsetValue > Constants.deviceSize.height && scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = false
         }else if velocity <= 0 && offsetValue < 10 && scrollView.isDecelerating && !scrollToBottomButton.isHidden {

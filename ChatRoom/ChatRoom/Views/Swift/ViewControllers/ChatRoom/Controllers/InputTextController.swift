@@ -1,20 +1,11 @@
-//
-//  TextInputController.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/03/31.
-//
-
 import UIKit
 
 extension ChatRoomViewController {
-    // 빈 메세지 확인
     func isMessageEmpty(_ text: String?) -> Bool {
         guard let text = text else { return true }
         
-        return text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty
+        return text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-    
     
     func sendMessage(owner: User, text: String?, isUser: Bool = true) {
         if isMessageEmpty(text) { return }
@@ -24,6 +15,7 @@ extension ChatRoomViewController {
         
         chatData.insert( DataStorage.instance.appendChatData(roomId: roomId, owner: owner, text: text!), at: 0)
         
+        // 챗GPT가 작성한 채팅일 경우
         guard isUser else {
             contentTableView.reloadData()
             scrollToBottom()
@@ -47,18 +39,20 @@ extension ChatRoomViewController {
         sendMessageButton.tintColor = Color.LighterBlack
     }
     
+    // 챗GPT의 메세지 업데이트
     func updateLatestMessage(text: String) {
         guard let firstIndex = chatData.first?.chatId else { return }
         _ = DataStorage.instance.updateChatData(roomId: roomId, chatId: firstIndex, text: text)
         chatData[0].text = text
     }
     
+    //일반 채팅방에서 대화할 경우 사용
     func sendMessage() {
-        sendMessage(owner: userList[selectedUser], text: inputTextView.text)
+        sendMessage(owner: userList[me], text: inputTextView.text)
         contentTableView.reloadData()
     }
     
-    
+    //챗GPT 채팅방에서 대화할 경우 사용
     func sendMessageToGPT() {
         let text = inputTextView.text
         if isMessageEmpty(text) { return }
@@ -72,7 +66,6 @@ extension ChatRoomViewController {
         if gptDataSet == nil {
             gptDataSet = []
         }
-        
         
         let requestedMessage = Message(role: "user", content: text)
         
@@ -89,8 +82,6 @@ extension ChatRoomViewController {
         }
     }
 }
-
-
 
 extension ChatRoomViewController: UITextViewDelegate {
     func getTextViewHeight() -> Double {
@@ -128,7 +119,7 @@ extension ChatRoomViewController: UITextViewDelegate {
         
         setTextViewHeight()
         
-        setSendMessageButtonImage(isEmpty: textView.text.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .newlines).isEmpty)
+        setSendMessageButtonImage(isEmpty: textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         
         if !textView.text.isEmpty {
             letterCountWrapperView.isHidden = false

@@ -28,7 +28,11 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate, UINavigationCo
                            return
                        }
                        
-                       self.chatData.insert( DataStorage.instance.appendChatData(roomId: self.roomId, owner: self.userList[self.selectedUser], image: imageData), at: 0)
+                       let cachedImage = DataStorage.instance.appendChatData(roomId: self.roomId,
+                                                                             owner: self.userList[self.me],
+                                                                             image: imageData)
+                       
+                       self.chatData.insert(cachedImage, at: 0)
                        
                        self.scrollToBottom()
                        picker.dismiss(animated: true)
