@@ -26,6 +26,17 @@ final class DataStorage {
         }
     }
     
+    private var roomCursor = -1
+    private var roomIndex: Int {
+        get {
+            roomCursor += 1
+            
+            return roomCursor
+        } set {
+            roomCursor = newValue
+        }
+    }
+    
     private init() {
         loadData()
     }
@@ -43,8 +54,8 @@ final class DataStorage {
         chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[1], sentDateTime: "2023-01-01 12:30", text: "hello")]
         
         chatRoomList = [
-            ChatRoom(0, "채팅방1", userList),
-            ChatRoom(1, "채팅방2", [
+            ChatRoom(roomIndex, "채팅방1", userList),
+            ChatRoom(roomIndex, "채팅방2", [
 //                User("일", 0, profile: "defaultImage1"),
                 User("이", 1, profile: "defaultImage2"),
                 User("삼", 2, profile: "defaultImage3"),
@@ -78,7 +89,7 @@ extension DataStorage {
     
     @discardableResult
     func makeChatRoom(name: String) -> ChatRoom {
-        let newChatRoom = ChatRoom(chatRoomList.count, name,[
+        let newChatRoom = ChatRoom(roomIndex, name,[
 //            User("일", 0, profile: "defaultImage1"),
             User("이", 1, profile: "defaultImage2"),
             User("삼", 2, profile: "defaultImage3"),
@@ -229,7 +240,7 @@ extension DataStorage {
     //TODO: 테스트용으로 userId: 0으로 생성. 시간 나면 내 userId 지정하고 이 userId로 초기화하도록
     @discardableResult
     func makeChatGPTRoom() -> ChatRoom {
-        let gptRoomId = chatRoomList.count
+        let gptRoomId = roomIndex
         print("GPTROOMID!!!!: \(gptRoomId)")
         let newChatRoom = ChatRoom(
             gptRoomId,
@@ -359,6 +370,10 @@ extension DataStorage {
         userList = loadedUserData
         
         chatRoomList = loadedChatRoomData
+        
+        roomIndex = chatRoomList.last?.roomId ?? -1
+        
+//        print("룸인덱스: ", roomIndex)
         
 //        gptRoomId = chatRoomList.first { $0.roomName == gptRoomKey }?.roomId
         

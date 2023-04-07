@@ -135,13 +135,13 @@ class ChatRoomListController: UIViewController {
         switch isGPT {
         case true:
             print("GPT!")
-            for (index, button) in roomStackView.subviews.enumerated() {
+            for button in roomStackView.subviews {
                 guard let button = button as? UIButton else { return }
-                button.setTitle("GPT \(index)", for: .normal)
+                button.setTitle("GPT \(button.tag)", for: .normal)
                 button.addTarget(self, action: #selector(onPressGPTButton), for: .touchUpInside)
             }
         case false:
-            for (index, button) in roomStackView.subviews.enumerated() {
+            for button in roomStackView.subviews{
                 guard let button = button as? UIButton else { return }
                 button.setTitle(DataStorage.instance.getChatRoom(roomId: button.tag)?.roomName, for: .normal)
                 
