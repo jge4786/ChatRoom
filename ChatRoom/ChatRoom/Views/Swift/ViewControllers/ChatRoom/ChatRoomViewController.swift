@@ -75,7 +75,7 @@ class ChatRoomViewController: UIViewController {
         drawerState = !drawerState
     }
     
-    let temporaryGptDataSetId = 0
+    var gptDataSetId = 0
     
     var drawerView = UIView().then {
         $0.backgroundColor = Color.DarkGray
@@ -138,9 +138,6 @@ class ChatRoomViewController: UIViewController {
             contentTableView.reloadData()
         }
     }
-    
-    var gptMessageData: [Message] = []
-
     
     // **************** 테스트용 ***************
     
@@ -212,10 +209,12 @@ class ChatRoomViewController: UIViewController {
         DataStorage.instance.deleteChatData(roomId: roomId)
         if gptInfo != nil {
             print("지피티 초기화")
-            DataStorage.instance.deleteGptChatData(dataSetId: 0)
+            DataStorage.instance.deleteGptChatData(dataSetId: roomId)
         }
-        chatData = []
-        contentTableView.reloadData()
+        
+        DataStorage.instance.deleteChatRoom(roomId: roomId)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     deinit{

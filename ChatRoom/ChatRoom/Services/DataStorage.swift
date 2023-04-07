@@ -14,8 +14,6 @@ final class DataStorage {
     private var chatRoomList: [ChatRoom] = []
     private var gptChatList: [Int : [Message]] = [:] // messageSetId : Message
     
-    private var gptRoomId: Int?
-    
     private var cursor = -1
     
     private var chatIndex: Int {
@@ -54,6 +52,9 @@ final class DataStorage {
             ])
         ]
         
+        gptChatList = [:]
+        
+        makeChatGPTRoom()
         makeChatGPTRoom()
         
 //        loadData()
@@ -74,13 +75,6 @@ extension DataStorage {
         }
     }
     
-    func getGPTRoom() -> Int {
-        let result = chatRoomList.first { $0.roomName == gptRoomKey }
-        
-        guard let result = result else { return makeChatGPTRoom().roomId }
-        
-        return result.roomId
-    }
     
     @discardableResult
     func makeChatRoom(name: String) -> ChatRoom {
@@ -96,27 +90,15 @@ extension DataStorage {
         return newChatRoom
     }
     
-    //TODO: 테스트용으로 userId: 0으로 생성. 시간 나면 내 userId 지정하고 이 userId로 초기화하도록
-    @discardableResult
-    func makeChatGPTRoom() -> ChatRoom {
-        gptRoomId = chatRoomList.count
-        let newChatRoom = ChatRoom(
-            gptRoomId!,
-            gptRoomKey,
-            [
-                getUser(userId: 1)!,
-                getUser(userId: 0)!,
-            ])
+    func deleteChatRoom(roomId: Int) {
+        chatRoomList.removeAll {
+            $0.roomId == roomId
+        }
+        if gptChatList[roomId] != nil {
+            gptChatList.removeValue(forKey: roomId)
+        }
         
-        chatRoomList.append(newChatRoom)
-        
-        return newChatRoom
     }
-    
-    func isGPTRoom(roomId: Int) -> Bool {
-        return roomId == gptRoomId
-    }
-    
 //    public func makeChatRoom(roomId: Int, userId: Int...) { }
 }
 
@@ -235,18 +217,47 @@ extension DataStorage {
     func getGptDataSetList() -> [Int : [Message]] {
         return gptChatList
     }
-    
-    func makeGptRoom() -> Int {
-        gptChatList[chatRoomList.count] = []
         
-        return chatList.count - 1
+    func getGPTRoom() -> Int {
+        let result = chatRoomList.first { $0.roomName == gptRoomKey }
+        
+        guard let result = result else { return makeChatGPTRoom().roomId }
+        
+        return result.roomId
+    }
+        
+    //TODO: 테스트용으로 userId: 0으로 생성. 시간 나면 내 userId 지정하고 이 userId로 초기화하도록
+    @discardableResult
+    func makeChatGPTRoom() -> ChatRoom {
+        let gptRoomId = chatRoomList.count
+        print("GPTROOMID!!!!: \(gptRoomId)")
+        let newChatRoom = ChatRoom(
+            gptRoomId,
+            gptRoomKey,
+            [
+                getUser(userId: 1)!,
+                getUser(userId: 0)!,
+            ])
+        
+        chatRoomList.append(newChatRoom)
+        
+        if gptChatList.count == 0 {
+            gptChatList = [gptRoomId : []]
+        } else {
+            print("지피티")
+            dump(gptChatList)
+            gptChatList[gptRoomId] = []
+        }
+        
+        return newChatRoom
     }
     
-    func deleteGptRoom() {
-        let targetRoomId = gptChatList.popFirst()?.key
-        chatList.removeAll {
-            $0.roomId == targetRoomId
+    func isGPTRoom(roomId: Int) -> Bool {
+        let result = gptChatList.first { (key: Int, value: [Message]) in
+            key == roomId
         }
+        
+        return result != nil
     }
     
     func getGptDataSet(dataSetId id: Int) -> [Message]? {
@@ -273,7 +284,7 @@ extension DataStorage {
 
         guard let index = index else { return }
         
-        gptChatList.remove(at: index)
+        gptChatList[id] = []
         
         saveData()
     }
@@ -349,11 +360,9 @@ extension DataStorage {
         
         chatRoomList = loadedChatRoomData
         
-        gptRoomId = chatRoomList.first { $0.roomName == gptRoomKey }?.roomId
+//        gptRoomId = chatRoomList.first { $0.roomName == gptRoomKey }?.roomId
         
         gptChatList = loadedGptChatData
-        
-        flushChatData()
     }
     
 

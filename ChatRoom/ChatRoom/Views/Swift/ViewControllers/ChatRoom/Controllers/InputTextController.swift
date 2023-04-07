@@ -67,7 +67,7 @@ extension ChatRoomViewController {
         
         sendMessage()
         
-        var gptDataSet = DataStorage.instance.getGptDataSet(dataSetId: temporaryGptDataSetId)
+        var gptDataSet = DataStorage.instance.getGptDataSet(dataSetId: roomId)
         
         if gptDataSet == nil {
             gptDataSet = []
@@ -76,7 +76,7 @@ extension ChatRoomViewController {
         
         let requestedMessage = Message(role: "user", content: text)
         
-        gptDataSet?.append( DataStorage.instance.appendGptChatData(dataSetId: temporaryGptDataSetId, message: requestedMessage) )
+        gptDataSet?.append( DataStorage.instance.appendGptChatData(dataSetId: roomId, message: requestedMessage) )
         
         guard let gptDataSet = gptDataSet else { return }
         
@@ -85,8 +85,6 @@ extension ChatRoomViewController {
         sendMessageButton.isEnabled = false
         APIService.shared.sendChat(text: gptDataSet) { response in
             self.updateLatestMessage(text: response.content)
-//            self.sendMessage(owner: self.gptInfo!, text: response.content, isUser: false)
-            self.gptMessageData.append(response)
             self.sendMessageButton.isEnabled = true
         }
     }

@@ -19,32 +19,46 @@ class ChatRoomListController: UIViewController {
         $0.backgroundColor = Color.LightBlack
     }
 
+    var addNewRoomButton = UIButton().then {
+        $0.backgroundColor = .black
+        $0.layer.opacity = 0.6
+        $0.layer.cornerRadius = 25
+        $0.setImage(UIImage(systemName: "plus"), for: .normal)
+        $0.tintColor = Color.White
+    }
+    
     var isGPT = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.DarkGray
         
+//        initialize()
+    }
+    
+    func initialize() {
         setSubViews()
         setConstraints()
         setData()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         hidingBar()
+        
+        
+        roomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        roomStackView.removeFromSuperview()
+        initialize()
     }
     func hidingBar() {
-        guard let tabBarController = self.tabBarController,
-              let navigationController = self.navigationController
+        guard let tabBarController = self.tabBarController
         else {
             return
         }
         
         tabBarController.tabBar.isHidden = false
-//        navigationController.isNavigationBarHidden = true
     }
     
     func addRoomButton(key: Int) {
@@ -60,6 +74,7 @@ class ChatRoomListController: UIViewController {
         
         
         view.addSubview(roomListScrollView)
+        view.addSubview(addNewRoomButton)
         
         roomListScrollView.addSubview(roomStackView)
         
@@ -69,15 +84,17 @@ class ChatRoomListController: UIViewController {
 //            roomStackView.addArrangedSubview(roomButton)
             
             for data in DataStorage.instance.getGptDataSetList() {
+                print(data.key)
                 addRoomButton(key: data.key)
             }
             
         case false:
             print("Chat!")
-            for index in 0..<DataStorage.instance.getChatRoomList().count {
-                guard index != DataStorage.instance.getGPTRoom() else { continue }
+            for data in DataStorage.instance.getChatRoomList() {
+                guard !DataStorage.instance.isGPTRoom(roomId: data.roomId) else { continue }
+                print("ddd: \(data.roomId)")
                 
-                addRoomButton(key: index)
+                addRoomButton(key: data.roomId)
             }
         }
     }
@@ -93,13 +110,18 @@ class ChatRoomListController: UIViewController {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
         
-        
         for button in roomStackView.subviews {
             button.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview()
 
                 $0.height.equalTo(50)
             }
+        }
+        
+        addNewRoomButton.snp.makeConstraints {
+            $0.width.height.equalTo(50)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalTo(roomListScrollView).inset(10)
         }
     }
     
@@ -121,18 +143,37 @@ class ChatRoomListController: UIViewController {
         case false:
             for (index, button) in roomStackView.subviews.enumerated() {
                 guard let button = button as? UIButton else { return }
-                button.setTitle(DataStorage.instance.getChatRoom(roomId: index)?.roomName, for: .normal)
-                button.tag = index
+                button.setTitle(DataStorage.instance.getChatRoom(roomId: button.tag)?.roomName, for: .normal)
+                
                 button.addTarget(self, action: #selector(onPressRoomEnteranceButton), for: .touchUpInside)
             }
         }
         
-        
+        addNewRoomButton.addTarget(self, action: #selector(onPressAddNewRoomButton), for: .touchUpInside)
 
     }
     
     func setBiding() {
         
+    }
+    
+    @objc
+    func onPressAddNewRoomButton() {
+        switch isGPT {
+        case true:
+            print("가짜")
+            DataStorage.instance.makeChatGPTRoom()
+        case false:
+            print("진짜?")
+            let newRoom = DataStorage.instance.makeChatRoom(name: "newRoom \(DataStorage.instance.getChatRoomList().count)")
+            
+            dump(newRoom)
+            
+        }
+        DataStorage.instance.saveData()
+        roomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        roomStackView.removeFromSuperview()
+        initialize()
     }
     
     @objc
@@ -150,8 +191,12 @@ class ChatRoomListController: UIViewController {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoom") as? ChatRoomViewController else {
             return
         }
-        
+
         nextVC.chatRoomInfo = (userId: 2, roomId: button.tag)
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    deinit {
+        DataStorage.instance.saveData()
     }
 }
