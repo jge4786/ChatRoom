@@ -48,7 +48,7 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
             data,
             shouldShowTimeLabel: shouldShowTimeLabel,
             shouldShowUserInfo: shouldShowUserInfo,
-            isMyChat: uid == me)
+            isMyChat: uid == userData.userId)
         
         return cell
     }

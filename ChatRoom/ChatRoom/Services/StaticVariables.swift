@@ -21,11 +21,6 @@ struct Constants {
         "DefaultImage4",
         "DefaultImage5",
         "DefaultImage6",
-//        UIImage(named: "defaultImage1"),
-//        UIImage(named: "defaultImage2"),
-//        UIImage(named: "defaultImage3"),
-//        UIImage(named: "defaultImage4"),
-//        UIImage(named: "defaultImage5"),
     ]
     
     // 입력 가능한 최대 메세지 길이

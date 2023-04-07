@@ -33,7 +33,7 @@ extension ChatRoomViewController: UIScrollViewDelegate {
         
         if velocity >= 0 && offsetValue > Constants.deviceSize.height && scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = false
-        }else if velocity <= 0 && offsetValue < 10 && scrollView.isDecelerating && !scrollToBottomButton.isHidden {
+        } else if velocity <= 0 && offsetValue < 10 && scrollView.isDecelerating && !scrollToBottomButton.isHidden {
             scrollToBottomButton.isHidden = true
         }
     }

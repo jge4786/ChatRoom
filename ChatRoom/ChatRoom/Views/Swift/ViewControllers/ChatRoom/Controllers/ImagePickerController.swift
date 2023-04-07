@@ -29,7 +29,7 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate, UINavigationCo
                        }
                        
                        let cachedImage = DataStorage.instance.appendChatData(roomId: self.roomId,
-                                                                             owner: self.userList[self.me],
+                                                                             owner: self.userData,
                                                                              image: imageData)
                        
                        self.chatData.insert(cachedImage, at: 0)

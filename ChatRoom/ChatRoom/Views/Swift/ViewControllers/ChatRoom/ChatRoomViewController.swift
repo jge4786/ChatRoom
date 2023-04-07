@@ -16,22 +16,15 @@ class ChatRoomViewController: UIViewController {
     @IBOutlet weak var sendMessageButton: UIButton!     // 메세지 전송 버튼
     @IBOutlet weak var inputTextViewWrapper: UIView!
     @IBOutlet weak var inputTextViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var inputStackView: UIStackView!
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!        // 이미지 첨부 버튼
     
     @IBOutlet weak var emojiButton: UIButton!
-    @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var letterCountWrapperView: UIView!
     @IBOutlet weak var letterCountLabel: UILabel!
     @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
     @IBOutlet weak var dataLoadingScreen: UIView!
-    @IBOutlet weak var tmpWrapperView: UIView!
-    
-    @IBOutlet weak var selectUserButton: UIButton!
-    
-
     
     @IBAction func onPressGoBackButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -65,6 +58,19 @@ class ChatRoomViewController: UIViewController {
         drawerState = !drawerState
     }
     
+    //채팅방 삭제
+    @objc
+    func onPressDeleteDataButton() {
+        DataStorage.instance.deleteChatData(roomId: roomId)
+        if gptInfo != nil {
+            DataStorage.instance.deleteGptChatData(dataSetId: roomId)
+        }
+        
+        DataStorage.instance.deleteChatRoom(roomId: roomId)
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
     var drawerView = UIView().then {
         $0.backgroundColor = Color.DarkGray
@@ -81,40 +87,24 @@ class ChatRoomViewController: UIViewController {
         $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
     }
     
-    var drawerState = false
+    //채팅방 기본 정보
     var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)   // ChatRoomListController 에서 넘기는 값을 저장
-    var me = 5              // 내 userId
     var roomId = 0          // 현재 방의 userId
     var gptInfo: User? = nil
     
     var userData: User = User()
     var roomData: ChatRoom = ChatRoom()
     
-    var isLoading = false
     
-    var isEndReached = false
+    
+    
+    //채팅 데이터 관리
+    
+    var isLoading = false       //짧은 시간에 여러번 로딩되는 것 방지
+    var isEndReached = false    //모든 데이터 로딩 완료됐는지
     var offset = 0
+    var isInitialLoad = true    //이 채팅방에서의 첫 로딩인지
     
-    var safeAreaBottomInset: CGFloat = 0.0
-    
-    var isInitialLoad = true
-    
-    // 입력창 높이
-    var textViewLine = 1 {
-        didSet {
-            if oldValue == textViewLine {
-            }else{
-                guard let lineHeight = inputTextView.font?.lineHeight else { return }
-                
-                let direction: Double = Double(textViewLine - oldValue)
-                let translationValue = lineHeight * direction
-                
-                contentTableView.contentOffset.y = contentTableView.contentOffset.y + translationValue
-            }
-        }
-    }
-    
-
     var chatData: [Chat] = [] {
         willSet {
             if chatData.count <= newValue.count {
@@ -127,49 +117,38 @@ class ChatRoomViewController: UIViewController {
         }
     }
     
-    // **************** 테스트용 ***************
+    //UI 관련
+    var drawerState = false
+    var safeAreaBottomInset: CGFloat = 0.0
     
     
-    var userList: [User] = []
-    
-    func selectUser(selected: Int) {
-        selectUserButton.setTitle(userList[selected].name, for: .normal)
+    // 입력창 높이
+    var textViewLine = 1 {
+        didSet {
+            if oldValue == textViewLine {
+            } else {
+                guard let lineHeight = inputTextView.font?.lineHeight else { return }
+                
+                let direction: Double = Double(textViewLine - oldValue)
+                let translationValue = lineHeight * direction
+                
+                contentTableView.contentOffset.y = contentTableView.contentOffset.y + translationValue
+            }
+        }
     }
-    // ***************************************
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initializeSettings()
-        
-        view.addSubview(drawerView)
-        drawerView.addSubview(deleteDataButton)
-        
-        drawerView.snp.makeConstraints { make in
-            make.top.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(inputTextViewWrapper.snp.top)
-            make.width.equalTo(0.0)
-        }
-        
-        deleteDataButton.snp.makeConstraints {
-            $0.trailing.leading.bottom.equalToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //탭바 숨김
         hidingBar()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     
     func drawerShowAndHideAnimation(isShow: Bool) {
         let deviceSize = UIScreen.main.bounds.size
@@ -190,25 +169,11 @@ class ChatRoomViewController: UIViewController {
             }
         }
     }
-        
-    @objc
-    func onPressDeleteDataButton() {
-        DataStorage.instance.deleteChatData(roomId: roomId)
-        if gptInfo != nil {
-            DataStorage.instance.deleteGptChatData(dataSetId: roomId)
-        }
-        
-        DataStorage.instance.deleteChatRoom(roomId: roomId)
-        
-        self.navigationController?.popViewController(animated: true)
-    }
-    
+       
     deinit{
         DataStorage.instance.saveData()
     }
 }
-
-
 
 extension ChatRoomViewController: ChangeSceneDelegate {
     func goToChatDetailScene(chatId: Int) {

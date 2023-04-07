@@ -5,17 +5,13 @@ import SnapKit
 import Then
 
 class ChatRoomListController: UIViewController {
-    @IBOutlet weak var gptButton: UIBarButtonItem!
-    
-    let modelView = ChatRoomListModelView()
-    
     var roomListScrollView = UIScrollView()
     
     var roomStackView = UIStackView().then {
         $0.backgroundColor = .black
     }
     
-    lazy var roomButton = UIButton().then {
+    var roomButton = UIButton().then {
         $0.backgroundColor = Color.LightBlack
     }
 
@@ -32,8 +28,6 @@ class ChatRoomListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.DarkGray
-        
-//        initialize()
     }
     
     func initialize() {
@@ -46,7 +40,6 @@ class ChatRoomListController: UIViewController {
         super.viewWillAppear(animated)
         
         hidingBar()
-        
         
         roomStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         roomStackView.removeFromSuperview()

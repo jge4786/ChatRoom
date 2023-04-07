@@ -1,7 +1,6 @@
 import UIKit
 
 class ChatDetailViewController: UIViewController {
-    
     var chatId: Int = 0
     
     @IBAction func onPressGoBackButton(_ sender: Any) {

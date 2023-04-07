@@ -26,7 +26,6 @@ extension MyProjectTabBarController: UITabBarControllerDelegate {
         
         let isChatRoom = tabBarController.tabBar.items?.first == tabBarController.tabBar.selectedItem
         
-        
         if !isChatRoom {
             nextView.isGPT = true
         } else {

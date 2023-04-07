@@ -26,7 +26,26 @@ extension ChatRoomViewController {
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         
         setInitPosition()
-
+        
+        addDrawer()
+    }
+    
+    func addDrawer() {
+        view.addSubview(drawerView)
+        drawerView.addSubview(deleteDataButton)
+        
+        drawerView.snp.makeConstraints { make in
+            make.top.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(inputTextViewWrapper.snp.top)
+            make.width.equalTo(0.0)
+        }
+        
+        deleteDataButton.snp.makeConstraints {
+            $0.trailing.leading.bottom.equalToSuperview()
+            $0.height.equalTo(50)
+        }
+        
+        deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
     }
     
     func hidingBar() {
@@ -85,24 +104,15 @@ extension ChatRoomViewController {
 
 extension ChatRoomViewController {
     private func setData() {
-        
-        //데이터 초기화
         setRoomSetting()
         loadData()
         loadGPTData()
         registComponents()
         
-        // ***************디버그, 테스트용*************
-        
-        userList = DataStorage.instance.getUserList()
-//        setSelectUserMenu()
-        
-        // ****************************************
     }
     
     private func setRoomSetting() {
         roomId = chatRoomInfo.roomId
-        me = chatRoomInfo.userId
         
         guard let crData = DataStorage.instance.getChatRoom(roomId: roomId) else {
             fatalError("채팅방 정보 불러오기 실패")
@@ -111,7 +121,7 @@ extension ChatRoomViewController {
         
         self.title = roomData.roomName
         
-        guard let uData = DataStorage.instance.getUser(userId: me) else {
+        guard let uData = DataStorage.instance.getUser(userId: chatRoomInfo.userId) else {
             fatalError("유저 정보 불러오기 실패")
         }
         userData = uData
@@ -126,25 +136,7 @@ extension ChatRoomViewController {
         
         ChatTableViewCell.register(tableView: contentTableView)
     }
-    
-    private func setSelectUserMenu() {
-        var menuItems: [UIAction] = []
-        
-        for idx in 0..<userList.count {
-            menuItems.append(
-                UIAction(title: userList[idx].name, handler: { [weak self] _ in
-                    
-                    self?.selectUser(selected: idx)
-                })
-            )
-        }
-        
-        selectUserButton.menu = UIMenu(title: "사용자 선택",
-                                       identifier: nil,
-                                       options: .displayInline,
-                                       children: menuItems
-        )
-    }
+
     
     func loadData() {
         let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)

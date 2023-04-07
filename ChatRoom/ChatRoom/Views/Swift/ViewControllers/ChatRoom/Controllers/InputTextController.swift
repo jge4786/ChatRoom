@@ -48,7 +48,7 @@ extension ChatRoomViewController {
     
     //일반 채팅방에서 대화할 경우 사용
     func sendMessage() {
-        sendMessage(owner: userList[me], text: inputTextView.text)
+        sendMessage(owner: userData, text: inputTextView.text)
         contentTableView.reloadData()
     }
     
@@ -124,7 +124,7 @@ extension ChatRoomViewController: UITextViewDelegate {
         if !textView.text.isEmpty {
             letterCountWrapperView.isHidden = false
             letterCountLabel.text = "\(textView.text.count) / \(Constants.inputLimit)"
-        }else {
+        } else {
             letterCountWrapperView.isHidden = true
         }
     }

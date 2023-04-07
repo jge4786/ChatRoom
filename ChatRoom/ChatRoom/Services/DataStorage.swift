@@ -56,7 +56,6 @@ final class DataStorage {
         chatRoomList = [
             ChatRoom(roomIndex, "채팅방1", userList),
             ChatRoom(roomIndex, "채팅방2", [
-//                User("일", 0, profile: "defaultImage1"),
                 User("이", 1, profile: "defaultImage2"),
                 User("삼", 2, profile: "defaultImage3"),
                 User("사", 3, profile: "defaultImage4"),
@@ -67,14 +66,10 @@ final class DataStorage {
         
         makeChatGPTRoom()
         makeChatGPTRoom()
-        
-//        loadData()
     }
 }
 
-/**
- 채팅방
- */
+/// 채팅방
 extension DataStorage {
     func getChatRoomList() -> [ChatRoom] {
         return chatRoomList
@@ -90,7 +85,6 @@ extension DataStorage {
     @discardableResult
     func makeChatRoom(name: String) -> ChatRoom {
         let newChatRoom = ChatRoom(roomIndex, name,[
-//            User("일", 0, profile: "defaultImage1"),
             User("이", 1, profile: "defaultImage2"),
             User("삼", 2, profile: "defaultImage3"),
             User("사", 3, profile: "defaultImage4"),
@@ -110,12 +104,9 @@ extension DataStorage {
         }
         
     }
-//    public func makeChatRoom(roomId: Int, userId: Int...) { }
 }
 
-/**
- 사용자
- */
+///사용자
 extension DataStorage {
     /// roomId로 -1 입력 시, 전체 사용자 목록 반환
     func getUserList(roomId: Int = -1) -> [User] {
@@ -133,29 +124,24 @@ extension DataStorage {
     }
 }
 
-/**
- 채팅 목록
- */
+
+//채팅 목록
 extension DataStorage {
     
-    ///sentTime에 저장할 현재 시간 받아오는 메소드
+    //sentTime에 저장할 현재 시간 받아오는 메소드
     private func now() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return formatter.string(from: Date())
     }
     
-    /// limit으로 0 입력 시, 해당 채팅방의 전체 채팅 반환
+    // limit으로 0 입력 시, 해당 채팅방의 전체 채팅 반환
     func getChatData(roomId: Int, offset: Int = 0, limit: Int = 0) -> [Chat] {
-        
         let result = chatList.filter {
             return $0.roomId == roomId
-            
         }
         
-        
         guard result.count > 0 else { return [] }
-        
         
         let endIndex =
             offset + limit >= result.count
@@ -354,17 +340,13 @@ extension DataStorage {
         }
         
         chatList = loadedChatData
-        
-        
         chatIndex = chatList.last?.chatId ?? -1
 
         userList = loadedUserData
         
         chatRoomList = loadedChatRoomData
-        
         roomIndex = chatRoomList.last?.roomId ?? -1
 
         gptChatList = loadedGptChatData
-        
     }
 }

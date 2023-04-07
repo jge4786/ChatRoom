@@ -16,6 +16,6 @@ struct User: Codable {
     }
     
     func toString() -> String {
-        return "[name: " + name + ", profile: " + "dd" + "]"
+        return "[name:  \(name), profile: \(profile ?? "none")]"
     }
 }

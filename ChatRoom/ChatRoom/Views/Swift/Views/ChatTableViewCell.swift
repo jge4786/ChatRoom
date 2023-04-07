@@ -141,7 +141,6 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     func setContraint() {
         contentStackView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(3)
-            // update leading or trailing
         }
         
         profileButton.snp.makeConstraints {
@@ -323,7 +322,9 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         )
         
         if shouldShowUserInfo {
-            profileButton.setImage(UIImage(named: Constants.defaultImages[data.owner.userId])?.withRenderingMode(.alwaysOriginal), for: .normal)
+            let profileImageString = data.owner.profile ?? Constants.defaultImages[data.owner.userId % Constants.defaultImages.count]
+            
+            profileButton.setImage(UIImage(named: profileImageString)?.withRenderingMode(.alwaysOriginal), for: .normal)
             nameLabel.text = data.owner.name
         } else {
             profileButton.isHidden = true

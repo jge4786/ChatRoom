@@ -1,10 +1,3 @@
-//
-//  APIService.swift
-//  ChatRoom
-//
-//  Created by 여보야 on 2023/04/04.
-//
-
 import Foundation
 
 final class APIService {
@@ -19,7 +12,7 @@ final class APIService {
         ]
         static let method = "POST"                                          // request method
         
-        static let tokenLimit = 100                                          // 응답의 최대 토큰 수
+        static let tokenLimit = 500                                          // 응답의 최대 토큰 수
     }
 
     let session = URLSession(configuration: .default)
@@ -38,6 +31,7 @@ final class APIService {
         
         var messages: [[String: String]] = []
         
+        //메세지 입력
         for datum in data {
             let tmpArr: [String : String] = ["role" : datum.role, "content" : datum.content]
             
@@ -60,7 +54,7 @@ final class APIService {
         return request
     }
     
-    private func makeDataTasks(text: [Message], completion: @escaping ChatGPTResult){
+    private func makeDataTasks(text: [Message], completion: @escaping ChatGPTResult) {
         guard !isLoading,
               let request = makeDataRequest(data: text)
         else {
