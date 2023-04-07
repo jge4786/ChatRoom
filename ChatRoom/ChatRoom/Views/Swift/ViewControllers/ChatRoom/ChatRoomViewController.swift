@@ -33,7 +33,7 @@ class ChatRoomViewController: UIViewController {
     
     
     var goBackButton_ = UIButton().then {
-        $0.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        $0.tintColor = .black
         $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
     }
     
@@ -78,12 +78,12 @@ class ChatRoomViewController: UIViewController {
     let temporaryGptDataSetId = 0
     
     var drawerView = UIView().then {
-        $0.backgroundColor = UIColor(cgColor: Color.DarkGray)
+        $0.backgroundColor = Color.DarkGray
     }
     
     var deleteDataButton = UIButton().then {
-        $0.backgroundColor = UIColor(cgColor: Color.DarkYellow)
-        $0.tintColor = UIColor(cgColor: Color.Yellow)
+        $0.backgroundColor = Color.DarkYellow
+        $0.tintColor = Color.Yellow
         $0.setTitle("삭제", for: .normal)
     }
     

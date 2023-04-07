@@ -43,16 +43,16 @@ extension ChatRoomViewController {
     private func initTextView() {
         inputTextViewWrapper.layer.cornerRadius = 15
         inputTextViewWrapper.layer.borderWidth = 1
-        inputTextViewWrapper.layer.borderColor = Color.DarkerGray
+        inputTextViewWrapper.layer.borderColor = Color.DarkerGray.cgColor
     }
     
     //헤더 초기화
     private func initHeaderButtonsSetting() {
-        self.navigationController?.navigationBar.backgroundColor = .darkGray
+        self.navigationController?.navigationBar.backgroundColor = Color.DarkerGray
 
-        searchButton.tintColor = UIColor(cgColor: Color.White)
+        searchButton.tintColor = Color.White
         
-        menuButton.tintColor = UIColor(cgColor: Color.White)
+        menuButton.tintColor = Color.White
     }
         
     private func setInitPosition() {
@@ -70,7 +70,7 @@ extension ChatRoomViewController {
         scrollToBottomButton.setTitle("", for: .normal)
         emojiButton.setTitle("", for: .normal)
         
-        scrollToBottomButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+        scrollToBottomButton.tintColor = Color.LighterBlack
     }
     
     private func fadeDataLoadingScreen() {
@@ -126,7 +126,6 @@ extension ChatRoomViewController {
         self.contentTableView.delegate = self
         
         ChatTableViewCell.register(tableView: contentTableView)
-        MyChatCell.register(tableView: contentTableView)
     }
     
     private func setSelectUserMenu() {

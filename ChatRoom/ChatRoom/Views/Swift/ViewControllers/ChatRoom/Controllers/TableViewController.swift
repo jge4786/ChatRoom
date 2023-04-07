@@ -48,27 +48,20 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
     }
     
     func setCellData(_ uid: Int, _ data: Chat, _ shouldShowTimeLabel: Bool, _ shouldShowUserInfo: Bool) -> UITableViewCell {
-        if uid != me {
-            guard let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
-                return UITableViewCell()
-            }
-            cell.transform = CGAffineTransform(rotationAngle: .pi)
-            cell.delegate = self
-            
-            cell.setData(data, shouldShowTimeLabel, shouldShowUserInfo)
-            
-            return cell
-        }else{
-            guard let cell = MyChatCell.dequeueReusableCell(tableView: contentTableView) else {
-                return UITableViewCell()
-            }
-            cell.transform = CGAffineTransform(rotationAngle: .pi)
-            
-            cell.delegate = self
-            
-            cell.setData(data, shouldShowTimeLabel: shouldShowTimeLabel, shouldShowUserInfo: shouldShowUserInfo)
-            return cell
+        
+        guard let cell = ChatTableViewCell.dequeueReusableCell(tableView: contentTableView) else {
+            return UITableViewCell()
         }
+        cell.transform = CGAffineTransform(rotationAngle: .pi)
+        cell.delegate = self
+        
+        cell.setData(
+            data,
+            shouldShowTimeLabel: shouldShowTimeLabel,
+            shouldShowUserInfo: shouldShowUserInfo,
+            isMyChat: uid == me)
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

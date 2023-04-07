@@ -44,7 +44,7 @@ extension ChatRoomViewController {
         
         sendMessageButton.setImage(nil, for: .normal)
         sendMessageButton.setTitle("#", for: .normal)
-        sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+        sendMessageButton.tintColor = Color.LighterBlack
     }
     
     func updateLatestMessage(text: String) {
@@ -112,11 +112,11 @@ extension ChatRoomViewController: UITextViewDelegate {
         if isEmpty {
             sendMessageButton.setImage(nil, for: .normal)
             sendMessageButton.setTitle("#", for: .normal)
-            sendMessageButton.tintColor = UIColor(cgColor: Color.LighterBlack)
+            sendMessageButton.tintColor = Color.LighterBlack
         } else {
             sendMessageButton.setTitle("", for: .normal)
             sendMessageButton.setImage(UIImage(systemName: "arrow.up.circle.fill"), for: .normal)
-            sendMessageButton.tintColor = UIColor(cgColor: Color.Yellow)
+            sendMessageButton.tintColor = Color.Yellow
         }
     }
     

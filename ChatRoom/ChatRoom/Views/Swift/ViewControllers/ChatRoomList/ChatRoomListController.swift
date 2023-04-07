@@ -12,18 +12,18 @@ class ChatRoomListController: UIViewController {
     var roomListScrollView = UIScrollView()
     
     var roomStackView = UIStackView().then {
-        $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        $0.backgroundColor = .black
     }
     
     lazy var roomButton = UIButton().then {
-        $0.backgroundColor = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1)
+        $0.backgroundColor = Color.LightBlack
     }
 
     var isGPT = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        view.backgroundColor = Color.DarkGray
         
         setSubViews()
         setConstraints()
@@ -47,6 +47,15 @@ class ChatRoomListController: UIViewController {
 //        navigationController.isNavigationBarHidden = true
     }
     
+    func addRoomButton(key: Int) {
+        let button = UIButton().then {
+            $0.backgroundColor = Color.Black
+            $0.tag = key
+        }
+        
+        roomStackView.addArrangedSubview(button)
+    }
+    
     func setSubViews() {
         
         
@@ -57,15 +66,18 @@ class ChatRoomListController: UIViewController {
         switch isGPT {
         case true:
             print("GPT!")
-            roomStackView.addArrangedSubview(roomButton)
+//            roomStackView.addArrangedSubview(roomButton)
+            
+            for data in DataStorage.instance.getGptDataSetList() {
+                addRoomButton(key: data.key)
+            }
+            
         case false:
             print("Chat!")
             for index in 0..<DataStorage.instance.getChatRoomList().count {
                 guard index != DataStorage.instance.getGPTRoom() else { continue }
                 
-                let button = UIButton()
-                
-                roomStackView.addArrangedSubview(button)
+                addRoomButton(key: index)
             }
         }
     }
@@ -101,8 +113,11 @@ class ChatRoomListController: UIViewController {
         switch isGPT {
         case true:
             print("GPT!")
-            roomButton.setTitle("GPT", for: .normal)
-            roomButton.addTarget(self, action: #selector(onPressGPTButton), for: .touchUpInside)
+            for (index, button) in roomStackView.subviews.enumerated() {
+                guard let button = button as? UIButton else { return }
+                button.setTitle("GPT \(index)", for: .normal)
+                button.addTarget(self, action: #selector(onPressGPTButton), for: .touchUpInside)
+            }
         case false:
             for (index, button) in roomStackView.subviews.enumerated() {
                 guard let button = button as? UIButton else { return }
@@ -123,10 +138,9 @@ class ChatRoomListController: UIViewController {
     @objc
     func onPressGPTButton(_ sender: Any) {
         guard let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ChatRoom") as? ChatRoomViewController else { return }
-
-        print("wow \(DataStorage.instance.getGPTRoom())")
-
-        nextVC.chatRoomInfo = (userId: 1, roomId: DataStorage.instance.getGPTRoom())
+        guard let btn = sender as? UIButton else { return }
+        
+        nextVC.chatRoomInfo = (userId: 1, roomId: btn.tag)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     

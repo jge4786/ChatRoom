@@ -228,6 +228,27 @@ extension DataStorage {
 
 ///GPT
 extension DataStorage {
+    func getGptDataSetCount() -> Int {
+        return gptChatList.count
+    }
+    
+    func getGptDataSetList() -> [Int : [Message]] {
+        return gptChatList
+    }
+    
+    func makeGptRoom() -> Int {
+        gptChatList[chatRoomList.count] = []
+        
+        return chatList.count - 1
+    }
+    
+    func deleteGptRoom() {
+        let targetRoomId = gptChatList.popFirst()?.key
+        chatList.removeAll {
+            $0.roomId == targetRoomId
+        }
+    }
+    
     func getGptDataSet(dataSetId id: Int) -> [Message]? {
         guard let result = gptChatList[id] else { return nil }
         
@@ -332,6 +353,7 @@ extension DataStorage {
         
         gptChatList = loadedGptChatData
         
+        flushChatData()
     }
     
 

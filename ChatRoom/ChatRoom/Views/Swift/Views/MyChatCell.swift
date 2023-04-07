@@ -55,7 +55,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
     func initializeData() {
         chatBubbleButton.setTitle("", for: .normal)
         chatBubbleView.layer.cornerRadius = 10
-        chatBubbleView.backgroundColor = UIColor(cgColor: Color.Yellow)
+        chatBubbleView.backgroundColor = Color.Yellow
         
         unreadCountLabel.text = getUnreadCountText(cnt: 0)
         sentTimeLabel.text = ""
@@ -104,7 +104,7 @@ class MyChatCell: UITableViewCell, TableViewCellBase {
             }
         } else {
             let chatBubbleTextView = UITextView().then {
-                $0.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+                $0.backgroundColor = Color.Transparent
                 $0.textColor = .black
                 $0.isScrollEnabled = false
                 $0.isUserInteractionEnabled = false

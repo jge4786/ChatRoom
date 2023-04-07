@@ -3,35 +3,28 @@ import UIKit
 class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     var chatId = 0
     weak var delegate: ChangeSceneDelegate?
+    let profileSize: CGFloat = 40.0
     
-    @IBOutlet weak var profileButtonWrapperView: UIView!
-    @IBOutlet weak var opacityFilterView: UIView!
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
-    @IBOutlet weak var chatBubbleView: UIView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var profileButton: UIButton!
-    @IBOutlet weak var chatBubbleButton: UIButton!
-    @IBOutlet weak var unreadCountLabel: UILabel!
-    @IBOutlet weak var sentTimeLabel: UILabel!
-    
-    @IBOutlet weak var chatBubbleTextView: UITextView!
-    
+
+        
+    @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var profileButtonWidth: NSLayoutConstraint!
-    @IBAction func onTouchInChatBubble(_ sender: Any) {
-        print("touchIn")
+    
+    @objc
+    func onTouchInChatBubble() {
         manageButtonHighlightAnim(isShow: true)
     }
     
     //버튼 터치 시 실행할 함수 정의
-    @IBAction func onTouchOutChatBubble(_ sender: Any) {
-        print("touchOut", chatBubbleTextView.text ?? "")
-        
+    @objc
+    func onTouchOutChatBubble() {
         delegate?.goToChatDetailScene(chatId: chatId)
         manageButtonHighlightAnim(isShow: false)
     }
     
-    @IBAction func onTouchCanceled(_ sender: Any) {
-        print("canceled")
+    @objc
+    func onTouchCanceled() {
         manageButtonHighlightAnim(isShow: false)
     }
     
@@ -42,41 +35,231 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     }
         
     @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
+//    @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         
         initialize()
     }
+    let chatBubbleMaxWidth = (UIScreen.main.bounds.size.width) * Constants.chatMaxWidthMultiplier
+    
+    let nameLabelFontSize: CGFloat = 13.0
+    let infoLabelFontSize: CGFloat = 10.0
+    
+    var contentStackView = UIStackView()
+    
+    var profileWrapperView = UIView().then {
+        $0.clipsToBounds = true
+    }
+    var profileButton = UIButton().then {
+        $0.setTitle("", for: .normal)
+        $0.clipsToBounds = true
+    }
+    
+    var chatStackView = UIStackView().then {
+        $0.axis = .vertical
+    }
+    
+    var nameLabel = UILabel().then {
+        $0.text = ""
+    }
+    
+    var chatBubbleView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Color.White
+    }
+    var chatBubbleButton = UIButton().then {
+        $0.setTitle("", for: .normal)
+    }
+    var opacityFilterView = UIView().then {
+        $0.backgroundColor = .black
+        $0.layer.opacity = 0
+    }
+    
+    
+    // lazy var로 설정한 이유: infoLabelFontSize라는 상수를 UILabel 초기화 과정에서 사용할 수 있도록 하기 위해
+    var leftInfoWrapperView = UIView().then {
+        $0.accessibilityIdentifier = "leftInfoWrapper"
+    }
+    lazy var leftUnreadCountLabel = UILabel().then {
+        $0.text = ""
+        $0.textColor = Color.DarkYellow
+        $0.font = UIFont.boldSystemFont(ofSize: infoLabelFontSize)
+    }
+    lazy var leftSentTimeLabel = UILabel().then {
+        $0.text = "00:00"
+        $0.textColor = Color.DarkGray
+        $0.font = UIFont.systemFont(ofSize: infoLabelFontSize)
+    }
+    
+    var rightInfoWrapperView = UIView()
+    lazy var rightUnreadCountLabel = UILabel().then {
+        $0.text = ""
+        $0.textColor = Color.DarkYellow
+        $0.font = UIFont.boldSystemFont(ofSize: infoLabelFontSize)
+    }
+    
+    lazy var rightSentTimeLabel = UILabel().then {
+        $0.text = "00:00"
+        $0.textColor = Color.DarkGray
+        $0.font = UIFont.systemFont(ofSize: infoLabelFontSize)
+    }
+    
+    var unreadCountLabel = UILabel()
+    var sentTimeLabel = UILabel()
+    
     
     
     func initialize() {
-        chatBubbleButton.setTitle("", for: .normal)
-        chatBubbleView.layer.cornerRadius = 10
-        chatBubbleView.backgroundColor = UIColor(cgColor: Color.White)
-        
-        profileButton.setTitle("", for: .normal)
-        
-        nameLabel.text = ""
-        unreadCountLabel.text = getUnreadCountText(cnt: 0)
-        sentTimeLabel.text = "00:00"
-        chatBubbleMaxWidth.constant = (UIScreen.main.bounds.size.width) * Constants.chatMaxWidthMultiplier
-        
-        profileButton.layer.cornerRadius = profileButton.frame.height / 2.65
+        setSubView()
+        setContraint()
+        setUIData()
     }
     
+    func setSubView() {
+        contentWrapperView.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(leftInfoWrapperView)
+        contentStackView.addArrangedSubview(profileWrapperView)
+        contentStackView.addArrangedSubview(chatStackView)
+        contentStackView.addArrangedSubview(rightInfoWrapperView)
+        
+        profileWrapperView.addSubview(profileButton)
+        
+        chatStackView.addArrangedSubview(nameLabel)
+        chatStackView.addArrangedSubview(chatBubbleView)
+        
+        chatBubbleView.addSubview(chatBubbleButton)
+        chatBubbleView.addSubview(opacityFilterView)
+        
+        
+        leftInfoWrapperView.addSubview(leftUnreadCountLabel)
+        leftInfoWrapperView.addSubview(leftSentTimeLabel)
+        rightInfoWrapperView.addSubview(rightUnreadCountLabel)
+        rightInfoWrapperView.addSubview(rightSentTimeLabel)
+    }
+    
+    func setContraint() {
+        contentStackView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(3)
+            // update leading or trailing
+        }
+        
+        profileButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(5)
+            $0.height.width.equalTo(profileSize)
+        }
+        
+        nameLabel.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+        }
+        
+        chatBubbleView.snp.makeConstraints {
+            $0.leading.bottom.trailing.equalToSuperview()
+            $0.top.equalTo(nameLabel.snp.bottom)
+            $0.width.lessThanOrEqualTo(chatBubbleMaxWidth)
+        }
+        
+        chatBubbleButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        opacityFilterView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        leftInfoWrapperView.snp.makeConstraints {
+            $0.top.leading.bottom.equalToSuperview()
+        }
+        
+        rightInfoWrapperView.snp.makeConstraints {
+            $0.top.bottom.trailing.equalToSuperview()
+        }
+        
+        leftUnreadCountLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(3)
+            $0.bottom.equalTo(leftSentTimeLabel.snp.top)
+        }
+        
+        leftSentTimeLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(3)
+        }
+        
+        rightUnreadCountLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(3)
+            $0.bottom.equalTo(rightSentTimeLabel.snp.top)
+        }
+        
+        rightSentTimeLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.leading.equalTo(rightUnreadCountLabel)
+        }
+
+    }
+    
+    func setUIData() {
+        nameLabel.font = nameLabel.font.withSize(nameLabelFontSize)
+        
+        profileButton.layer.cornerRadius = profileSize / 3.2
+        
+        chatBubbleButton.addTarget(self, action: #selector(onTouchOutChatBubble), for: .touchUpInside)
+        chatBubbleButton.addTarget(self, action: #selector(onTouchCanceled), for: .touchDragExit)
+        chatBubbleButton.addTarget(self, action: #selector(onTouchCanceled), for: .touchCancel)
+        chatBubbleButton.addTarget(self, action: #selector(onTouchInChatBubble), for: .touchDown)
+    }
+    
+    
     override func prepareForReuse() {
+        chatBubbleView.subviews.forEach {
+            guard $0 as? UIImageView != nil || $0 as? UITextView != nil else { return }
+            
+            $0.removeFromSuperview()
+        }
+
         setDataToDefault()
     }
     
-    func setDataToDefault() {
-        profileButton.isHidden = false
-        nameLabel.isHidden = false
+    func setDataToDefault(isMyChat: Bool = false) {
+        
+        switch isMyChat {
+        case true:
+            contentStackView.snp.remakeConstraints() {
+                $0.top.bottom.equalToSuperview().inset(3)
+                $0.trailing.equalToSuperview().inset(10)
+            }
+            
+            profileWrapperView.isHidden = true
+            nameLabel.isHidden = true
+            
+            contentStackView.arrangedSubviews.first?.isHidden = false
+            contentStackView.arrangedSubviews.last?.isHidden = true
+            
+            chatBubbleView.backgroundColor = Color.Yellow
+            
+            unreadCountLabel = leftUnreadCountLabel
+            sentTimeLabel = leftSentTimeLabel
+            
+        case false:
+            contentStackView.snp.remakeConstraints {
+                $0.top.bottom.equalToSuperview().inset(3)
+                $0.leading.equalToSuperview()
+            }
+            
+            profileWrapperView.isHidden = false
+            nameLabel.isHidden = false
+            
+            contentStackView.arrangedSubviews.last?.isHidden = false
+            contentStackView.arrangedSubviews.first?.isHidden = true
+            
+            chatBubbleView.backgroundColor = Color.White
+            
+            unreadCountLabel = rightUnreadCountLabel
+            sentTimeLabel = rightSentTimeLabel
+        }
+        
         sentTimeLabel.text = ""
         unreadCountLabel.text = ""
-        chatBubbleTextView.text = ""
-        chatBubbleTextView.textContainerInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 3)
-        chatBubbleTextView.textContainer.lineFragmentPadding = 3
     }
     
     private func getUnreadCountText(cnt: Int) -> String {
@@ -96,38 +279,37 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             self.chatBubbleView.addSubview(tmpImage)
             
             tmpImage.snp.makeConstraints {
-                $0.edges.equalTo(opacityFilterView)
+                $0.edges.equalTo(chatBubbleView)
             }
             
-//            chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-//            chatBubbleTextView.textContainerInset = .zero
-//            chatBubbleTextView.textContainer.lineFragmentPadding = 0
-            
-//            self.chatBubbleHeight.constant = self.chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: self.infoView.frame.width).0
         } else if let appendedImage = UIImage(data: data.image) {
+            let imageView = UIImageView(image: ImageManager.shared.resized(image: appendedImage, to: ImageManager.shared.getFitSize(image: appendedImage)))
+            
+            chatBubbleView.addSubview(imageView)
+            
+            imageView.snp.makeConstraints {
+                $0.edges.equalTo(chatBubbleView)
+            }
             DispatchQueue.main.async {
-                let cachedImage = ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
-                
-                let tmpImage = UIImageView(image: cachedImage)
-                
-                self.chatBubbleView.addSubview(tmpImage)
-                
-                tmpImage.snp.makeConstraints {
-                    $0.edges.equalTo(self.chatBubbleView)
-                }
-                
-//                self.chatBubbleTextView.textStorage.insert(cachedImage, at: 0)
-                
-//                self.chatBubbleHeight.constant = Constants.imageSize
-                
-//                self.chatBubbleTextView.textContainerInset = .zero
-//                self.chatBubbleTextView.textContainer.lineFragmentPadding = 0
-                
-//                self.chatBubbleHeight.constant = self.systemLayoutSizeFitting(CGSize(width: Constants.imageSize, height: .infinity)).height
+                ImageManager.shared.saveImageToCache(image: appendedImage, id: data.chatId)
             }
         } else {
+            let chatBubbleTextView = UITextView().then {
+                $0.backgroundColor = Color.Transparent
+                $0.textColor = .black
+                $0.isScrollEnabled = false
+                $0.isUserInteractionEnabled = false
+                $0.font = UIFont.systemFont(ofSize: 13)
+                $0.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+            }
+            
             chatBubbleTextView.text = data.text
-            chatBubbleHeight.constant = chatBubbleTextView.getTextViewHeight(limit: Constants.chatHeightLimit, gap: infoView.frame.width).0
+            
+            chatBubbleView.addSubview(chatBubbleTextView)
+                       
+            chatBubbleTextView.snp.makeConstraints {
+                $0.edges.equalTo(chatBubbleView)
+            }
         }
     }
     
@@ -149,8 +331,8 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         }
     }
         
-    func setData(_ data: Chat, _ shouldShowTimeLabel: Bool = true , _ shouldShowUserInfo: Bool = true) {
-        setDataToDefault()
+    func setData(_ data: Chat, shouldShowTimeLabel: Bool = true , shouldShowUserInfo: Bool = true, isMyChat: Bool = false) {
+        setDataToDefault(isMyChat: isMyChat)
         
         setContent(data)
         chatId = data.chatId

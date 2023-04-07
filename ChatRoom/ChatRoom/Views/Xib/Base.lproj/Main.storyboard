@@ -214,7 +214,7 @@
                                                                 </buttonConfiguration>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="verticalHitSlop">
-                                                                        <real key="value" value="10"/>
+                                                                        <real key="value" value="100"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="horizontalHitSlop">
                                                                         <real key="value" value="10"/>
