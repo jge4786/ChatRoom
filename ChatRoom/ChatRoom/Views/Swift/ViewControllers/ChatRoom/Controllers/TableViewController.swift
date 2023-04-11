@@ -41,7 +41,7 @@ extension ChatRoomViewController:  UITableViewDataSource, UITableViewDelegate, U
             return UITableViewCell()
         }
         
-        cell.transform = CGAffineTransform(rotationAngle: .pi)
+        cell.transform = CGAffineTransform(scaleX: 1, y: -1)
         cell.delegate = self
         
         cell.setData(

@@ -24,12 +24,26 @@ extension MyProjectTabBarController: UITabBarControllerDelegate {
               let nextView = nav.viewControllers.first as? ChatRoomListController
         else { return }
         
-        let isChatRoom = tabBarController.tabBar.items?.first == tabBarController.tabBar.selectedItem
+        guard let selectedItem = tabBarController.tabBar.selectedItem,
+              let firstIndex = tabBarController.tabBar.items?.firstIndex(of: selectedItem)
+        else {
+            nextView.tabId = .normal
+            return
+        }
         
-        if !isChatRoom {
-            nextView.isGPT = true
-        } else {
-            nextView.isGPT = false
+        switch firstIndex {
+        case 0:
+            nextView.tabId = .normal
+        case 1:
+            nextView.tabId = .gpt
+        default:
+            nextView.tabId = .normal
         }
     }
+}
+
+//TODO: Enum 위치 변경
+enum TabBarIdentifier {
+    case normal
+    case gpt
 }

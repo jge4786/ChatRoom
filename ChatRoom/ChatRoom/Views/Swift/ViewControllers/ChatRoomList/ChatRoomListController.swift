@@ -4,7 +4,9 @@ import RxCocoa
 import SnapKit
 import Then
 
-class ChatRoomListController: UIViewController {
+//TODO: 다른 구조(채팅방 이외)의 화면이 추가되었을 때도 대응되도록 변경
+
+class ChatRoomListController: UIViewController {    
     var roomListScrollView = UIScrollView()
     
     var roomStackView = UIStackView().then {
@@ -17,13 +19,13 @@ class ChatRoomListController: UIViewController {
 
     var addNewRoomButton = UIButton().then {
         $0.backgroundColor = .black
-        $0.layer.opacity = 0.6
+        $0.alpha = 0.6
         $0.layer.cornerRadius = 25
         $0.setImage(UIImage(systemName: "plus"), for: .normal)
         $0.tintColor = Color.White
     }
     
-    var isGPT = false
+    var tabId: TabBarIdentifier = .normal
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,27 +66,24 @@ class ChatRoomListController: UIViewController {
     }
     
     func setSubViews() {
-        
-        
         view.addSubview(roomListScrollView)
         view.addSubview(addNewRoomButton)
         
         roomListScrollView.addSubview(roomStackView)
         
-        switch isGPT {
-        case true:
-//            roomStackView.addArrangedSubview(roomButton)
-            
-            for data in DataStorage.instance.getGptDataSetList() {
-                addRoomButton(key: data.key)
-            }
-            
-        case false:
+        switch tabId {
+        case .normal:
             for data in DataStorage.instance.getChatRoomList() {
                 guard !DataStorage.instance.isGPTRoom(roomId: data.roomId) else { continue }
                 
                 addRoomButton(key: data.roomId)
             }
+        case .gpt:
+            for data in DataStorage.instance.getGptDataSetList() {
+                addRoomButton(key: data.key)
+            }
+        case _:
+            print("탭바 에러")
         }
     }
     
@@ -121,14 +120,14 @@ class ChatRoomListController: UIViewController {
         roomStackView.distribution = .equalSpacing
         
         
-        switch isGPT {
-        case true:
+        switch tabId {
+        case .gpt:
             for button in roomStackView.subviews {
                 guard let button = button as? UIButton else { return }
                 button.setTitle("GPT \(button.tag)", for: .normal)
                 button.addTarget(self, action: #selector(onPressGPTButton), for: .touchUpInside)
             }
-        case false:
+        case .normal, _:
             for button in roomStackView.subviews{
                 guard let button = button as? UIButton else { return }
                 button.setTitle(DataStorage.instance.getChatRoom(roomId: button.tag)?.roomName, for: .normal)
@@ -147,10 +146,12 @@ class ChatRoomListController: UIViewController {
     
     @objc
     func onPressAddNewRoomButton() {
-        switch isGPT {
-        case true:
+        switch tabId {
+        case .gpt:
             DataStorage.instance.makeChatGPTRoom()
-        case false:
+        //case .normal: fallthrough
+        //case _:
+        case .normal, _:
             DataStorage.instance.makeChatRoom(name: "newRoom \(DataStorage.instance.getChatRoomList().count)")
         }
         DataStorage.instance.saveData()

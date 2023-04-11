@@ -44,11 +44,11 @@ final class DataStorage {
     private func initialize() {
         userList = [
             User("GPT", 0, profile: "gpt"),
-            User("둘", 1, profile: "defaultImage2"),
-            User("셋", 2, profile: "defaultImage3"),
-            User("넷", 3, profile: "defaultImage4"),
-            User("다섯", 4, profile: "defaultImage5"),
-            User("나", 5, profile: "defaultImage5"),
+            User("둘", 1, profile: "DefaultImage2"),
+            User("셋", 2, profile: "DefaultImage3"),
+            User("넷", 3, profile: "DefaultImage4"),
+            User("다섯", 4, profile: "DefaultImage5"),
+            User("나", 5, profile: "DefaultImage5"),
         ]
         
         chatList = [Chat(roomId:0, chatId: chatIndex, owner: userList[1], sentDateTime: "2023-01-01 12:30", text: "hello")]
@@ -56,9 +56,9 @@ final class DataStorage {
         chatRoomList = [
             ChatRoom(roomIndex, "채팅방1", userList),
             ChatRoom(roomIndex, "채팅방2", [
-                User("이", 1, profile: "defaultImage2"),
-                User("삼", 2, profile: "defaultImage3"),
-                User("사", 3, profile: "defaultImage4"),
+                User("이", 1, profile: "DefaultImage2"),
+                User("삼", 2, profile: "DefaultImage3"),
+                User("사", 3, profile: "DefaultImage4"),
             ])
         ]
         
@@ -85,9 +85,9 @@ extension DataStorage {
     @discardableResult
     func makeChatRoom(name: String) -> ChatRoom {
         let newChatRoom = ChatRoom(roomIndex, name,[
-            User("이", 1, profile: "defaultImage2"),
-            User("삼", 2, profile: "defaultImage3"),
-            User("사", 3, profile: "defaultImage4"),
+            User("이", 1, profile: "DefaultImage2"),
+            User("삼", 2, profile: "DefaultImage3"),
+            User("사", 3, profile: "DefaultImage4"),
         ])
         
         chatRoomList.append(newChatRoom)

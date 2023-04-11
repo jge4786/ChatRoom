@@ -150,21 +150,18 @@ class ChatRoomViewController: UIViewController {
         hidingBar()
     }
     
+    //TODO: 서랍이 들어가 있을 때는 hidden으로 설정하기
     func drawerShowAndHideAnimation(isShow: Bool) {
         let deviceSize = UIScreen.main.bounds.size
         switch isShow {
         case true:
             UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
-                self.drawerView.snp.updateConstraints { make in
-                    make.width.equalTo(deviceSize.width * 0.4)
-                }
+                self.drawerView.transform = CGAffineTransform(translationX: -deviceSize.width * 0.4, y: 0)
                 self.view.layoutIfNeeded()
             }
         case false:
             UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
-                self.drawerView.snp.updateConstraints { make in
-                    make.width.equalTo(0)
-                }
+                self.drawerView.transform = .identity
                 self.view.layoutIfNeeded()
             }
         }

@@ -21,7 +21,7 @@ extension ChatRoomViewController {
         
         initHeaderButtonsSetting()
         initTextView()
-        contentTableView.transform = CGAffineTransform(rotationAngle: .pi)
+        contentTableView.transform = CGAffineTransform(scaleX: 1, y: -1)
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         
@@ -34,10 +34,12 @@ extension ChatRoomViewController {
         view.addSubview(drawerView)
         drawerView.addSubview(deleteDataButton)
         
+        let drawerWidth = UIScreen.main.bounds.size.width * 0.4
         drawerView.snp.makeConstraints { make in
-            make.top.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(-drawerWidth)
             make.bottom.equalTo(inputTextViewWrapper.snp.top)
-            make.width.equalTo(0.0)
+            make.width.equalTo(drawerWidth)
         }
         
         deleteDataButton.snp.makeConstraints {
@@ -81,6 +83,14 @@ extension ChatRoomViewController {
             self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
             self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
         ])
+        
+        if DataStorage.instance.isGPTRoom(roomId: roomId) {
+            addImageButton.snp.remakeConstraints { make in
+                make.width.equalTo(10.0)
+            }
+            addImageButton.isHidden = true
+        }
+        
         self.fadeDataLoadingScreen()
     }
     
@@ -94,7 +104,7 @@ extension ChatRoomViewController {
     
     private func fadeDataLoadingScreen() {
         UIView.animate(withDuration: 0.13, delay: 0.2, options: .curveEaseIn) {
-            self.dataLoadingScreen.layer.opacity = 0
+            self.dataLoadingScreen.alpha = 0
         } completion: { finished in
             self.dataLoadingScreen.isHidden = true
         }

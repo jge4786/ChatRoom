@@ -30,7 +30,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     func manageButtonHighlightAnim(isShow: Bool) {
         UIView.animate(withDuration: 0.1, delay: 0, options: .allowUserInteraction) {
-            self.opacityFilterView.layer.opacity = isShow ? 0.3 : 0.0
+            self.opacityFilterView.alpha = isShow ? 0.3 : 0.0
         }
     }
         
@@ -62,6 +62,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     var nameLabel = UILabel().then {
         $0.text = ""
+        $0.textColor = Color.DarkGray
     }
     
     var chatBubbleView = UIView().then {
@@ -73,7 +74,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     }
     var opacityFilterView = UIView().then {
         $0.backgroundColor = .black
-        $0.layer.opacity = 0
+        $0.alpha = 0
     }
     
     
@@ -247,6 +248,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
             
             profileWrapperView.isHidden = false
             nameLabel.isHidden = false
+            profileButton.isHidden = false
             
             contentStackView.arrangedSubviews.last?.isHidden = false
             contentStackView.arrangedSubviews.first?.isHidden = true
@@ -322,9 +324,12 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         )
         
         if shouldShowUserInfo {
-            let profileImageString = data.owner.profile ?? Constants.defaultImages[data.owner.userId % Constants.defaultImages.count]
+            let profileImageString = data.owner.profile ?? Constants.defaultImages[(data.owner.userId % Constants.defaultImages.count)]
+
+            print(profileImageString, data.owner.profile)
             
             profileButton.setImage(UIImage(named: profileImageString)?.withRenderingMode(.alwaysOriginal), for: .normal)
+            
             nameLabel.text = data.owner.name
         } else {
             profileButton.isHidden = true

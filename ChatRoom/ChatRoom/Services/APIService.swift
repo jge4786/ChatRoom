@@ -3,6 +3,35 @@ import Foundation
 final class APIService {
     static let shared = APIService()
     
+    private enum NetworkError: Error {
+        case unauthorized
+        case requestTimeout
+        case noData
+        case unexpectedData
+        case badRequest
+        case notFound
+        case unknownError
+       
+        var localizedDescription: String {
+            switch self {
+            case .unauthorized:
+                return "인증 정보가 잘못되었습니다."
+            case .requestTimeout:
+                return "응답 시간이 초과하였습니다."
+            case .noData:
+                return "연결 중 오류가 발생했습니다. - 데이터 없음"
+            case .unexpectedData:
+                return "연결 중 오류가 발생했습니다. - 잘못된 데이터 수신"
+            case .badRequest:
+                return "연결 중 오류가 발생했습니다. - 잘못된 데이터 송신"
+            case .notFound:
+                return "연결 중 오류가 발생했습니다. - 잘못된 API 주소"
+            case .unknownError:
+                return "알 수 없는 오류"
+            }
+        }
+    }
+    
     private enum DefaultSettings {
         static let apiUrl = "https://api.openai.com/v1/chat/completions"    // API Url
         static let model = "gpt-3.5-turbo"                                  // 사용할 GPT 모델
@@ -14,8 +43,6 @@ final class APIService {
         
         static let tokenLimit = 500                                          // 응답의 최대 토큰 수
     }
-
-    let session = URLSession(configuration: .default)
 
     var isLoading = false
         
@@ -33,6 +60,7 @@ final class APIService {
         
         //메세지 입력
         for datum in data {
+            guard datum.role != "error" else { continue }
             let tmpArr: [String : String] = ["role" : datum.role, "content" : datum.content]
             
             messages.append(tmpArr)
@@ -54,49 +82,85 @@ final class APIService {
         return request
     }
     
+    private func setSessionConfig() -> URLSession {
+        let config = URLSessionConfiguration.default
+        
+        config.timeoutIntervalForResource = 30
+        
+        return URLSession(configuration: config)
+    }
+    
+    private func makeDataTask(with request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) -> URLSessionDataTask {
+        let session = setSessionConfig()
+        let dataTask = session.dataTask(with: request) { data, response, error in
+            let successRange = 200..<300
+            if let error = error {
+                
+                completion(.failure(error))
+                return
+            } else if let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                      !successRange.contains(statusCode) {
+                print("스타투스: \(statusCode)")
+                switch statusCode {
+                case 400:
+                    completion(.failure(NetworkError.badRequest))
+                case 401:
+                    completion(.failure(NetworkError.unauthorized))
+                case 404:
+                    completion(.failure(NetworkError.notFound))
+                default:
+                    completion(.failure(NetworkError.unknownError))
+                }
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NetworkError.noData))
+                return
+            }
+            completion(.success(data))
+        }
+        return dataTask
+    }
+    
     private func makeDataTasks(text: [Message], completion: @escaping ChatGPTResult) {
         guard !isLoading,
               let request = makeDataRequest(data: text)
         else {
             return
         }
-
+        
         isLoading = true
         
-        let dataTask = session.dataTask(with: request) {
-            data, response, error in
-            
+        let dataTask = makeDataTask(with: request) { result in
             defer { self.isLoading = false }
             
-            let successRange = 200..<300
-            guard error == nil,
-                  let statusCode = (response as? HTTPURLResponse)?.statusCode,
-                  successRange.contains(statusCode),
-                  let data = data
-            else {
-                return
-            }
-
-            do {
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(Response.self, from: data)
-                
-                DispatchQueue.main.async {
-                    completion(response.choices[0].message)
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(Response.self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        completion(response.choices[0].message)
+                    }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print(context)
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch {
+                    print("error: ", error)
                 }
-            } catch let DecodingError.dataCorrupted(context) {
-                print(context)
-            } catch let DecodingError.keyNotFound(key, context) {
-                print("Key '\(key)' not found:", context.debugDescription)
-                print("codingPath:", context.codingPath)
-            } catch let DecodingError.valueNotFound(value, context) {
-                print("Value '\(value)' not found:", context.debugDescription)
-                print("codingPath:", context.codingPath)
-            } catch let DecodingError.typeMismatch(type, context)  {
-                print("Type '\(type)' mismatch:", context.debugDescription)
-                print("codingPath:", context.codingPath)
-            } catch {
-                print("error: ", error)
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    completion( Message(role: "error", content: error.localizedDescription))
+                }
             }
         }
 

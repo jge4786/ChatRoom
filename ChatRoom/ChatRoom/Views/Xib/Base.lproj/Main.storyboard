@@ -53,7 +53,7 @@
             <objects>
                 <viewController id="vMp-E1-W3r" customClass="ChatRoomListController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NrA-Ov-U2T">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Dnc-wV-Fyy"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -69,10 +69,13 @@
             <objects>
                 <navigationController id="rjG-0I-qxZ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="GPT" id="H6Q-su-jbF"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wuM-ST-ns7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="wuM-ST-ns7">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.15686270590000001" green="0.15686270590000001" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="vMp-E1-W3r" kind="relationship" relationship="rootViewController" id="hhd-uO-Fyu"/>
@@ -387,7 +390,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hhd-uO-Fyu"/>
+        <segue reference="oXq-pf-Gor"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
