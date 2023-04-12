@@ -25,29 +25,104 @@ extension ChatRoomViewController {
         
         safeAreaBottomInset = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
         
-        setInitPosition()
+        setSubView()
+        setContraints()
         
-        addDrawer()
+        addActionTarget()
     }
     
-    func addDrawer() {
+    private func addRoomButton(key: Int) {
+        let button = UIButton().then {
+            $0.backgroundColor = Color.Black
+            $0.tag = key
+            $0.setTitle("GPT \(key)", for: .normal)
+        }
+        
+        drawerRoomStackView.addArrangedSubview(button)
+    }
+    
+    private func setRoomList() {
+        let roomList = DataStorage.instance.getGptDataSetList()
+        
+        roomList.sorted {
+            $0.key < $1.key
+        }.forEach {
+            addRoomButton(key: $0.key)
+        }
+    }
+    
+    private func setSubView() {
+        view.addSubview(contentBlurView)
         view.addSubview(drawerView)
+        
+        inputTextViewWrapper.addSubview(messageLoadingIndicator)
+        
+        drawerView.addSubview(drawerRoomScrollView)
         drawerView.addSubview(deleteDataButton)
         
-        let drawerWidth = UIScreen.main.bounds.size.width * 0.4
+        drawerRoomScrollView.addSubview(drawerRoomStackView)
+        setRoomList()
+    }
+    
+    private func setContraints() {
+        NSLayoutConstraint.activate([
+            self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
+            self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
+        ])
+        
+        messageLoadingIndicator.snp.makeConstraints { make in
+            make.top.leading.bottom.trailing.equalTo(sendMessageButton)
+        }
+        
+        // GPT 채팅방일 경우, 이미지 추가 버튼 숨김.
+        if DataStorage.instance.isGPTRoom(roomId: roomId) {
+            addImageButton.snp.remakeConstraints { make in
+                make.width.equalTo(10.0)
+            }
+            addImageButton.isHidden = true
+        }
+        
+        contentBlurView.snp.makeConstraints {
+            $0.top.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        let drawerWidth = UIScreen.main.bounds.size.width * 0.7
         drawerView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(-drawerWidth)
-            make.bottom.equalTo(inputTextViewWrapper.snp.top)
             make.width.equalTo(drawerWidth)
+        }
+        
+        drawerRoomScrollView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(deleteDataButton.snp.top).inset(10)
+        }
+        
+        drawerRoomStackView.snp.makeConstraints {
+            $0.top.bottom.width.equalToSuperview()
+        }
+        
+        drawerRoomStackView.subviews.forEach {
+            $0.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(40)
+            }
         }
         
         deleteDataButton.snp.makeConstraints {
             $0.trailing.leading.bottom.equalToSuperview()
             $0.height.equalTo(50)
         }
-        
+    }
+    
+    func addActionTarget() {
         deleteDataButton.addTarget(self, action: #selector(onPressDeleteDataButton), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer (
+            target: self, action: #selector(onPressMenuButton)
+        )
+        
+        contentBlurView.addGestureRecognizer(tap)
     }
     
     func hidingBar() {
@@ -76,40 +151,12 @@ extension ChatRoomViewController {
         menuButton.tintColor = Color.White
     }
         
-    private func setInitPosition() {
-        //하단 버튼의 위치를 고정하기 위한 높이 조절
-        
-        NSLayoutConstraint.activate([
-            self.addImageButton.heightAnchor.constraint(equalToConstant: self.footerWrapperView.frame.height),
-            self.sendMessageButton.heightAnchor.constraint(equalToConstant: self.inputTextViewWrapper.frame.height)
-        ])
-        
-        if DataStorage.instance.isGPTRoom(roomId: roomId) {
-            addImageButton.snp.remakeConstraints { make in
-                make.width.equalTo(10.0)
-            }
-            addImageButton.isHidden = true
-        }
-        
-        self.fadeDataLoadingScreen()
-    }
-    
     private func setButtonsUI() {
         addImageButton.setTitle("", for: .normal)
         scrollToBottomButton.setTitle("", for: .normal)
         emojiButton.setTitle("", for: .normal)
         
-        
-        
         scrollToBottomButton.tintColor = Color.LighterBlack
-    }
-    
-    private func fadeDataLoadingScreen() {
-        UIView.animate(withDuration: 0.13, delay: 0.2, options: .curveEaseIn) {
-            self.dataLoadingScreen.alpha = 0
-        } completion: { finished in
-            self.dataLoadingScreen.isHidden = true
-        }
     }
 }
 

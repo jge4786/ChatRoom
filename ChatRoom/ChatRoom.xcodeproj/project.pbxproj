@@ -41,6 +41,7 @@
 		F091F3C229D66B3A0040294D /* ChangeSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */; };
 		F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7BF29D524FA005D936F /* ImageManager.swift */; };
 		F09DD7C229D5842F005D936F /* ChatRoomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7C129D5842F005D936F /* ChatRoomListController.swift */; };
+		F0DEF0E129E69A72003300F7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF0E029E69A72003300F7 /* SearchController.swift */; };
 		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
 		F0F104D229CAD1DD00957476 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D129CAD1DD00957476 /* User.swift */; };
 		F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */; };
@@ -88,6 +89,7 @@
 		F091F3C129D66B3A0040294D /* ChangeSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeSceneDelegate.swift; sourceTree = "<group>"; };
 		F09DD7BF29D524FA005D936F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		F09DD7C129D5842F005D936F /* ChatRoomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListController.swift; sourceTree = "<group>"; };
+		F0DEF0E029E69A72003300F7 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
 		F0F104D129CAD1DD00957476 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				F0915E8629D6D2A700CDE7D4 /* KeyboardController.swift */,
 				F0915E8829D6D2F600CDE7D4 /* ScrollController.swift */,
 				F0915E8A29D6D32800CDE7D4 /* InitializeHandler.swift */,
+				F0DEF0E029E69A72003300F7 /* SearchController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				F0915E8029D6D07900CDE7D4 /* UITextViewExtension.swift in Sources */,
 				F05F4B4B29D16B2D0067C292 /* PaddingLabel.swift in Sources */,
 				F0F104DE29CBFA9700957476 /* TableViewCellBase.swift in Sources */,
+				F0DEF0E129E69A72003300F7 /* SearchController.swift in Sources */,
 				F0915E7E29D6CE8500CDE7D4 /* TableViewController.swift in Sources */,
 				F0915E8429D6D24700CDE7D4 /* ImagePickerController.swift in Sources */,
 				F09DD7C229D5842F005D936F /* ChatRoomListController.swift in Sources */,

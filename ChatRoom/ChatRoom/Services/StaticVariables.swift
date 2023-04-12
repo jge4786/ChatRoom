@@ -40,7 +40,9 @@ struct Color {
     ///읽지 않은 사용자의 수
     static var DarkYellow: UIColor { return UIColor(red: 254/255, green: 234/255, blue: 51/255, alpha: 1.0)}
     ///날짜 라벨 배경색, 이름 텍스트 색
-    static var DarkGray: UIColor { return UIColor(red: 156/255, green: 175/255, blue: 191/255, alpha: 1.0)}
+    static var InfoLabelColor: UIColor { return UIColor(red: 156/255, green: 175/255, blue: 191/255, alpha: 1.0)}
+    ///서랍 배경색
+    static var DarkGray: UIColor { return UIColor(red: 95/255, green: 95/255, blue: 95/255, alpha: 1.0) }
     ///카카오톡 기본 배경색
     static var LightBlue: UIColor { return UIColor(red: 155/255, green: 187/255, blue: 212/255, alpha: 1.0)}
     ///카카오톡 검정색 테마의 입력창 배경색

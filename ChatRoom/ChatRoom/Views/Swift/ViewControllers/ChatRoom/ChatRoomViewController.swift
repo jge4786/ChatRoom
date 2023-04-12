@@ -7,8 +7,8 @@ class ChatRoomViewController: UIViewController {
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
-    @IBOutlet weak var menuButton: UIBarButtonItem!
-    @IBOutlet weak var searchButton: UIBarButtonItem!
+//    @IBOutlet weak var menuButton: UIBarButtonItem!
+//    @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var goBackButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationItem!
     
@@ -24,10 +24,16 @@ class ChatRoomViewController: UIViewController {
     @IBOutlet weak var letterCountLabel: UILabel!
     @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
-    @IBOutlet weak var dataLoadingScreen: UIView!
-    
     @IBAction func onPressGoBackButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if isSearching {
+            isSearching = false
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @IBAction func onPressSearchButton(_ sender: Any) {
+        isSearching = !isSearching
     }
     
     @IBAction func onPressEmojiButton(_ sender: Any) {
@@ -45,7 +51,7 @@ class ChatRoomViewController: UIViewController {
     @IBAction func onPressSendMessageButton(_ sender: Any) {
         DataStorage.instance.isGPTRoom(roomId: roomId)
         ? sendMessageToGPT()
-        : sendMessage()
+        : sendMessage() 
     }
     
     // 하단 스크롤 버튼 눌림
@@ -54,6 +60,9 @@ class ChatRoomViewController: UIViewController {
     }
     
     @IBAction func onPressMenuButton(_ sender: Any) {
+        guard !isDrawerAnimIsPlaying else { return }
+        
+        view.endEditing(true)
         drawerShowAndHideAnimation(isShow: !drawerState)
         drawerState = !drawerState
     }
@@ -71,20 +80,51 @@ class ChatRoomViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    //서랍이 나왔을 때, 배경을 블러처리하는 뷰
+    var contentBlurView = UIView().then {
+        $0.backgroundColor = .black
+        $0.alpha = 0.0
+    }
     
     var drawerView = UIView().then {
         $0.backgroundColor = Color.DarkGray
     }
     
+    
+    var drawerRoomScrollView = UIScrollView()
+    var drawerRoomStackView = UIStackView().then {
+        $0.backgroundColor = .black
+        $0.axis = .vertical
+        $0.spacing = 1
+    }
+    
     var deleteDataButton = UIButton().then {
-        $0.backgroundColor = Color.DarkYellow
-        $0.tintColor = Color.Yellow
-        $0.setTitle("삭제", for: .normal)
+        $0.backgroundColor = .black
+        $0.setTitle("채팅방 삭제", for: .normal)
     }
     
     var goBackButton_ = UIButton().then {
         $0.tintColor = .black
         $0.setImage(UIImage(systemName: "chevron-backward"), for: .normal)
+    }
+    
+    var messageLoadingIndicator = UIActivityIndicatorView().then {
+        $0.color = .white
+        $0.isHidden = true
+    }
+    
+    var searchButton = UIButton().then {
+        $0.tintColor = Color.White
+        $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+    }
+    var menuButton = UIButton().then {
+        $0.tintColor = Color.White
+        $0.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+    }
+    
+    var searchBar = UISearchBar().then {
+        $0.backgroundColor = Color.LightBlue
+        $0.isHidden = true
     }
     
     //채팅방 기본 정보
@@ -96,7 +136,29 @@ class ChatRoomViewController: UIViewController {
     var roomData: ChatRoom = ChatRoom()
     
     
+    func handleSearchBar(isShow: Bool) {
+        if isShow {
+            searchBar.isHidden =  true
+        }
+    }
     
+    func addSearchBar() {
+        let searchBtn       = UIBarButtonItem(customView: searchButton),
+            menuBtn         = UIBarButtonItem(customView: menuButton),
+            searchBarItem   = UIBarButtonItem(customView: searchBar)
+        
+        
+        self.navigationItem.titleView = searchBar
+//        searchTextField.snp.makeConstraints {
+//            $0.top.leading.bottom.trailing.equalToSuperview()
+//        }
+    }
+    
+    var isSearching = false {
+        didSet {
+            handleSearchBar(isShow: isSearching)
+        }
+    }
     
     //채팅 데이터 관리
     
@@ -104,6 +166,8 @@ class ChatRoomViewController: UIViewController {
     var isEndReached = false    //모든 데이터 로딩 완료됐는지
     var offset = 0
     var isInitialLoad = true    //이 채팅방에서의 첫 로딩인지
+    
+    var dataTask: URLSessionDataTask? = nil
     
     var chatData: [Chat] = [] {
         willSet {
@@ -119,6 +183,7 @@ class ChatRoomViewController: UIViewController {
     
     //UI 관련
     var drawerState = false
+    var isDrawerAnimIsPlaying = false
     var safeAreaBottomInset: CGFloat = 0.0
     
     
@@ -140,34 +205,60 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addSearchBar()
+        
         initializeSettings()
+        
+        self.searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
         //탭바 숨김
         hidingBar()
     }
     
+    
     //TODO: 서랍이 들어가 있을 때는 hidden으로 설정하기
     func drawerShowAndHideAnimation(isShow: Bool) {
         let deviceSize = UIScreen.main.bounds.size
-        switch isShow {
-        case true:
-            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
-                self.drawerView.transform = CGAffineTransform(translationX: -deviceSize.width * 0.4, y: 0)
-                self.view.layoutIfNeeded()
-            }
-        case false:
-            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
+        
+        isDrawerAnimIsPlaying = true
+        
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction) {
+            if isShow {
+                self.drawerView.transform = CGAffineTransform(translationX: -deviceSize.width * 0.7, y: 0)
+                self.contentBlurView.alpha = 0.4
+            } else {
                 self.drawerView.transform = .identity
-                self.view.layoutIfNeeded()
+                self.contentBlurView.alpha = 0.0
             }
+            
+            self.view.layoutIfNeeded()
+        } completion: { finished in
+            self.isDrawerAnimIsPlaying = false
         }
     }
        
     deinit{
+        print("deinit")
+        
+        if let dataTask = dataTask,
+           chatData.first?.text == "..."
+        {
+            let canceledMessage = "취소된 요청입니다."
+            
+            if let firstIndex = chatData.first?.chatId {
+                _ = DataStorage.instance.appendGptChatData(dataSetId: self.roomId, message: Message(role: "error", content: canceledMessage))
+                _ = DataStorage.instance.updateChatData(roomId: roomId, chatId: firstIndex, text: canceledMessage)
+            }
+            
+            dataTask.cancel()
+        }
+        
         DataStorage.instance.saveData()
     }
 }

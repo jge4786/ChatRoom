@@ -62,7 +62,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     var nameLabel = UILabel().then {
         $0.text = ""
-        $0.textColor = Color.DarkGray
+        $0.textColor = Color.InfoLabelColor
     }
     
     var chatBubbleView = UIView().then {
@@ -89,7 +89,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     }
     lazy var leftSentTimeLabel = UILabel().then {
         $0.text = "00:00"
-        $0.textColor = Color.DarkGray
+        $0.textColor = Color.InfoLabelColor
         $0.font = UIFont.systemFont(ofSize: infoLabelFontSize)
     }
     
@@ -102,7 +102,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     
     lazy var rightSentTimeLabel = UILabel().then {
         $0.text = "00:00"
-        $0.textColor = Color.DarkGray
+        $0.textColor = Color.InfoLabelColor
         $0.font = UIFont.systemFont(ofSize: infoLabelFontSize)
     }
     

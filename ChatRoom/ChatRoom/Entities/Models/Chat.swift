@@ -11,13 +11,13 @@ struct Chat: Codable {
     
     var sentDate: String {
         get {
-            String(sentDateTime.split(separator: " ")[0])
+            String(sentDateTime.split(separator: " ").first ?? "--")
         }
     }
     
     var sentTime: String {
         get {
-            String(sentDateTime.split(separator: " ")[1])
+            String(sentDateTime.split(separator: " ").last ?? "--")
         }
     }
     

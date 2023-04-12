@@ -13,7 +13,7 @@
         <scene sceneID="Yug-Cs-rLr">
             <objects>
                 <tabBarController id="51p-oO-5fV" customClass="MyProjectTabBarController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Pzk-2M-OoU">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Pzk-2M-OoU">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -53,12 +53,14 @@
             <objects>
                 <viewController id="vMp-E1-W3r" customClass="ChatRoomListController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NrA-Ov-U2T">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Dnc-wV-Fyy"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
-                    <navigationItem key="navigationItem" id="vdQ-BD-yoV"/>
+                    <navigationItem key="navigationItem" id="vdQ-BD-yoV">
+                        <nil key="title"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZO-uH-Vf3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -194,7 +196,7 @@
                                                                 <inset key="scrollIndicatorInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                                             </textView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="twE-A1-mhk" userLabel="Emoji Button">
                                                                 <rect key="frame" x="255.33333333333329" y="14" width="25.666666666666657" height="42"/>
@@ -254,13 +256,8 @@
                                                     <constraint firstAttribute="trailing" secondItem="cXf-rU-Iri" secondAttribute="trailing" constant="10" id="uHA-p5-Yvb"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1YN-k1-Pd3" userLabel="Data Loading Screen">
-                                                <rect key="frame" x="0.0" y="0.0" width="393" height="695"/>
-                                                <color key="backgroundColor" red="0.15686270590000001" green="0.15686270590000001" blue="0.15686270590000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            </view>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="1YN-k1-Pd3" firstAttribute="top" secondItem="XKZ-5P-1r6" secondAttribute="top" id="3mz-iG-O8e"/>
                                             <constraint firstAttribute="trailing" secondItem="zb5-JG-iCz" secondAttribute="trailing" id="RLc-Ud-rex"/>
                                             <constraint firstItem="eTs-42-XNV" firstAttribute="top" secondItem="XKZ-5P-1r6" secondAttribute="top" id="WGQ-hC-M5j"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="wKH-Uq-0c4" secondAttribute="bottom" id="Wbg-qr-RYq"/>
@@ -268,11 +265,8 @@
                                             <constraint firstAttribute="trailing" secondItem="eTs-42-XNV" secondAttribute="trailing" id="cIf-NI-7qc"/>
                                             <constraint firstAttribute="bottom" secondItem="zb5-JG-iCz" secondAttribute="bottom" id="eGv-7k-ubD"/>
                                             <constraint firstItem="zb5-JG-iCz" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="fL1-w8-kCd"/>
-                                            <constraint firstAttribute="trailing" secondItem="1YN-k1-Pd3" secondAttribute="trailing" id="glL-yv-x11"/>
                                             <constraint firstAttribute="trailing" secondItem="wKH-Uq-0c4" secondAttribute="trailing" id="gsh-Tz-E9R"/>
-                                            <constraint firstItem="zb5-JG-iCz" firstAttribute="top" secondItem="1YN-k1-Pd3" secondAttribute="bottom" id="mvW-Pm-lE4"/>
                                             <constraint firstItem="eTs-42-XNV" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="qrP-yi-FAF"/>
-                                            <constraint firstItem="1YN-k1-Pd3" firstAttribute="leading" secondItem="XKZ-5P-1r6" secondAttribute="leading" id="ujx-cL-132"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -301,20 +295,11 @@
                                 <action selector="onPressGoBackButton:" destination="BYZ-38-t0r" id="Ogl-hK-cul"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem image="ellipsis" catalog="system" id="758-Dz-8Tk">
-                                <connections>
-                                    <action selector="onPressMenuButton:" destination="BYZ-38-t0r" id="j1l-15-8lw"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="magnifyingglass" catalog="system" id="Dfo-WQ-6N3"/>
-                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="addImageButton" destination="Q77-st-5Ac" id="VOD-LQ-Rqe"/>
                         <outlet property="contentTableView" destination="eTs-42-XNV" id="0bl-gN-jfB"/>
                         <outlet property="contentWrapperView" destination="XKZ-5P-1r6" id="6hO-cT-xSO"/>
-                        <outlet property="dataLoadingScreen" destination="1YN-k1-Pd3" id="og5-Dk-zp0"/>
                         <outlet property="emojiButton" destination="twE-A1-mhk" id="hzS-TG-WBH"/>
                         <outlet property="footerWrapperView" destination="zb5-JG-iCz" id="e47-vO-IY2"/>
                         <outlet property="goBackButton" destination="Dik-Im-q1Q" id="Kbb-eQ-L4G"/>
@@ -323,10 +308,8 @@
                         <outlet property="inputTextViewWrapper" destination="cXf-rU-Iri" id="li7-3b-yVD"/>
                         <outlet property="letterCountLabel" destination="0ta-UV-4vx" id="AZc-XO-6Al"/>
                         <outlet property="letterCountWrapperView" destination="0sf-89-KBx" id="g7H-Kf-dfK"/>
-                        <outlet property="menuButton" destination="758-Dz-8Tk" id="5WU-o7-gvB"/>
                         <outlet property="navBar" destination="6vG-Lq-5uq" id="3l0-sm-FTM"/>
                         <outlet property="scrollToBottomButton" destination="b5R-Z7-gVf" id="s2b-aU-T3v"/>
-                        <outlet property="searchButton" destination="Dfo-WQ-6N3" id="Tc5-f1-2vg"/>
                         <outlet property="sendMessageButton" destination="bqB-Fu-53V" id="b4T-pi-NJS"/>
                     </connections>
                 </viewController>
@@ -373,13 +356,6 @@
                                 <action selector="onPressGoBackButton:" destination="OwJ-oK-Swk" id="PWX-B0-JdA"/>
                             </connections>
                         </barButtonItem>
-                        <centerItemGroups>
-                            <barButtonItemGroup customizationDisposition="fixed" id="8no-bs-O1L">
-                                <barButtonItems>
-                                    <barButtonItem title="Item" id="Qi7-rc-aAp"/>
-                                </barButtonItems>
-                            </barButtonItemGroup>
-                        </centerItemGroups>
                     </navigationItem>
                     <connections>
                         <outlet property="goBackButton" destination="iEk-fb-seh" id="yTC-SW-gEN"/>
@@ -393,15 +369,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oXq-pf-Gor"/>
+        <segue reference="hhd-uO-Fyu"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="123"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
-        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="face.smiling" catalog="system" width="128" height="123"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>
