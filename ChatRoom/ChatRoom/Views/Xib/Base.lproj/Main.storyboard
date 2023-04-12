@@ -13,10 +13,10 @@
         <scene sceneID="Yug-Cs-rLr">
             <objects>
                 <tabBarController id="51p-oO-5fV" customClass="MyProjectTabBarController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Pzk-2M-OoU">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Pzk-2M-OoU">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </tabBar>
                     <connections>
                         <segue destination="sva-Le-4qu" kind="relationship" relationship="viewControllers" id="tCG-iT-NyO"/>
@@ -53,7 +53,7 @@
             <objects>
                 <viewController id="vMp-E1-W3r" customClass="ChatRoomListController" customModule="ChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NrA-Ov-U2T">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="749"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Dnc-wV-Fyy"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -187,7 +187,7 @@
                                                         <rect key="frame" x="47" y="4" width="336" height="56"/>
                                                         <subviews>
                                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" horizontalHuggingPriority="249" restorationIdentifier="inputText" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Run-3L-itq">
-                                                                <rect key="frame" x="10" y="3" width="210.66666666666666" height="50"/>
+                                                                <rect key="frame" x="10.000000000000014" y="3" width="245.33333333333337" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="Z3Y-PR-gfn"/>
                                                                 </constraints>
@@ -197,24 +197,27 @@
                                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                             </textView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="twE-A1-mhk" userLabel="Emoji Button">
-                                                                <rect key="frame" x="220.66666666666669" y="0.0" width="49.666666666666686" height="56"/>
+                                                                <rect key="frame" x="255.33333333333329" y="14" width="25.666666666666657" height="42"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" image="face.smiling" catalog="system">
-                                                                    <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                </buttonConfiguration>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal" image="face.smiling" catalog="system">
+                                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
                                                                 <connections>
                                                                     <action selector="onPressEmojiButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aQB-2m-2lZ"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqB-Fu-53V" customClass="ExtendedButton" customModule="ChatRoom" customModuleProvider="target">
-                                                                <rect key="frame" x="280.33333333333331" y="0.0" width="45.666666666666686" height="56"/>
+                                                                <rect key="frame" x="286" y="14" width="40" height="42"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="40" id="aE9-nY-4dG"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
                                                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" title="#">
-                                                                    <fontDescription key="titleFontDescription" type="system" weight="thin" pointSize="35"/>
-                                                                    <color key="baseForegroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                </buttonConfiguration>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal" title="#">
+                                                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </state>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="verticalHitSlop">
                                                                         <real key="value" value="100"/>
@@ -234,7 +237,7 @@
                                                             <constraint firstAttribute="trailing" secondItem="bqB-Fu-53V" secondAttribute="trailing" constant="10" id="RaM-Fn-GSr"/>
                                                             <constraint firstItem="Run-3L-itq" firstAttribute="top" secondItem="cXf-rU-Iri" secondAttribute="top" constant="3" id="Tia-YO-fW8"/>
                                                             <constraint firstItem="twE-A1-mhk" firstAttribute="top" secondItem="bqB-Fu-53V" secondAttribute="top" id="fVe-SB-OBX"/>
-                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="twE-A1-mhk" secondAttribute="trailing" constant="10" id="jtA-TQ-1vG"/>
+                                                            <constraint firstItem="bqB-Fu-53V" firstAttribute="leading" secondItem="twE-A1-mhk" secondAttribute="trailing" constant="5" id="jtA-TQ-1vG"/>
                                                             <constraint firstItem="Run-3L-itq" firstAttribute="leading" secondItem="cXf-rU-Iri" secondAttribute="leading" constant="10" id="ut2-EQ-COH"/>
                                                             <constraint firstAttribute="bottom" secondItem="bqB-Fu-53V" secondAttribute="bottom" id="wfD-at-fsp"/>
                                                             <constraint firstAttribute="bottom" secondItem="Run-3L-itq" secondAttribute="bottom" constant="3" id="z1i-OV-AcH"/>

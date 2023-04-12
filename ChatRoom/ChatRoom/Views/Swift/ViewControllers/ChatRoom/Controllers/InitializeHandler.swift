@@ -99,6 +99,8 @@ extension ChatRoomViewController {
         scrollToBottomButton.setTitle("", for: .normal)
         emojiButton.setTitle("", for: .normal)
         
+        
+        
         scrollToBottomButton.tintColor = Color.LighterBlack
     }
     

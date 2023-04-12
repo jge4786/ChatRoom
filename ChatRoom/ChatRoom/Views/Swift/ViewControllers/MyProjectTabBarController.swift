@@ -27,23 +27,23 @@ extension MyProjectTabBarController: UITabBarControllerDelegate {
         guard let selectedItem = tabBarController.tabBar.selectedItem,
               let firstIndex = tabBarController.tabBar.items?.firstIndex(of: selectedItem)
         else {
-            nextView.tabId = .normal
+            nextView.tabId = .chat
             return
         }
         
         switch firstIndex {
         case 0:
-            nextView.tabId = .normal
+            nextView.tabId = .chat
         case 1:
             nextView.tabId = .gpt
         default:
-            nextView.tabId = .normal
+            nextView.tabId = .chat
         }
     }
 }
 
 //TODO: Enum 위치 변경
 enum TabBarIdentifier {
-    case normal
+    case chat
     case gpt
 }

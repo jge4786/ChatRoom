@@ -66,7 +66,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     }
     
     var chatBubbleView = UIView().then {
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 13
         $0.backgroundColor = Color.White
     }
     var chatBubbleButton = UIButton().then {
@@ -301,15 +301,16 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
                 $0.isScrollEnabled = false
                 $0.isUserInteractionEnabled = false
                 $0.font = UIFont.systemFont(ofSize: 13)
-                $0.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
             }
+            
             
             chatBubbleTextView.text = data.text
             
             chatBubbleView.addSubview(chatBubbleTextView)
                        
             chatBubbleTextView.snp.makeConstraints {
-                $0.edges.equalTo(chatBubbleView)
+                $0.left.right.equalTo(chatBubbleView).inset(3)
+                $0.top.bottom.equalTo(chatBubbleView)
             }
         }
     }
@@ -326,8 +327,6 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         if shouldShowUserInfo {
             let profileImageString = data.owner.profile ?? Constants.defaultImages[(data.owner.userId % Constants.defaultImages.count)]
 
-            print(profileImageString, data.owner.profile)
-            
             profileButton.setImage(UIImage(named: profileImageString)?.withRenderingMode(.alwaysOriginal), for: .normal)
             
             nameLabel.text = data.owner.name

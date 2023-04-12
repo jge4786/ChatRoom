@@ -18,18 +18,18 @@ class ChatRoomListController: UIViewController {
     }
 
     var addNewRoomButton = UIButton().then {
-        $0.backgroundColor = .black
+        $0.backgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
         $0.alpha = 0.6
         $0.layer.cornerRadius = 25
         $0.setImage(UIImage(systemName: "plus"), for: .normal)
-        $0.tintColor = Color.White
+        $0.tintColor = Color.Black
     }
     
-    var tabId: TabBarIdentifier = .normal
+    var tabId: TabBarIdentifier = .chat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.DarkGray
+        view.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1)
     }
     
     func initialize() {
@@ -48,10 +48,7 @@ class ChatRoomListController: UIViewController {
         initialize()
     }
     func hidingBar() {
-        guard let tabBarController = self.tabBarController
-        else {
-            return
-        }
+        guard let tabBarController = self.tabBarController else { return }
         
         tabBarController.tabBar.isHidden = false
     }
@@ -72,15 +69,19 @@ class ChatRoomListController: UIViewController {
         roomListScrollView.addSubview(roomStackView)
         
         switch tabId {
-        case .normal:
+        case .chat:
             for data in DataStorage.instance.getChatRoomList() {
                 guard !DataStorage.instance.isGPTRoom(roomId: data.roomId) else { continue }
                 
                 addRoomButton(key: data.roomId)
             }
         case .gpt:
-            for data in DataStorage.instance.getGptDataSetList() {
-                addRoomButton(key: data.key)
+            let dataSetList = DataStorage.instance.getGptDataSetList()
+            
+            dataSetList.sorted {
+                $0.key < $1.key
+            }.forEach {
+                addRoomButton(key: $0.key)
             }
         case _:
             print("탭바 에러")
@@ -127,7 +128,7 @@ class ChatRoomListController: UIViewController {
                 button.setTitle("GPT \(button.tag)", for: .normal)
                 button.addTarget(self, action: #selector(onPressGPTButton), for: .touchUpInside)
             }
-        case .normal, _:
+        case .chat, _:
             for button in roomStackView.subviews{
                 guard let button = button as? UIButton else { return }
                 button.setTitle(DataStorage.instance.getChatRoom(roomId: button.tag)?.roomName, for: .normal)
@@ -151,7 +152,7 @@ class ChatRoomListController: UIViewController {
             DataStorage.instance.makeChatGPTRoom()
         //case .normal: fallthrough
         //case _:
-        case .normal, _:
+        case .chat, _:
             DataStorage.instance.makeChatRoom(name: "newRoom \(DataStorage.instance.getChatRoomList().count)")
         }
         DataStorage.instance.saveData()
