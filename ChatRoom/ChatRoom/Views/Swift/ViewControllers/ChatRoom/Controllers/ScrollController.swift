@@ -1,20 +1,17 @@
 import UIKit
 
 extension ChatRoomViewController: UIScrollViewDelegate {
-    func onTopReached() {
+    @discardableResult
+    func onTopReached() -> [Chat]? {
         guard !isLoading,
               !isEndReached
-        else { return }
-        
+        else { return nil }
         isLoading = true
         
-        //연속 로딩 방지
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1 ) {
-            self.isLoading = false
-        }
+        let loadedData = loadData()
+        contentTableView.reloadData()
         
-        self.loadData()
-        self.contentTableView.reloadData()
+        return loadedData
     }
     
     // 스크롤 버튼 표시 관리
@@ -27,6 +24,9 @@ extension ChatRoomViewController: UIScrollViewDelegate {
             return
         }
         
+        if scrollView.contentOffset.y < 10 {
+        print("바운스 \(scrollView.contentOffset)")
+        }
         if scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height) {
             onTopReached()
         }

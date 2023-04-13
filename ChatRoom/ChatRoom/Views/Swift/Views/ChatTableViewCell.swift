@@ -81,6 +81,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     // lazy var로 설정한 이유: infoLabelFontSize라는 상수를 UILabel 초기화 과정에서 사용할 수 있도록 하기 위해
     var leftInfoWrapperView = UIView().then {
         $0.accessibilityIdentifier = "leftInfoWrapper"
+        $0.isHidden = true
     }
     lazy var leftUnreadCountLabel = UILabel().then {
         $0.text = ""
@@ -98,6 +99,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         $0.text = ""
         $0.textColor = Color.DarkYellow
         $0.font = UIFont.boldSystemFont(ofSize: infoLabelFontSize)
+        $0.isHidden = true
     }
     
     lazy var rightSentTimeLabel = UILabel().then {
@@ -344,5 +346,19 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
         
         setUserData(data, shouldShowTimeLabel, shouldShowUserInfo)
       
+    }
+    
+    func playSearchAnimation() {
+        UIView.animate(withDuration: 0.08, delay: 0) {
+            self.transform.ty -= 3
+        } completion: { finished in
+            UIView.animate(withDuration: 0.08, delay: 0.0) {
+                self.transform.ty += 6
+            } completion: { finished in
+                UIView.animate(withDuration: 0.08, delay: 0.0) {
+                    self.transform.ty -= 3
+                }
+            }
+        }
     }
 }

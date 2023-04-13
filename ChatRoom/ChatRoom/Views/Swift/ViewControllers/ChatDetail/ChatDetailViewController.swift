@@ -11,6 +11,13 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet weak var textDetailView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let searchView = UISearchBar().then {
+            $0.isHidden = true
+        }
+        
+        self.navigationItem.titleView = searchView
 
         guard let data = DataStorage.instance.getChat(chatId: chatId) else {
             self.navigationController?.popViewController(animated: true)

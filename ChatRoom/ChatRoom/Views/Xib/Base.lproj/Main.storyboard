@@ -295,12 +295,17 @@
                                 <action selector="onPressGoBackButton:" destination="BYZ-38-t0r" id="Ogl-hK-cul"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="ellipsis" catalog="system" id="Dfo-WQ-6N3"/>
+                            <barButtonItem image="magnifyingglass" catalog="system" id="758-Dz-8Tk"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="addImageButton" destination="Q77-st-5Ac" id="VOD-LQ-Rqe"/>
                         <outlet property="contentTableView" destination="eTs-42-XNV" id="0bl-gN-jfB"/>
                         <outlet property="contentWrapperView" destination="XKZ-5P-1r6" id="6hO-cT-xSO"/>
                         <outlet property="emojiButton" destination="twE-A1-mhk" id="hzS-TG-WBH"/>
+                        <outlet property="footerButtonStackView" destination="wKH-Uq-0c4" id="eeT-c8-Aqo"/>
                         <outlet property="footerWrapperView" destination="zb5-JG-iCz" id="e47-vO-IY2"/>
                         <outlet property="goBackButton" destination="Dik-Im-q1Q" id="Kbb-eQ-L4G"/>
                         <outlet property="inputTextView" destination="Run-3L-itq" id="jBS-qn-t9s"/>
@@ -375,7 +380,9 @@
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="123"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="face.smiling" catalog="system" width="128" height="123"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

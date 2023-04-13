@@ -48,7 +48,7 @@ struct Color {
     ///카카오톡 검정색 테마의 입력창 배경색
     static var LightBlack: UIColor { return UIColor(red: 46/255, green: 44/255, blue: 48/255, alpha: 1.0)}
     ///카카오톡 검정색 테마의 배경색
-    static var Black: UIColor { return UIColor(red: 40/255, green: 38/255, blue: 42/255, alpha: 1.0)}
+    static var Black: UIColor { return UIColor(red: 40/255, green: 40/255, blue: 40/255, alpha: 1.0)}
     ///카카오톡 검정색 테마의 입력창 배경색
     static var LighterBlack: UIColor { return UIColor(red:58/255, green: 56/255, blue: 61/255, alpha: 1.0)}
     ///카카오톡 검정색 테마의 입력창 외곽선 색

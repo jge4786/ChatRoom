@@ -19,21 +19,22 @@ class ChatRoomViewController: UIViewController {
     @IBOutlet weak var contentWrapperView: UIView!
     @IBOutlet weak var addImageButton: UIButton!        // 이미지 첨부 버튼
     
+    @IBOutlet weak var footerButtonStackView: UIStackView!
     @IBOutlet weak var emojiButton: UIButton!
     @IBOutlet weak var letterCountWrapperView: UIView!
     @IBOutlet weak var letterCountLabel: UILabel!
     @IBOutlet weak var scrollToBottomButton: UIButton!  // 가장 밑으로 스크롤
     
     @IBAction func onPressGoBackButton(_ sender: Any) {
-        if isSearching {
-            isSearching = false
-        } else {
+        if searchBar.isHidden {
             self.navigationController?.popViewController(animated: true)
+        } else {
+            onPressSearchButton()
         }
     }
     
     @IBAction func onPressSearchButton(_ sender: Any) {
-        isSearching = !isSearching
+        handleSearchBar()
     }
     
     @IBAction func onPressEmojiButton(_ sender: Any) {
@@ -48,6 +49,7 @@ class ChatRoomViewController: UIViewController {
     
     
     // 전송 버튼 눌림
+    @objc
     @IBAction func onPressSendMessageButton(_ sender: Any) {
         DataStorage.instance.isGPTRoom(roomId: roomId)
         ? sendMessageToGPT()
@@ -59,7 +61,8 @@ class ChatRoomViewController: UIViewController {
         scrollToBottom()
     }
     
-    @IBAction func onPressMenuButton(_ sender: Any) {
+    @objc
+    func onPressMenuButton(_ sender: Any) {
         guard !isDrawerAnimIsPlaying else { return }
         
         view.endEditing(true)
@@ -113,20 +116,33 @@ class ChatRoomViewController: UIViewController {
         $0.isHidden = true
     }
     
-    var searchButton = UIButton().then {
-        $0.tintColor = Color.White
-        $0.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-    }
-    var menuButton = UIButton().then {
-        $0.tintColor = Color.White
-        $0.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-    }
-    
+    var searchBarWrapperView = UIView()
     var searchBar = UISearchBar().then {
-        $0.backgroundColor = Color.LightBlue
+        $0.backgroundColor = Color.Black
         $0.isHidden = true
+        $0.showsCancelButton = false
     }
     
+    var searchButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: "magnifyingglass")
+    }
+    
+    var menuButton = UIBarButtonItem().then {
+        $0.image = UIImage(systemName: "ellipsis")
+    }
+    
+    var searchNextButton = UIButton().then {
+        $0.tintColor = .black
+        $0.setTitle("", for: .normal)
+        $0.setImage(UIImage(systemName: "chevron.down.circle.fill"), for: .normal)
+    }
+    
+    var searchPrevButton = UIButton().then {
+        $0.tintColor = .black
+        $0.setTitle("", for: .normal)
+        $0.setImage(UIImage(systemName: "chevron.up.circle.fill"), for: .normal)
+    }
+        
     //채팅방 기본 정보
     var chatRoomInfo: (userId: Int, roomId: Int) = (userId: 5, roomId: 0)   // ChatRoomListController 에서 넘기는 값을 저장
     var roomId = 0          // 현재 방의 userId
@@ -135,29 +151,20 @@ class ChatRoomViewController: UIViewController {
     var userData: User = User()
     var roomData: ChatRoom = ChatRoom()
     
-    
-    func handleSearchBar(isShow: Bool) {
-        if isShow {
-            searchBar.isHidden =  true
-        }
-    }
+    var searchIndex = 0
+    var searchKeyword: String = ""
+    var searchResult: [Chat] = []
     
     func addSearchBar() {
-        let searchBtn       = UIBarButtonItem(customView: searchButton),
-            menuBtn         = UIBarButtonItem(customView: menuButton),
-            searchBarItem   = UIBarButtonItem(customView: searchBar)
-        
-        
+        navBar.rightBarButtonItems = [menuButton, searchButton]
+        searchButton.action = #selector(handleSearchBar)
+        searchButton.target = self
+        menuButton.action = #selector(onPressMenuButton)
+        menuButton.target = self
+        self.extendedLayoutIncludesOpaqueBars = true
+        searchBar.searchTextField.leftView = nil
+        searchBar.delegate = self
         self.navigationItem.titleView = searchBar
-//        searchTextField.snp.makeConstraints {
-//            $0.top.leading.bottom.trailing.equalToSuperview()
-//        }
-    }
-    
-    var isSearching = false {
-        didSet {
-            handleSearchBar(isShow: isSearching)
-        }
     }
     
     //채팅 데이터 관리

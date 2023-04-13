@@ -54,7 +54,7 @@ extension ChatRoomViewController {
     private func setSubView() {
         view.addSubview(contentBlurView)
         view.addSubview(drawerView)
-        
+                
         inputTextViewWrapper.addSubview(messageLoadingIndicator)
         
         drawerView.addSubview(drawerRoomScrollView)
@@ -196,18 +196,20 @@ extension ChatRoomViewController {
         ChatTableViewCell.register(tableView: contentTableView)
     }
 
-    
-    func loadData() {
+    @discardableResult
+    func loadData() -> [Chat]? {
         let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
         chatData.append(contentsOf: loadedData)
         
         // 로딩된 데이터가 제한보다 적으면 isEndReached을 true로 하여 로딩 메소드 호출 방지
         guard loadedData.count >= Constants.chatLoadLimit else {
             isEndReached = true
-            return
+            return nil
         }
         
         offset += Constants.chatLoadLimit
+        
+        return loadedData
     }
     
     func loadGPTData() {

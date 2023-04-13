@@ -29,6 +29,11 @@ class ChatRoomListController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let searchView = UISearchBar().then {
+            $0.isHidden = true
+        }
+        
+        self.navigationItem.titleView = searchView
         view.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1)
     }
     
