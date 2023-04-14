@@ -1,10 +1,15 @@
 import UIKit
 
+///1. 데이터 초기화
+///2. 버튼 터치 -> UI only
+///3. 버튼 눌렸을 때
+///4. 데이터 로딩 준비 -> UI only
+
 class ChatTableViewCell: UITableViewCell, TableViewCellBase {
     var chatId = 0
     weak var delegate: ChangeSceneDelegate?
     let profileSize: CGFloat = 40.0
-    
+        
     @IBOutlet weak var chatBubbleHeight: NSLayoutConstraint!
 
         
@@ -38,7 +43,7 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
 //    @IBOutlet weak var chatBubbleMaxWidth: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+          
         initialize()
     }
     let chatBubbleMaxWidth = (UIScreen.main.bounds.size.width) * Constants.chatMaxWidthMultiplier
@@ -348,17 +353,12 @@ class ChatTableViewCell: UITableViewCell, TableViewCellBase {
       
     }
     
+    /// 검색 성공했을 때, 해당 셀을 위아래로 약간 흔드는 애니메이션
     func playSearchAnimation() {
-        UIView.animate(withDuration: 0.08, delay: 0) {
-            self.transform.ty -= 3
-        } completion: { finished in
-            UIView.animate(withDuration: 0.08, delay: 0.0) {
-                self.transform.ty += 6
-            } completion: { finished in
-                UIView.animate(withDuration: 0.08, delay: 0.0) {
-                    self.transform.ty -= 3
-                }
-            }
+        UIView.animateKeyframes(withDuration: 0.24, delay: 0) {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/3) { self.transform.ty -= 3 }
+            UIView.addKeyframe(withRelativeStartTime: 1/3, relativeDuration: 1/3) { self.transform.ty += 6 }
+            UIView.addKeyframe(withRelativeStartTime: 2/3, relativeDuration: 1/3) { self.transform.ty -= 3 }
         }
     }
 }

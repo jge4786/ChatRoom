@@ -158,32 +158,32 @@ final class APIService {
             
             switch result {
             case .success(let data):
-                            do {
-                                let decoder = JSONDecoder()
-                                let response = try decoder.decode(Response.self, from: data)
-                                
-                                DispatchQueue.main.async {
-                                    completion(.success(response))
-                                }
-                            } catch let DecodingError.dataCorrupted(context) {
-                                print("하나: \(context)")
-                                completion( .failure(NetworkError.unexpectedData))
-                            } catch let DecodingError.keyNotFound(key, context) {
-                                print("둘Key '\(key)' not found:", context.debugDescription)
-                                print("codingPath:", context.codingPath)
-                                completion( .failure(NetworkError.unexpectedData))
-                            } catch let DecodingError.valueNotFound(value, context) {
-                                print("셋Value '\(value)' not found:", context.debugDescription)
-                                print("codingPath:", context.codingPath)
-                                completion( .failure(NetworkError.unexpectedData))
-                            } catch let DecodingError.typeMismatch(type, context)  {
-                                print("넷Type '\(type)' mismatch:", context.debugDescription)
-                                print("codingPath:", context.codingPath)
-                                completion( .failure(NetworkError.unexpectedData))
-                            } catch {
-                                print("다섯error: ", error)
-                                completion( .failure(NetworkError.unexpectedData))
-                            }
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(Response.self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print("하나: \(context)")
+                    completion( .failure(NetworkError.unexpectedData))
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("둘Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                    completion( .failure(NetworkError.unexpectedData))
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("셋Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                    completion( .failure(NetworkError.unexpectedData))
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("넷Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                    completion( .failure(NetworkError.unexpectedData))
+                } catch {
+                    print("다섯error: ", error)
+                    completion( .failure(NetworkError.unexpectedData))
+                }
             case .failure(let error):
                 DispatchQueue.main.async {
                     if let error = error as? NetworkError {

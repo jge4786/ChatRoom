@@ -81,9 +81,7 @@ extension DataStorage {
         }
     }
     
-    
-    @discardableResult
-    func makeChatRoom(name: String) -> ChatRoom {
+    func makeChatRoom(name: String) {
         let newChatRoom = ChatRoom(roomIndex, name,[
             User("이", 1, profile: "DefaultImage2"),
             User("삼", 2, profile: "DefaultImage3"),
@@ -91,8 +89,6 @@ extension DataStorage {
         ])
         
         chatRoomList.append(newChatRoom)
-        
-        return newChatRoom
     }
     
     func deleteChatRoom(roomId: Int) {

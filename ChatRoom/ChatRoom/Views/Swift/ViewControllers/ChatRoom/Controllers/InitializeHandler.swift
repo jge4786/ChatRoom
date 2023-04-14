@@ -184,6 +184,8 @@ extension ChatRoomViewController {
             fatalError("유저 정보 불러오기 실패")
         }
         userData = uData
+        
+        chatViewModel.setRoomInfo(roomId: roomId, userData: uData)
     }
         
     private func registComponents() {
@@ -196,20 +198,25 @@ extension ChatRoomViewController {
         ChatTableViewCell.register(tableView: contentTableView)
     }
 
-    @discardableResult
-    func loadData() -> [Chat]? {
-        let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
-        chatData.append(contentsOf: loadedData)
+    
+    
+    
+    
+    
+    func loadData() {
+//        let loadedData = DataStorage.instance.getChatData(roomId: roomId, offset: offset, limit: Constants.chatLoadLimit)
+//        chatData.append(contentsOf: loadedData)
+        chatViewModel.loadData()
         
         // 로딩된 데이터가 제한보다 적으면 isEndReached을 true로 하여 로딩 메소드 호출 방지
-        guard loadedData.count >= Constants.chatLoadLimit else {
-            isEndReached = true
-            return nil
-        }
-        
-        offset += Constants.chatLoadLimit
-        
-        return loadedData
+//        guard loadedData.count >= Constants.chatLoadLimit else {
+//            isEndReached = true
+//            return
+//        }
+//
+//        offset += Constants.chatLoadLimit
+//
+//        return
     }
     
     func loadGPTData() {

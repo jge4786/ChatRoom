@@ -4,6 +4,87 @@ import RxSwift
 import RxCocoa
 
 class ChatRoomViewController: UIViewController {
+    
+    
+    let chatViewModel = ChatViewModel()
+    
+    func setBind() {
+        
+        bindImagePicker()
+        bindSearch()
+        bindScroll()
+        bindTableView()
+        bindInput()
+    }
+    
+    func bindInput() {
+        chatViewModel.inputButtonHiddenState.bind { [weak self] in
+            guard let self = self else { return }
+            
+            self.emojiButton.isHidden = $0.emoji
+            self.sendMessageButton.isHidden = $0.message
+            
+        }
+    }
+    
+    func bindScroll() {
+        
+    }
+    
+    func bindImagePicker() {
+        //이미지피커 열기
+        chatViewModel.configuration.bind { [weak self] in
+            guard let configuration = $0 else  { return }
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            
+            self?.present(picker, animated: true)
+        }
+        
+        chatViewModel.image.bind { [weak self] in
+            guard let _ = $0 else { return }
+            self?.scrollToBottom()
+        }
+    }
+    
+    
+    func bindSearch() {
+        // 검색된 결과로 이동
+        chatViewModel.targetIndex.bind { [weak self] in
+            guard let self = self,
+                  let index = $0
+            else { return }
+            
+            self.contentTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: false)
+            
+            self.playSearchAnimaionOnCell(index: index)
+        }
+        
+        // 이전 / 다음 검색 버튼 활성화 관리
+        chatViewModel.searchButtonState.bind { [weak self] in
+            guard let self = self else { return }
+            
+            self.emojiButton.isEnabled = $0.next
+            self.sendMessageButton.isEnabled = $0.prev
+        }
+    }
+    
+    func bindTableView() {
+        chatViewModel.chatData.bind { [weak self] in
+            guard let self = self
+            else { return }
+            
+            if $0.first?.owner.userId == 0,
+               $0.first?.text == "..." {
+                self.messageLoadingIndicator.startAnimating()
+            } else {
+                self.messageLoadingIndicator.stopAnimating()
+            }
+            
+            self.contentTableView.reloadData()
+        }
+    }
+    
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var contentTableView: UITableView!
     
@@ -174,19 +255,17 @@ class ChatRoomViewController: UIViewController {
     var offset = 0
     var isInitialLoad = true    //이 채팅방에서의 첫 로딩인지
     
-    var dataTask: URLSessionDataTask? = nil
-    
-    var chatData: [Chat] = [] {
-        willSet {
-            if chatData.count <= newValue.count {
-                guard newValue.last != nil else { return }
-            }
-        }
-        didSet {
-            guard !isInitialLoad else { isInitialLoad = false; return; }
-            contentTableView.reloadData()
-        }
-    }
+//    var chatData: [Chat] = [] {
+//        willSet {
+//            if chatData.count <= newValue.count {
+//                guard newValue.last != nil else { return }
+//            }
+//        }
+//        didSet {
+//            guard !isInitialLoad else { isInitialLoad = false; return; }
+//            contentTableView.reloadData()
+//        }
+//    }
     
     //UI 관련
     var drawerState = false
@@ -211,6 +290,10 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setBind()
+        
+        
         
         addSearchBar()
         
@@ -253,20 +336,7 @@ class ChatRoomViewController: UIViewController {
     deinit{
         print("deinit")
         
-        if let dataTask = dataTask,
-           chatData.first?.text == "..."
-        {
-            let canceledMessage = "취소된 요청입니다."
-            
-            if let firstIndex = chatData.first?.chatId {
-                _ = DataStorage.instance.appendGptChatData(dataSetId: self.roomId, message: Message(role: "error", content: canceledMessage))
-                _ = DataStorage.instance.updateChatData(roomId: roomId, chatId: firstIndex, text: canceledMessage)
-            }
-            
-            dataTask.cancel()
-        }
-        
-        DataStorage.instance.saveData()
+        chatViewModel.handleDeinitProcess()
     }
 }
 

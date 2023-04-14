@@ -1,17 +1,10 @@
 import UIKit
 
 extension ChatRoomViewController: UIScrollViewDelegate {
-    @discardableResult
-    func onTopReached() -> [Chat]? {
-        guard !isLoading,
-              !isEndReached
-        else { return nil }
-        isLoading = true
+    func onTopReached() {
+        chatViewModel.loadData()
         
-        let loadedData = loadData()
-        contentTableView.reloadData()
-        
-        return loadedData
+//        contentTableView.reloadData()
     }
     
     // 스크롤 버튼 표시 관리

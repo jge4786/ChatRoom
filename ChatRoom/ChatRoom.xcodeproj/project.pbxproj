@@ -42,6 +42,10 @@
 		F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7BF29D524FA005D936F /* ImageManager.swift */; };
 		F09DD7C229D5842F005D936F /* ChatRoomListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09DD7C129D5842F005D936F /* ChatRoomListController.swift */; };
 		F0DEF0E129E69A72003300F7 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF0E029E69A72003300F7 /* SearchController.swift */; };
+		F0DEF12C29E8D065003300F7 /* ChatDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF12B29E8D065003300F7 /* ChatDetailViewModel.swift */; };
+		F0DEF13029E8D090003300F7 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF12F29E8D090003300F7 /* Observable.swift */; };
+		F0DEF13329E8DA12003300F7 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF13229E8DA12003300F7 /* ChatCellViewModel.swift */; };
+		F0DEF13529E8E050003300F7 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DEF13429E8E050003300F7 /* ChatViewModel.swift */; };
 		F0F104D029CAD15E00957476 /* StaticVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104CF29CAD15E00957476 /* StaticVariables.swift */; };
 		F0F104D229CAD1DD00957476 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D129CAD1DD00957476 /* User.swift */; };
 		F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */; };
@@ -90,6 +94,10 @@
 		F09DD7BF29D524FA005D936F /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		F09DD7C129D5842F005D936F /* ChatRoomListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListController.swift; sourceTree = "<group>"; };
 		F0DEF0E029E69A72003300F7 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		F0DEF12B29E8D065003300F7 /* ChatDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewModel.swift; sourceTree = "<group>"; };
+		F0DEF12F29E8D090003300F7 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		F0DEF13229E8DA12003300F7 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
+		F0DEF13429E8E050003300F7 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		F0F104CF29CAD15E00957476 /* StaticVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticVariables.swift; sourceTree = "<group>"; };
 		F0F104D129CAD1DD00957476 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F0F104D929CBEDD600957476 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -146,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				F0F104D129CAD1DD00957476 /* User.swift */,
+				F0DEF12F29E8D090003300F7 /* Observable.swift */,
 				F0F104DF29CC053300957476 /* Chat.swift */,
 				F05F4B6729D2779B0067C292 /* ChatRoom.swift */,
 			);
@@ -249,6 +258,7 @@
 		F0915E6C29D6BA1300CDE7D4 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
+				F0DEF12729E8D034003300F7 /* ViewModels */,
 				F0915E6E29D6BA3C00CDE7D4 /* Views */,
 				F0915E6D29D6BA3600CDE7D4 /* ViewControllers */,
 			);
@@ -311,6 +321,48 @@
 				F0DEF0E029E69A72003300F7 /* SearchController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F0DEF12729E8D034003300F7 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEF12A29E8D051003300F7 /* ChatRoom */,
+				F0DEF12929E8D04B003300F7 /* Chat */,
+				F0DEF12829E8D040003300F7 /* ChatDetail */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F0DEF12829E8D040003300F7 /* ChatDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEF12B29E8D065003300F7 /* ChatDetailViewModel.swift */,
+			);
+			path = ChatDetail;
+			sourceTree = "<group>";
+		};
+		F0DEF12929E8D04B003300F7 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEF13129E8D9FC003300F7 /* ChatCell */,
+				F0DEF13429E8E050003300F7 /* ChatViewModel.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		F0DEF12A29E8D051003300F7 /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		F0DEF13129E8D9FC003300F7 /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				F0DEF13229E8DA12003300F7 /* ChatCellViewModel.swift */,
+			);
+			path = ChatCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,8 +505,12 @@
 				F0F104E029CC053300957476 /* Chat.swift in Sources */,
 				F0915E8B29D6D32800CDE7D4 /* InitializeHandler.swift in Sources */,
 				F05F4B5E29D2651A0067C292 /* ExtendedButton.swift in Sources */,
+				F0DEF13329E8DA12003300F7 /* ChatCellViewModel.swift in Sources */,
+				F0DEF13029E8D090003300F7 /* Observable.swift in Sources */,
+				F0DEF13529E8E050003300F7 /* ChatViewModel.swift in Sources */,
 				F09DD7C029D524FA005D936F /* ImageManager.swift in Sources */,
 				F0915E7C29D6CDB700CDE7D4 /* InputTextController.swift in Sources */,
+				F0DEF12C29E8D065003300F7 /* ChatDetailViewModel.swift in Sources */,
 				F091F3C029D666030040294D /* ChatDetailViewController.swift in Sources */,
 				F08CC66529CA75BE00EE8961 /* SceneDelegate.swift in Sources */,
 				F0F104DB29CBEDD600957476 /* ChatTableViewCell.swift in Sources */,

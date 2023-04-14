@@ -1,23 +1,19 @@
 import UIKit
 extension ChatRoomViewController: UISearchBarDelegate {
+    // 검색 버튼 클릭
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         onPressSearchButton()
     }
     
+    // 검색 취소 버튼 클릭
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         hideSearchBar()
     }
     
+    // 검색 시작
     func onPressSearchButton() {
-        searchIndex = -1
-        searchKeyword = searchBar.searchTextField.text ?? ""
-        searchResult = searchForKeyword(searchTarget: chatData, key: searchBar.searchTextField.text) ?? []
+        chatViewModel.startSearch(keyword: searchBar.searchTextField.text ?? "")
         
-        if searchResult.count == 0 {
-            onPressSearchNextButton()
-        } else {
-            movePrevIndex()
-        }
         self.searchBar.resignFirstResponder()
     }
     
@@ -27,84 +23,18 @@ extension ChatRoomViewController: UISearchBarDelegate {
         }
     }
     
-    func moveNextIndex() {
-        guard searchIndex < searchResult.count - 1 else {
-            emojiButton.isEnabled = false
-            return
-        }
-        sendMessageButton.isEnabled = true
-        
-        searchIndex += 1
-                
-        let target = searchResult[searchIndex].chatId
-        let index = chatData.firstIndex {
-           $0.chatId == target
-        }
-
-        guard let index = index else { return }
-        
-        
-        contentTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: false)
-        
-        playSearchAnimaionOnCell(index: index)
-        
-    }
-    
-    func movePrevIndex() {
-        guard searchIndex > 0 else  {
-            print("asdf")
-            sendMessageButton.isEnabled = false
-            return
-        }
-        
-        emojiButton.isEnabled = true
-        
-        searchIndex -= 1
-        
-        let target = searchResult[searchIndex].chatId
-        let index = chatData.firstIndex {
-           $0.chatId == target
-        }
-
-        guard let index = index else { return }
-        
-        contentTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: false)
-        
-        playSearchAnimaionOnCell(index: index)
-    }
-    
     @objc
     func onPressSearchNextButton() {
-        if searchIndex >= searchResult.count - 2 {
-            for _ in 0..<50 {
-                onTopReached()
-                let result = searchForKeyword(searchTarget: chatData, key: searchKeyword) ?? []
-
-                if result.count > 0 {
-                    self.searchResult = result
-                    break;
-                }
-                guard !isEndReached else {
-                    movePrevIndex(); // 검색 결과가 없을 경우, 이전 검색 버튼을 비활성화 시키기 위해 추가
-                    break
-                }
-            }
-
-            moveNextIndex()
-
-            return
-        } else if searchIndex < searchResult.count - 2 {
-            moveNextIndex()
-        }
+        chatViewModel.searchNextData()
     }
     
     @objc
     func onPressSearchPrevButton() {
-        movePrevIndex()
+        chatViewModel.searchPrevData()
     }
     
-    func searchForKeyword(searchTarget: [Chat], key: String?) -> [Chat]? {
-        guard let key = key else { return nil }
+    func searchForKeyword(searchTarget: [Chat], key: String?) -> [Chat] {
+        guard let key = key else { return [] }
         
         let result = searchTarget.filter {
             $0.text.contains(key)

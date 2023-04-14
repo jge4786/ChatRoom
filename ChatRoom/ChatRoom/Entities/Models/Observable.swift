@@ -1,18 +1,19 @@
 class Observable<T> {
-    private var listener: ((T) -> Void)?
+    typealias Listener = (T) -> Void
+    var listener: Listener?
+    
+    func bind(_ listener: Listener?) {
+        self.listener = listener
+        listener?(value)
+    }
     
     var value: T {
         didSet {
-            listener?(value) // value가 변경되면 listener에 저장된 클로저(함수)에 value를 매개변수로 넘겨서 실행
+            listener?(value)
         }
     }
     
-    
     init(_ value: T) {
         self.value = value
-    }
-    func bind(listener: @escaping (T) -> Void) {
-        listener(value)
-        self.listener = listener
     }
 }

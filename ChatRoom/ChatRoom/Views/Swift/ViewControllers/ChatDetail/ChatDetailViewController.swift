@@ -9,6 +9,12 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet weak var goBackButton: UIBarButtonItem!
     @IBOutlet weak var imageDetailView: UIImageView!
     @IBOutlet weak var textDetailView: UITextView!
+    
+    
+    let viewModel = ChatDetailViewModel()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +29,8 @@ class ChatDetailViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
+        
+        
         if let navigationController = self.navigationController {
             navigationController.isNavigationBarHidden = false
         }
