@@ -25,22 +25,12 @@ extension ChatRoomViewController: UISearchBarDelegate {
     
     @objc
     func onPressSearchNextButton() {
-        chatViewModel.searchNextData()
+        chatViewModel.onPressSearchNextButton()
     }
     
     @objc
     func onPressSearchPrevButton() {
         chatViewModel.searchPrevData()
-    }
-    
-    func searchForKeyword(searchTarget: [Chat], key: String?) -> [Chat] {
-        guard let key = key else { return [] }
-        
-        let result = searchTarget.filter {
-            $0.text.contains(key)
-        }
-        
-        return result
     }
     
     @objc

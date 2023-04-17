@@ -123,7 +123,6 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func onPressSearchNextButton() {
-        print("야호")
         if searchIndex >= searchResult.count - 2 {
             for _ in 0..<50 {
                 loadData()
@@ -171,7 +170,7 @@ extension ChatViewModel {
         return result
     }
     
-    func moveToNextIndex() {
+    func searchNextData() {
         guard searchIndex < searchResult.count - 1 else {
             searchButtonState.value.next = false
             return
@@ -190,7 +189,7 @@ extension ChatViewModel {
         targetIndex.value = index
     }
     
-    func moveToPrevIndex() {
+    func searchPrevData() {
         guard searchIndex > 0 else  {
             searchButtonState.value.prev = false
             return
@@ -207,15 +206,6 @@ extension ChatViewModel {
         guard let index = index else { return }
         
         targetIndex.value = index
-    }
-    
-    
-    func searchNextData() {
-        moveToNextIndex()
-    }
-    
-    func searchPrevData() {
-        moveToPrevIndex()
     }
 }
 

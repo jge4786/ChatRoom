@@ -26,21 +26,14 @@ extension ChatRoomViewController {
     }
     
     func sendMessage(owner: User, text: String?, isUser: Bool = true) {
-        chatViewModel.sendMessage(owner: owner, text: text!)
         
+        isUser
+        ? chatViewModel.sendMessage(owner: owner, text: text!)
+        : chatViewModel.sendMessageToGPT(text: inputTextView.text)
+        
+        
+        guard chatViewModel.isMessageEmpty(text) else { return }
         resetAfterSendingMessage(isUser: isUser)
-    }
-    
-    //일반 채팅방에서 대화할 경우 사용
-    func sendMessage() {
-        sendMessage(owner: userData, text: inputTextView.text)
-        contentTableView.reloadData()
-    }
-    
-    //챗GPT 채팅방에서 대화할 경우 사용
-    func sendMessageToGPT() {
-        chatViewModel.sendMessageToGPT(text: inputTextView.text)
-        resetAfterSendingMessage(isUser: true)
     }
 }
 

@@ -132,9 +132,16 @@ class ChatRoomViewController: UIViewController {
     // 전송 버튼 눌림
     @objc
     @IBAction func onPressSendMessageButton(_ sender: Any) {
-        DataStorage.instance.isGPTRoom(roomId: roomId)
-        ? sendMessageToGPT()
-        : sendMessage() 
+        
+        guard searchBar.isHidden else { return }
+        
+        sendMessage(owner: userData,
+                    text: inputTextView.text,
+                    isUser: DataStorage.instance.isGPTRoom(roomId: roomId))
+        
+//        DataStorage.instance.isGPTRoom(roomId: roomId)
+//        ? sendMessageToGPT()
+//        : sendMessage(owner: userData, text: inputTextView.text)
     }
     
     // 하단 스크롤 버튼 눌림
