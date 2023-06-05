@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,6 +22,7 @@
                     <connections>
                         <segue destination="sva-Le-4qu" kind="relationship" relationship="viewControllers" id="tCG-iT-NyO"/>
                         <segue destination="rjG-0I-qxZ" kind="relationship" relationship="viewControllers" id="9CA-ma-yCa"/>
+                        <segue destination="wFn-NE-A4S" kind="relationship" relationship="viewControllers" id="CU7-f1-s1i"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wu6-Vt-F9e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -65,6 +67,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZO-uH-Vf3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2714" y="54"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="I0j-MN-UyI">
+            <objects>
+                <navigationController id="wFn-NE-A4S" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="a83-nP-xji"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sDr-St-Qt2">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="9KM-1J-9u7" kind="relationship" relationship="rootViewController" id="Rhb-LU-h97"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CRz-ZE-Xf2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4703" y="1012"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="6bc-gT-pfd">
+            <objects>
+                <viewController id="9KM-1J-9u7" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gwb-Tm-JfN">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="cTI-YE-Www"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="opu-YC-Xck"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QV1-ys-I1a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3411" y="1099"/>
         </scene>
         <!--GPT-->
         <scene sceneID="6Ea-Rq-Nmk">
@@ -384,5 +419,8 @@
         <image name="face.smiling" catalog="system" width="128" height="123"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
